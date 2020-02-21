@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import Alamofire
+import SwiftyJSON
 class loginViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
@@ -22,19 +23,10 @@ class loginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        emailBtnLabel.layer.cornerRadius = emailBtnLabel.frame.size.height/2
-        emailBtnLabel.layer.borderColor = UIColor.black.cgColor
-        emailBtnLabel.layer.borderWidth = 2.0
-        createBtnLabel.layer.cornerRadius = createBtnLabel.frame.size.height/2
-        createBtnLabel.layer.borderColor = UIColor.black.cgColor
-        createBtnLabel.layer.borderWidth = 2.0
-        guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
-        guestBtnLabel.layer.borderColor = UIColor.black.cgColor
-        guestBtnLabel.layer.borderWidth = 2.0
        
+        buttonLayout()
     }
+    
     
     @IBAction func loginButton(_ sender: UIButton) {
         
@@ -54,6 +46,7 @@ class loginViewController: UIViewController {
         if isValidPassword(pass: password) == false{
             alert(alertTitle: "invalid password", alertMessage: "password", actionTitle: "Re-enter password")
         }
+        loginApi()
     }
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -71,7 +64,84 @@ class loginViewController: UIViewController {
             
         }
         alert.addAction(action)
-        present(alert, animated: true, completion: nil)    }
+        present(alert, animated: true, completion: nil)
+        
+    }
     
 
+    @IBAction func forgetButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "forget", sender: self)
+    }
+    @IBAction func registrationButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "reg", sender: self)
+    }
+    func buttonLayout(){
+        emailBtnLabel.layer.cornerRadius = emailBtnLabel.frame.size.height/2
+        emailBtnLabel.layer.borderColor = UIColor.black.cgColor
+        emailBtnLabel.layer.borderWidth = 2.0
+        createBtnLabel.layer.cornerRadius = createBtnLabel.frame.size.height/2
+        createBtnLabel.layer.borderColor = UIColor.black.cgColor
+        createBtnLabel.layer.borderWidth = 2.0
+        guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
+        guestBtnLabel.layer.borderColor = UIColor.black.cgColor
+        guestBtnLabel.layer.borderWidth = 2.0
+    }
+    func loginApi(){
+        let url = URL(string: "http://192.168.2.221:3000/user/login")
+        var request = URLRequest(url: url!)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let parameters: [String: Any] = ["user_email":emailTextField.text!,"user_password":passwordTextField.text!]
+        request.httpBody = parameters.percentEncoded()
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil else {
+                print("error", error ?? "Unknown error")
+                return
+            }
+
+            guard (200 ... 299) ~= response.statusCode else {
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+            let json = try! JSON(data: data)
+            let responseString = String(data: data, encoding: .utf8)
+            print(json)
+            if responseString != nil{
+                DispatchQueue.main.async(){
+                    
+                }
+                
+            }
+            else{
+                
+            }
+        }
+
+        task.resume()
+    }
+}
+extension Dictionary {
+    func percentEncoded() -> Data? {
+        return map { key, value in
+            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            return escapedKey + "=" + escapedValue
+        }
+        .joined(separator: "&")
+        .data(using: .utf8)
+    }
+}
+
+extension CharacterSet {
+    static let urlQueryValueAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@"
+        let subDelimitersToEncode = "!$&'()*+,;="
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+        return allowed
+    }()
 }

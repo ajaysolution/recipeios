@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		363BF05723FFDE3000627917 /* RegistrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF05623FFDE3000627917 /* RegistrationModel.swift */; };
+		363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF059240000DC00627917 /* forgetPasswordViewController.swift */; };
 		36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEDF23FD016F00427350 /* AppDelegate.swift */; };
 		36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEE123FD016F00427350 /* SceneDelegate.swift */; };
 		36FCBEE723FD016F00427350 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36FCBEE523FD016F00427350 /* Main.storyboard */; };
@@ -14,9 +16,12 @@
 		36FCBEEC23FD017200427350 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36FCBEEA23FD017200427350 /* LaunchScreen.storyboard */; };
 		36FCBEF423FD3AAD00427350 /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEF323FD3AAD00427350 /* loginViewController.swift */; };
 		36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEF523FD6BAE00427350 /* registerViewController.swift */; };
+		BD65917751E8381DA28A987D /* Pods_Recipe_House.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416045BDB440E29C8B12224C /* Pods_Recipe_House.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		363BF05623FFDE3000627917 /* RegistrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationModel.swift; sourceTree = "<group>"; };
+		363BF059240000DC00627917 /* forgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetPasswordViewController.swift; sourceTree = "<group>"; };
 		36FCBEDC23FD016F00427350 /* Recipe House.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recipe House.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36FCBEDF23FD016F00427350 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36FCBEE123FD016F00427350 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +31,9 @@
 		36FCBEED23FD017200427350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36FCBEF323FD3AAD00427350 /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		36FCBEF523FD6BAE00427350 /* registerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerViewController.swift; sourceTree = "<group>"; };
+		416045BDB440E29C8B12224C /* Pods_Recipe_House.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Recipe_House.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E12CE91873162778DE2418F /* Pods-Recipe House.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipe House.release.xcconfig"; path = "Target Support Files/Pods-Recipe House/Pods-Recipe House.release.xcconfig"; sourceTree = "<group>"; };
+		F907FD109F8EEBCB58FD5DA0 /* Pods-Recipe House.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipe House.debug.xcconfig"; path = "Target Support Files/Pods-Recipe House/Pods-Recipe House.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +41,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD65917751E8381DA28A987D /* Pods_Recipe_House.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		363BF05823FFDE3500627917 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		36FCBED323FD016F00427350 = {
 			isa = PBXGroup;
 			children = (
 				36FCBEDE23FD016F00427350 /* Recipe House */,
 				36FCBEDD23FD016F00427350 /* Products */,
+				F5309951AE2BF74AC13E9D63 /* Pods */,
+				D4ECC4909749B1D70995AB8D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,9 +76,12 @@
 		36FCBEDE23FD016F00427350 /* Recipe House */ = {
 			isa = PBXGroup;
 			children = (
+				363BF05823FFDE3500627917 /* model */,
 				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
-				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
+				363BF05623FFDE3000627917 /* RegistrationModel.swift */,
 				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
+				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
+				363BF059240000DC00627917 /* forgetPasswordViewController.swift */,
 				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
 				36FCBEE523FD016F00427350 /* Main.storyboard */,
 				36FCBEE823FD017200427350 /* Assets.xcassets */,
@@ -70,6 +91,23 @@
 			path = "Recipe House";
 			sourceTree = "<group>";
 		};
+		D4ECC4909749B1D70995AB8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				416045BDB440E29C8B12224C /* Pods_Recipe_House.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5309951AE2BF74AC13E9D63 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F907FD109F8EEBCB58FD5DA0 /* Pods-Recipe House.debug.xcconfig */,
+				7E12CE91873162778DE2418F /* Pods-Recipe House.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,9 +115,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 36FCBEF023FD017200427350 /* Build configuration list for PBXNativeTarget "Recipe House" */;
 			buildPhases = (
+				21DCC0A9B9F38055E08C6458 /* [CP] Check Pods Manifest.lock */,
 				36FCBED823FD016F00427350 /* Sources */,
 				36FCBED923FD016F00427350 /* Frameworks */,
 				36FCBEDA23FD016F00427350 /* Resources */,
+				07C671848029CAA116360038 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -136,6 +176,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		07C671848029CAA116360038 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Recipe House/Pods-Recipe House-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Recipe House/Pods-Recipe House-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Recipe House/Pods-Recipe House-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		21DCC0A9B9F38055E08C6458 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Recipe House-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		36FCBED823FD016F00427350 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -145,6 +227,8 @@
 				36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */,
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
+				363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */,
+				363BF05723FFDE3000627917 /* RegistrationModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +370,7 @@
 		};
 		36FCBEF123FD017200427350 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F907FD109F8EEBCB58FD5DA0 /* Pods-Recipe House.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -303,6 +388,7 @@
 		};
 		36FCBEF223FD017200427350 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E12CE91873162778DE2418F /* Pods-Recipe House.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

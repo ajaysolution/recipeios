@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		363BF05723FFDE3000627917 /* RegistrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF05623FFDE3000627917 /* RegistrationModel.swift */; };
+		3618329B240391E300ACE757 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3618329A240391E300ACE757 /* OTPViewController.swift */; };
 		363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF059240000DC00627917 /* forgetPasswordViewController.swift */; };
 		36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEDF23FD016F00427350 /* AppDelegate.swift */; };
 		36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEE123FD016F00427350 /* SceneDelegate.swift */; };
@@ -20,7 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		363BF05623FFDE3000627917 /* RegistrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationModel.swift; sourceTree = "<group>"; };
+		3618329A240391E300ACE757 /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		363BF059240000DC00627917 /* forgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetPasswordViewController.swift; sourceTree = "<group>"; };
 		36FCBEDC23FD016F00427350 /* Recipe House.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recipe House.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36FCBEDF23FD016F00427350 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,9 +78,9 @@
 			children = (
 				363BF05823FFDE3500627917 /* model */,
 				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
-				363BF05623FFDE3000627917 /* RegistrationModel.swift */,
 				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
 				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
+				3618329A240391E300ACE757 /* OTPViewController.swift */,
 				363BF059240000DC00627917 /* forgetPasswordViewController.swift */,
 				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
 				36FCBEE523FD016F00427350 /* Main.storyboard */,
@@ -228,7 +228,7 @@
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
 				363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */,
-				363BF05723FFDE3000627917 /* RegistrationModel.swift in Sources */,
+				3618329B240391E300ACE757 /* OTPViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

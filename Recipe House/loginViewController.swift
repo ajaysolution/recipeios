@@ -29,24 +29,15 @@ class loginViewController: UIViewController {
     
     
     @IBAction func loginButton(_ sender: UIButton) {
-        
-        guard let email = emailTextField.text , emailTextField.text?.count != 0 else{
-          alert(alertTitle: "email", alertMessage: "Email is nil", actionTitle: "enter email")
-            return
+        if login(){
+            print("valid data")
+            loginApi()
+           
+        }else{
+            alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
+            print("invalid data")
         }
-        if isValidEmail(emailID: email) == false{
-            alert(alertTitle: "Invalid email", alertMessage: "email", actionTitle: "re-enter email")
-          
-        }
-        guard let password = passwordTextField.text , passwordTextField.text?.count != 0 else{
-            alert(alertTitle: "password is nil", alertMessage: "password", actionTitle: "enter password")
-                
-                return
-            }
-        if isValidPassword(pass: password) == false{
-            alert(alertTitle: "invalid password", alertMessage: "password", actionTitle: "Re-enter password")
-        }
-        loginApi()
+
     }
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -67,7 +58,32 @@ class loginViewController: UIViewController {
         present(alert, animated: true, completion: nil)
         
     }
-    
+    func login()->Bool{
+        if emailTextField.text!.isEmpty{
+                   alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
+            return false
+            
+        }
+        else if passwordTextField.text!.isEmpty{
+            alert(alertTitle: "Enter password", alertMessage: "nil", actionTitle: "enter password")
+                       return false
+        }
+        else{
+             if !isValidEmail(emailID: emailTextField.text!){
+                // alert(alertTitle: "invalid email", alertMessage: "", actionTitle: "enter valid email")
+                 return false
+             }
+             else if !isValidPassword(pass: passwordTextField.text!){
+                 //alert(alertTitle: "enter strong password", alertMessage: "", actionTitle: "re-enter password")
+                 return false
+             }
+             else{
+                print("data is valid")
+                return true
+            }
+        }
+        return false
+    }
 
     @IBAction func forgetButton(_ sender: UIButton) {
         performSegue(withIdentifier: "forget", sender: self)
@@ -110,11 +126,15 @@ class loginViewController: UIViewController {
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(json)
+            print(responseString!)
+            var message = json["message"].string
+            print(message!)
+            //let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+           // self.present(alert, animated: true, completion: nil)
             if responseString != nil{
                 DispatchQueue.main.async(){
-                    
                 }
-                
+              
             }
             else{
                 

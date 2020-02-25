@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 class loginViewController: UIViewController {
 
+    let userDefault = UserDefaults.standard
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -19,11 +20,12 @@ class loginViewController: UIViewController {
     @IBOutlet weak var createBtnLabel: UIButton!
     
     @IBOutlet weak var guestBtnLabel: UIButton!
-    
+    var alertMessage : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
         buttonLayout()
     }
     
@@ -32,6 +34,9 @@ class loginViewController: UIViewController {
         if login(){
             print("valid data")
             loginApi()
+           // print(alertMessage!)
+//            let alert = UIAlertController(title: "User Exists", message: "", preferredStyle: .alert)
+//            present(alert, animated: true, completion: nil)
            
         }else{
             alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
@@ -91,6 +96,9 @@ class loginViewController: UIViewController {
     @IBAction func registrationButton(_ sender: UIButton) {
         performSegue(withIdentifier: "reg", sender: self)
     }
+    @IBAction func guestButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "tab", sender: self)
+    }
     func buttonLayout(){
         emailBtnLabel.layer.cornerRadius = emailBtnLabel.frame.size.height/2
         emailBtnLabel.layer.borderColor = UIColor.black.cgColor
@@ -102,6 +110,7 @@ class loginViewController: UIViewController {
         guestBtnLabel.layer.borderColor = UIColor.black.cgColor
         guestBtnLabel.layer.borderWidth = 2.0
     }
+
     func loginApi(){
         let url = URL(string: "http://192.168.2.221:3000/user/login")
         var request = URLRequest(url: url!)
@@ -123,16 +132,33 @@ class loginViewController: UIViewController {
                 print("response = \(response)")
                 return
             }
-            let json = try! JSON(data: data)
-            let responseString = String(data: data, encoding: .utf8)
+           let json = try! JSON(data: data)
+           let responseString = String(data: data, encoding: .utf8)
             print(json)
-            print(responseString!)
-            var message = json["message"].string
-            print(message!)
-            //let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
-           // self.present(alert, animated: true, completion: nil)
+            let authtoken = json["user_authtoken"].string
+    print(authtoken!)
+            
             if responseString != nil{
                 DispatchQueue.main.async(){
+                  
+                    print(responseString!)
+                    let message = json["message"]
+                    self.alertMessage = message.stringValue
+                    if message == "USER EXISTS"{
+                        
+                        self.performSegue(withIdentifier: "tab", sender: self)
+                        let userDefault = UserDefaults.standard
+                        self.userDefault.set(true, forKey: "user_authtoken")
+                        self.userDefault.set(authtoken, forKey: "user_authtoken")
+                    }
+                    if message == "USER NOT EXISTS"{
+                        let alert = UIAlertController(title: "USER NOT EXISTS", message: "", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Check email or password", style: .cancel) { (action) in
+                        }
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
                 }
               
             }

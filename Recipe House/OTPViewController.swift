@@ -22,23 +22,24 @@ class OTPViewController: UIViewController {
         super.viewDidLoad()
         print(otp)
         print(email)
+        self.OTPOutlet.alpha = 0.5
+        self.OTPOutlet.isEnabled = false
+        Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(enableButton), userInfo: nil, repeats: false)
      buttonLayout()
     }
     
     @IBAction func updatePasswordButton(_ sender: UIButton) {
         forgetApi()
-//        self.OTPOutlet.isEnabled = false
-//        Timer.scheduledTimer(timeInterval: 30, target: self, selector: Selector(("enableButton")), userInfo: nil, repeats: false)
-//
+        
     }
     
     @IBAction func otpButton(_ sender: UIButton) {
         print("working")
     }
-//    func enableButton() {
-//        self.OTPOutlet.isEnabled = true
-//        self.OTPOutlet.alpha = 0.5
-//    }
+    @objc func enableButton() {
+        self.OTPOutlet.alpha = 1.0
+        self.OTPOutlet.isEnabled = true
+    }
     func buttonLayout(){
         OTPOutlet.layer.cornerRadius = OTPOutlet.frame.size.height/2
         OTPOutlet.layer.borderColor = UIColor.black.cgColor

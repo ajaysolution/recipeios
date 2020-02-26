@@ -171,7 +171,7 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(json)
-            print(responseString)
+            print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
                     

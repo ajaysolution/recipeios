@@ -34,7 +34,7 @@ class OTPViewController: UIViewController {
     }
     
     @IBAction func otpButton(_ sender: UIButton) {
-        print("working")
+       
     }
     @objc func enableButton() {
         self.OTPOutlet.alpha = 1.0

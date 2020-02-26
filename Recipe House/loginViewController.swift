@@ -29,14 +29,16 @@ class loginViewController: UIViewController {
         buttonLayout()
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        if userDefault.bool(forKey: "user_authtokenkey") == true{
+            performSegue(withIdentifier: "tab", sender: self)
+        }
+        return
+    }
     @IBAction func loginButton(_ sender: UIButton) {
         if login(){
             print("valid data")
             loginApi()
-           // print(alertMessage!)
-//            let alert = UIAlertController(title: "User Exists", message: "", preferredStyle: .alert)
-//            present(alert, animated: true, completion: nil)
            
         }else{
             alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
@@ -75,7 +77,7 @@ class loginViewController: UIViewController {
         }
         else{
              if !isValidEmail(emailID: emailTextField.text!){
-                // alert(alertTitle: "invalid email", alertMessage: "", actionTitle: "enter valid email")
+                //alert(alertTitle: "invalid email", alertMessage: "", actionTitle: "enter valid email")
                  return false
              }
              else if !isValidPassword(pass: passwordTextField.text!){
@@ -134,22 +136,22 @@ class loginViewController: UIViewController {
             }
            let json = try! JSON(data: data)
            let responseString = String(data: data, encoding: .utf8)
-            print(json)
-            let authtoken = json["user_authtoken"].string
-    print(authtoken!)
             
             if responseString != nil{
                 DispatchQueue.main.async(){
                   
                     print(responseString!)
                     let message = json["message"]
-                    self.alertMessage = message.stringValue
+                    
+                    //self.alertMessage = message.stringValue
                     if message == "USER EXISTS"{
-                        
+                        let authtoken = json["user_authtoken"].string
+//                        let email = self.emailTextField.text
                         self.performSegue(withIdentifier: "tab", sender: self)
-                        let userDefault = UserDefaults.standard
-                        self.userDefault.set(true, forKey: "user_authtoken")
+                   
+                        self.userDefault.set(true, forKey: "user_authtokenkey")
                         self.userDefault.set(authtoken, forKey: "user_authtoken")
+                        self.userDefault.set(self.emailTextField.text, forKey: "email")
                     }
                     if message == "USER NOT EXISTS"{
                         let alert = UIAlertController(title: "USER NOT EXISTS", message: "", preferredStyle: .alert)

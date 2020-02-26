@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360ACF52240630BF006D4A22 /* homeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360ACF51240630BF006D4A22 /* homeViewController.swift */; };
+		360ACF5424065C58006D4A22 /* changePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360ACF5324065C58006D4A22 /* changePasswordViewController.swift */; };
+		360ACF5724065E41006D4A22 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */; };
+		360ACF5824065E41006D4A22 /* RecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */; };
+		360ACF5A24069CE8006D4A22 /* myRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360ACF5924069CE8006D4A22 /* myRecipeViewController.swift */; };
+		360ACF5C2406A0F9006D4A22 /* favoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */; };
 		3618329B240391E300ACE757 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3618329A240391E300ACE757 /* OTPViewController.swift */; };
 		361C10942405289D009A84B0 /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361C10932405289D009A84B0 /* profileViewController.swift */; };
 		363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF059240000DC00627917 /* forgetPasswordViewController.swift */; };
@@ -21,6 +27,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		360ACF51240630BF006D4A22 /* homeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeViewController.swift; sourceTree = "<group>"; };
+		360ACF5324065C58006D4A22 /* changePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = changePasswordViewController.swift; sourceTree = "<group>"; };
+		360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
+		360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeTableViewCell.xib; sourceTree = "<group>"; };
+		360ACF5924069CE8006D4A22 /* myRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myRecipeViewController.swift; sourceTree = "<group>"; };
+		360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favoriteViewController.swift; sourceTree = "<group>"; };
 		3618329A240391E300ACE757 /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		361C10932405289D009A84B0 /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		363BF059240000DC00627917 /* forgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -82,8 +94,14 @@
 				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
 				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
 				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
+				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
+				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
 				3618329A240391E300ACE757 /* OTPViewController.swift */,
+				360ACF51240630BF006D4A22 /* homeViewController.swift */,
+				360ACF5924069CE8006D4A22 /* myRecipeViewController.swift */,
 				361C10932405289D009A84B0 /* profileViewController.swift */,
+				360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */,
+				360ACF5324065C58006D4A22 /* changePasswordViewController.swift */,
 				363BF059240000DC00627917 /* forgetPasswordViewController.swift */,
 				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
 				36FCBEE523FD016F00427350 /* Main.storyboard */,
@@ -174,6 +192,7 @@
 				36FCBEEC23FD017200427350 /* LaunchScreen.storyboard in Resources */,
 				36FCBEE923FD017200427350 /* Assets.xcassets in Resources */,
 				36FCBEE723FD016F00427350 /* Main.storyboard in Resources */,
+				360ACF5824065E41006D4A22 /* RecipeTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,9 +245,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				360ACF5424065C58006D4A22 /* changePasswordViewController.swift in Sources */,
+				360ACF5A24069CE8006D4A22 /* myRecipeViewController.swift in Sources */,
+				360ACF5C2406A0F9006D4A22 /* favoriteViewController.swift in Sources */,
+				360ACF5724065E41006D4A22 /* RecipeTableViewCell.swift in Sources */,
 				36FCBEF423FD3AAD00427350 /* loginViewController.swift in Sources */,
 				36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */,
 				361C10942405289D009A84B0 /* profileViewController.swift in Sources */,
+				360ACF52240630BF006D4A22 /* homeViewController.swift in Sources */,
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
 				363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */,

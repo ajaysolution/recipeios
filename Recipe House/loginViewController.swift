@@ -9,9 +9,11 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+
 class loginViewController: UIViewController {
 
     let userDefault = UserDefaults.standard
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -24,11 +26,15 @@ class loginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        
+//       if Connection.isConnectedToInternet(){
+//                    print("connected")
+//                }else{
+//                    print("disconnected")
+//                }
+//       
         buttonLayout()
     }
-    
+  
     override func viewDidAppear(_ animated: Bool) {
         if userDefault.bool(forKey: "user_authtokenkey") == true{
             performSegue(withIdentifier: "tab", sender: self)
@@ -37,9 +43,11 @@ class loginViewController: UIViewController {
     }
     @IBAction func loginButton(_ sender: UIButton) {
         if login(){
+           if Connection.isConnectedToInternet(){
+                print("connection")
             print("valid data")
             loginApi()
-           
+            }
         }else{
             alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
             print("invalid data")

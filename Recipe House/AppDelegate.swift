@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let userDefault = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        //if Connection.isConnectedToInternet(){
         if userDefault.bool(forKey: "user_authtokenkey") == true{
            email = self.userDefault.value(forKey: "email") as! String
            authtoken = self.userDefault.value(forKey: "user_authtoken") as! String
@@ -24,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  self.window?.rootViewController?.performSegue(withIdentifier: "tab", sender: nil)
              }
         return true
+       // }
     }
 
     // MARK: UISceneSession Lifecycle

@@ -77,7 +77,7 @@
                                     <constraint firstItem="mk3-uo-RfQ" firstAttribute="leading" secondItem="O1I-VL-Rh2" secondAttribute="trailing" constant="5" id="1ly-GP-JuY"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="j07-bo-3Mn">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="j07-bo-3Mn">
                                 <rect key="frame" x="117" y="0.0" width="67" height="22"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fork-knife" translatesAutoresizingMaskIntoConstraints="NO" id="XZq-U5-OMe">
@@ -129,8 +129,8 @@
                             </stackView>
                         </subviews>
                     </stackView>
-                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="UdY-Tg-LcT">
-                        <rect key="frame" x="66" y="297" width="188" height="25"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="UdY-Tg-LcT">
+                        <rect key="frame" x="58.5" y="297" width="203" height="25"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6Av-PD-wye">
                                 <rect key="frame" x="0.0" y="0.0" width="92" height="25"/>
@@ -159,7 +159,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yAW-rV-UaY">
-                                <rect key="frame" x="112" y="0.0" width="76" height="25"/>
+                                <rect key="frame" x="127" y="0.0" width="76" height="25"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULD-7C-7Wx">
                                         <rect key="frame" x="0.0" y="0.0" width="28" height="25"/>
@@ -189,29 +189,28 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="UdY-Tg-LcT" secondAttribute="trailing" constant="66" id="8JD-Ur-7gi"/>
-                    <constraint firstItem="UdY-Tg-LcT" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.0771605" id="ARk-Ki-2gq"/>
+                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="71T-iK-TBO"/>
                     <constraint firstItem="dSb-Ch-0CC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="D4p-6u-GA0"/>
+                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.0679012" id="E3U-G3-5pp"/>
                     <constraint firstItem="dSb-Ch-0CC" firstAttribute="top" secondItem="iPe-Xv-RRs" secondAttribute="bottom" constant="8" id="Hfv-8X-tWx"/>
+                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="top" secondItem="UPf-Au-ns0" secondAttribute="bottom" constant="8" id="IFi-Ov-der"/>
                     <constraint firstItem="UPf-Au-ns0" firstAttribute="top" secondItem="q4l-GM-yfX" secondAttribute="bottom" constant="1" id="NER-EK-vaL"/>
                     <constraint firstAttribute="trailing" secondItem="iPe-Xv-RRs" secondAttribute="trailing" id="ROg-JF-g7p"/>
                     <constraint firstItem="UPf-Au-ns0" firstAttribute="top" secondItem="dSb-Ch-0CC" secondAttribute="bottom" constant="1" id="UWj-dO-fEL"/>
                     <constraint firstItem="UPf-Au-ns0" firstAttribute="leading" secondItem="dSb-Ch-0CC" secondAttribute="leading" id="VU9-aD-ETN"/>
-                    <constraint firstItem="UdY-Tg-LcT" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.5875" id="Yza-np-tkC"/>
-                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.878125" id="bc0-kp-b8Y"/>
+                    <constraint firstItem="UdY-Tg-LcT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="a6j-lG-d6g"/>
                     <constraint firstItem="iPe-Xv-RRs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fVF-IU-v4K"/>
-                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="top" secondItem="UPf-Au-ns0" secondAttribute="bottom" constant="8" id="hLP-Lj-tKU"/>
+                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.878125" id="fYs-aK-UkM"/>
                     <constraint firstAttribute="trailingMargin" secondItem="dSb-Ch-0CC" secondAttribute="trailing" constant="10" id="o3M-6G-M7X"/>
                     <constraint firstItem="iPe-Xv-RRs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oNz-kd-tuy"/>
-                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="pkG-f1-thT"/>
-                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.0679012" id="qoZ-Cn-eLu"/>
-                    <constraint firstItem="UdY-Tg-LcT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="sa7-68-lu7"/>
-                    <constraint firstItem="UdY-Tg-LcT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="66" id="zWU-XQ-4o2"/>
+                    <constraint firstItem="UdY-Tg-LcT" firstAttribute="top" secondItem="S5m-6y-6Fp" secondAttribute="bottom" constant="8" id="yP2-iB-gmj"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="RecipeTypeLabel" destination="Flc-DE-NXP" id="4e3-FM-XS0"/>
+                <outlet property="count" destination="EJe-6Y-vpM" id="jVX-0s-3W3"/>
+                <outlet property="descriptionLabel" destination="UPf-Au-ns0" id="qJT-Gw-S35"/>
                 <outlet property="levelLabel" destination="bKv-iz-Sgr" id="9Jz-tc-OkN"/>
                 <outlet property="peopleLabel" destination="kpQ-gk-qWB" id="cVT-jc-Tah"/>
                 <outlet property="recipeImageView" destination="iPe-Xv-RRs" id="eXG-T0-Poo"/>

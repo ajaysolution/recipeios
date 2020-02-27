@@ -52,7 +52,7 @@ class OTPViewController: UIViewController {
         let url = URL(string: "http://192.168.2.221:3000/user/forget/token/check")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "PUT"
+        request.httpMethod = "POST"
         let parameters: [String: Any] = ["user_email":email,"user_newpassword":NewPasswordTextField.text!,"user_otptoken":otpTextField.text!]
         request.httpBody = parameters.percentEncoded()
         

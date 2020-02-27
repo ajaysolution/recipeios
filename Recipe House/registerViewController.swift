@@ -32,6 +32,7 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
         buttonLayout()
        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+200)
     }
@@ -61,8 +62,10 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
     @IBAction func registrationButton(_ sender: UIButton) {
         
         if registration(){
+            if Connection.isConnectedToInternet(){
             print("data valid")
             registerApi()
+            }
         }else{
             print("invalid data")
         }

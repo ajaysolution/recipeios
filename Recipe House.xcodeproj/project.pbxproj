@@ -15,7 +15,9 @@
 		360ACF5C2406A0F9006D4A22 /* favoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */; };
 		3618329B240391E300ACE757 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3618329A240391E300ACE757 /* OTPViewController.swift */; };
 		361C10942405289D009A84B0 /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361C10932405289D009A84B0 /* profileViewController.swift */; };
+		362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362FE93624079EB7005B9696 /* HomeRecipe.swift */; };
 		363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF059240000DC00627917 /* forgetPasswordViewController.swift */; };
+		36F2C8A32407F19300992D2C /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2C8A22407F19300992D2C /* Connection.swift */; };
 		36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEDF23FD016F00427350 /* AppDelegate.swift */; };
 		36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FCBEE123FD016F00427350 /* SceneDelegate.swift */; };
 		36FCBEE723FD016F00427350 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36FCBEE523FD016F00427350 /* Main.storyboard */; };
@@ -35,7 +37,9 @@
 		360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favoriteViewController.swift; sourceTree = "<group>"; };
 		3618329A240391E300ACE757 /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		361C10932405289D009A84B0 /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
+		362FE93624079EB7005B9696 /* HomeRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRecipe.swift; sourceTree = "<group>"; };
 		363BF059240000DC00627917 /* forgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetPasswordViewController.swift; sourceTree = "<group>"; };
+		36F2C8A22407F19300992D2C /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		36FCBEDC23FD016F00427350 /* Recipe House.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recipe House.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36FCBEDF23FD016F00427350 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36FCBEE123FD016F00427350 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +98,8 @@
 				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
 				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
 				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
+				362FE93624079EB7005B9696 /* HomeRecipe.swift */,
+				36F2C8A22407F19300992D2C /* Connection.swift */,
 				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
 				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
 				3618329A240391E300ACE757 /* OTPViewController.swift */,
@@ -255,8 +261,10 @@
 				360ACF52240630BF006D4A22 /* homeViewController.swift in Sources */,
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
+				362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */,
 				363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */,
 				3618329B240391E300ACE757 /* OTPViewController.swift in Sources */,
+				36F2C8A32407F19300992D2C /* Connection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

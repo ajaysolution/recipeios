@@ -25,12 +25,11 @@ class forgetPasswordViewController: UIViewController {
     }
     
     @IBAction func OTPButton(_ sender: UIButton) {
-        forgetApi()
-        self.OTPButtonOutlet.alpha = 0.5
-        self.OTPButtonOutlet.isEnabled = false
-        Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(enableButton), userInfo: nil, repeats: false)
-        performSegue(withIdentifier: "otp", sender: self)
-        
+        if emailValid(){
+             forgetApi()
+        }else{
+            alert(alertTitle: "email is not in database", alertMessage: "", actionTitle: "check email")
+        }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "otp"{
@@ -43,6 +42,27 @@ class forgetPasswordViewController: UIViewController {
         self.OTPButtonOutlet.alpha = 1.0
            self.OTPButtonOutlet.isEnabled = true
         
+       }
+    func emailValid() -> Bool{
+    if emailTextField.text!.isEmpty{
+        alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
+        return false
+        } else if !isValidEmail(emailID: emailTextField.text!){
+        alert(alertTitle: "check email format", alertMessage: "", actionTitle: "re-enter email")
+                    return false
+                }
+          return true
+    }
+    func alert(alertTitle : String,alertMessage : String,actionTitle : String){
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: actionTitle, style: .cancel) { (alert) in}
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    func isValidEmail(emailID:String) -> Bool {
+           let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+           let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+           return emailTest.evaluate(with: emailID)
        }
     func forgetApi(){
             let url = URL(string: "http://192.168.2.221:3000/user/login/forget")
@@ -69,13 +89,24 @@ class forgetPasswordViewController: UIViewController {
                 let responseString = String(data: data, encoding: .utf8)
                 print(json)
                 print(responseString!)
-                let OTP = json["user_otptoken"]
-                print(OTP)
-                otp = OTP.stringValue
-                print(otp)
+                let message = json["message"].stringValue
+                print(message)
+//                let OTP = json["user_otptoken"]
+//                print(OTP)
+//                otp = OTP.stringValue
+//                print(otp)
                
                 if responseString != nil{
                     DispatchQueue.main.async(){
+                        if message == "USER EMAIL ID IS NOT MATCH"{
+                            self.alert(alertTitle: "USER EMAIL ID IS NOT MATCH", alertMessage: "", actionTitle: "check")
+                            
+                        }else{
+                            self.OTPButtonOutlet.alpha = 0.5
+                            self.OTPButtonOutlet.isEnabled = false
+                            Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.enableButton), userInfo: nil, repeats: false)
+                            self.performSegue(withIdentifier: "otp", sender: self)
+                        }
                     }
                   
                 }

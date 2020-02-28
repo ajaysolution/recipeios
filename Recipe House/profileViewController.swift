@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+let loginEmail = ""
 class profileViewController: UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
 
     let userDefault = UserDefaults.standard
@@ -68,6 +69,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     @IBAction func logoutButton(_ sender: UIButton) {
        self.userDefault.set(false, forKey: "user_authtokenkey")
        self.userDefault.set(authtoken, forKey: "user_authtoken")
+        navigationController?.popToRootViewController(animated: true)
     }
     func profileApi(){
         let url = URL(string: "http://192.168.2.221:3000/user/profile")

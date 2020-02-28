@@ -97,7 +97,6 @@ class loginViewController: UIViewController {
                 return true
             }
         }
-        return false
     }
 
     @IBAction func forgetButton(_ sender: UIButton) {
@@ -153,13 +152,15 @@ class loginViewController: UIViewController {
                     
                     //self.alertMessage = message.stringValue
                     if message == "USER EXISTS"{
-                        let authtoken = json["user_authtoken"].string
-//                        let email = self.emailTextField.text
+                        let authtoken1 = json["user_authtoken"].string
+                        let email1 = json["user_email"].string
+                        authtoken = authtoken1!
+                        email = email1!
                         self.performSegue(withIdentifier: "tab", sender: self)
                    
                         self.userDefault.set(true, forKey: "user_authtokenkey")
                         self.userDefault.set(authtoken, forKey: "user_authtoken")
-                        self.userDefault.set(self.emailTextField.text, forKey: "email")
+                        self.userDefault.set(email, forKey: "email")
                     }
                     if message == "USER NOT EXISTS"{
                         let alert = UIAlertController(title: "USER NOT EXISTS", message: "", preferredStyle: .alert)

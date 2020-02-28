@@ -29,8 +29,38 @@ class OTPViewController: UIViewController {
     }
     
     @IBAction func updatePasswordButton(_ sender: UIButton) {
-        forgetApi()
-        
+        if otpValid(){
+            forgetApi()
+        }else{
+            alert(alertTitle: "Invalid data", alertMessage: "", actionTitle: "check otp")
+        }
+        navigationController?.popToRootViewController(animated: true)
+    }
+    func otpValid() -> Bool{
+        if otpTextField.text!.isEmpty{
+            alert(alertTitle: "alert", alertMessage: "", actionTitle: "enter otp")
+            return false
+        }else if NewPasswordTextField.text!.isEmpty{
+            alert(alertTitle: "alert", alertMessage: "", actionTitle: "enter password")
+            return false
+        }else{
+                if !isValidPassword(pass: NewPasswordTextField.text!){
+                    return false
+            }
+        }
+              return true
+        }
+     
+    func isValidPassword(pass:String) -> Bool {
+        let passRegEx = "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", passRegEx)
+        return emailTest.evaluate(with: pass)
+    }
+    func alert(alertTitle : String,alertMessage : String,actionTitle : String){
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: actionTitle, style: .cancel) { (alert) in}
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func otpButton(_ sender: UIButton) {

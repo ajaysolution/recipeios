@@ -150,6 +150,10 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
         present(alert, animated: true, completion: nil)
         
     }
+    
+    @IBAction func backToLogin(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
     func registerApi(){
         let url = URL(string: "http://192.168.2.221:3000/user/register")
         var request = URLRequest(url: url!)

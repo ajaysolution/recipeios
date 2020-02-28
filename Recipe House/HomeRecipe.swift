@@ -17,4 +17,5 @@ class HomeRecipe{
     var people : String = ""
     var count : String = ""
     var recipeImage : String = ""
+    var recipeID : String = ""
 }

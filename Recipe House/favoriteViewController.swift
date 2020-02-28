@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Alamofire
+import PINRemoteImage
 
 class favoriteViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 

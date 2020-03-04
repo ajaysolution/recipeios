@@ -72,11 +72,7 @@ class OTPViewController: UIViewController {
     }
     func buttonLayout(){
         OTPOutlet.layer.cornerRadius = OTPOutlet.frame.size.height/2
-        OTPOutlet.layer.borderColor = UIColor.black.cgColor
-        OTPOutlet.layer.borderWidth = 2.0
         passwodOutlet.layer.cornerRadius = passwodOutlet.frame.size.height/2
-        passwodOutlet.layer.borderColor = UIColor.black.cgColor
-        passwodOutlet.layer.borderWidth = 2.0
     }
     func forgetApi(){
         let url = URL(string: "http://192.168.2.221:3000/user/forget/token/check")

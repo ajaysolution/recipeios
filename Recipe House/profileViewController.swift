@@ -10,12 +10,13 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+
 let loginEmail = ""
 class profileViewController: UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
 
     let userDefault = UserDefaults.standard
-    @IBOutlet weak var FirstNameLabel: UILabel!
-    @IBOutlet weak var lastNameLabel: UILabel!
+    @IBOutlet weak var NameLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var numberLabel: UILabel!
@@ -26,6 +27,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         profileApi()
         print(authtoken)
         print(email)
@@ -40,13 +42,8 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     }
     func  buttonLayout(){
            changePassOutlet.layer.cornerRadius = changePassOutlet.frame.size.height/2
-                  changePassOutlet.layer.borderColor = UIColor.black.cgColor
-                  changePassOutlet.layer.borderWidth = 2.0
            logoutOutlet.layer.cornerRadius = logoutOutlet.frame.size.height/2
-                  logoutOutlet.layer.borderColor = UIColor.black.cgColor
-                  logoutOutlet.layer.borderWidth = 2.0
-       }
-
+    }
     @IBAction func selesctProfilePicture(_ sender: UIButton) {
         let image = UIImagePickerController()
         image.delegate = self
@@ -72,6 +69,11 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         navigationController?.popToRootViewController(animated: true)
     }
     func profileApi(){
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         let url = URL(string: "http://192.168.2.221:3000/user/profile")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -100,8 +102,10 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
-                    self.FirstNameLabel.text = json["user_firstname"].string
-                    self.lastNameLabel.text = json["user_lastname"].string
+                    let firstname = json["user_firstname"]
+                    let lastname = json["user_lastname"]
+                    self.NameLabel.text = "\(firstname.string! + " " + lastname.string!)"
+             
                     let gender = json["user_gender"]
                     if gender == "m"{
                         self.genderLabel.text = "Male"
@@ -119,6 +123,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         }
 
         task.resume()
+        activityIndicator.stopAnimating()
     }
    
 }

@@ -16,6 +16,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var itemArray = [HomeRecipe]()
+    
     var filterArray = [HomeRecipe]()
     var count : Int = 0
     var num = 0
@@ -29,13 +30,12 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         homeRecipeApi(page: num)
         }
         tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        createArray()
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
-    
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecipeTableViewCell
         cell.recipeNameLabel.text = itemArray[indexPath.row].recipeName
@@ -44,7 +44,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         cell.descriptionLabel.text = itemArray[indexPath.row].description
         cell.timeLabel.text = "\(itemArray[indexPath.row].time) minutes"
         cell.peopleLabel.text = "\(itemArray[indexPath.row].people) people"
-        cell.count.text = itemArray[indexPath.row].count
+        cell.count.text = itemArray[indexPath.row].favoriteCount
         print(itemArray[indexPath.row].recipeID)
         fav = cell.count.text!
         print(fav)
@@ -53,7 +53,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             fav = "1"
         }else if fav == "1"{
             cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .reserved)
-            favoriteApi(id: Int(itemArray[indexPath.row].recipeID)!)
+            //favoriteApi(id: Int(itemArray[indexPath.row].recipeID)!)
             print("1")
         }
         cell.recipeImageView.pin_updateWithProgress = true
@@ -79,16 +79,68 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filterArray = itemArray.filter({ (recipe) -> Bool in
+        itemArray = itemArray.filter({ (recipe) -> Bool in
             guard let text = searchBar.text else {return false }
             return recipe.recipeName.contains(text)
         })
+//        itemArray = searchText.isEmpty ? itemArray : itemArray.filter({ (recipe: String) -> Bool in
+//           // return HomeRecipe.range(of: searchText, options: .caseInsensitive) != nil
+//        })
         tableview.reloadData()
     }
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-         
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
     }
-    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    func createArray(){
+        var recipeImage = ""
+        var type = ""
+        var recipeName = "asd"
+        var time = ""
+        var level = ""
+        var description = ""
+        var people = ""
+        var favCount = "0"
+        var recipeID = ""
+        var data = HomeRecipe()
+        data.recipeName = recipeName
+        data.type = type
+        data.time = time
+        data.level = level
+        data.people = people
+        data.description = description
+        data.favoriteCount = favCount
+        data.recipeImage = recipeImage
+        data.recipeID = recipeID
+        self.itemArray.append(data)
+        self.tableview.reloadData()
+        
+        recipeImage = ""
+        type = ""
+        recipeName = "asdfaf"
+        time = ""
+        level = ""
+        description = ""
+        people = ""
+        favCount = "1"
+        recipeID = ""
+        var datas = HomeRecipe()
+        datas.recipeName = recipeName
+        datas.type = type
+        datas.time = time
+        datas.level = level
+        datas.people = people
+        datas.description = description
+        datas.favoriteCount = favCount
+        datas.recipeImage = recipeImage
+        datas.recipeID = recipeID
+        self.itemArray.append(datas)
+        self.tableview.reloadData()
+    }
     func homeRecipeApi(page : Int){
               let url = URL(string: "http://192.168.2.221:3000/recipe/getrecipes?count=0")
               var request = URLRequest(url: url!)
@@ -132,7 +184,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             let level = json[i]["recipe_level"].stringValue
                             let description = json[i]["recipe_description"].stringValue
                             let people = json[i]["recipe_people"].stringValue
-                            let count = json[i]["favoriteCount"].stringValue
+                            let favCount = json[i]["favoriteCount"].stringValue
                             let recipeID = json[i]["recipe_id"].stringValue
                             print(i)
                             let data = HomeRecipe()
@@ -142,7 +194,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             data.level = level
                             data.people = people
                             data.description = description
-                            data.count = count
+                            data.favoriteCount = favCount
                             data.recipeImage = recipeImage
                             data.recipeID = recipeID
                             self.itemArray.append(data)

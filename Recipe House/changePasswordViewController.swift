@@ -14,11 +14,13 @@ class changePasswordViewController: UIViewController {
 
     @IBOutlet weak var oldPasswordTextField: UITextField!
     @IBOutlet weak var newPasswordTextField: UITextField!
+    @IBOutlet weak var changeButtonOutlet: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        changeButtonOutlet.layer.cornerRadius = changeButtonOutlet.frame.size.height/2
     }
     @IBAction func changePasswordButton(_ sender: UIButton) {
+        
         changePasswordApi()
     }
     func changePasswordApi(){

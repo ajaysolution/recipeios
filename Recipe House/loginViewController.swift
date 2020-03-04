@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class loginViewController: UIViewController {
 
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
     
     @IBOutlet weak var emailTextField: UITextField!
@@ -26,12 +27,6 @@ class loginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//       if Connection.isConnectedToInternet(){
-//                    print("connected")
-//                }else{
-//                    print("disconnected")
-//                }
-//       
         buttonLayout()
     }
   
@@ -110,17 +105,17 @@ class loginViewController: UIViewController {
     }
     func buttonLayout(){
         emailBtnLabel.layer.cornerRadius = emailBtnLabel.frame.size.height/2
-        emailBtnLabel.layer.borderColor = UIColor.black.cgColor
-        emailBtnLabel.layer.borderWidth = 2.0
-        createBtnLabel.layer.cornerRadius = createBtnLabel.frame.size.height/2
-        createBtnLabel.layer.borderColor = UIColor.black.cgColor
-        createBtnLabel.layer.borderWidth = 2.0
-        guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
-        guestBtnLabel.layer.borderColor = UIColor.black.cgColor
-        guestBtnLabel.layer.borderWidth = 2.0
+guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
     }
 
     func loginApi(){
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+      //  UIApplication.shared.beginIgnoringInteractionEvents()
         let url = URL(string: "http://192.168.2.221:3000/user/login")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -148,10 +143,12 @@ class loginViewController: UIViewController {
                 DispatchQueue.main.async(){
                   
                     print(responseString!)
-                    let message = json["message"]
+                    let message = json["message"].stringValue
+                    let status = json["status"].stringValue
+                    print(status)
                     
                     //self.alertMessage = message.stringValue
-                    if message == "USER EXISTS"{
+                    if status == "OK"{
                         let authtoken1 = json["user_authtoken"].string
                         let email1 = json["user_email"].string
                         authtoken = authtoken1!
@@ -162,16 +159,16 @@ class loginViewController: UIViewController {
                         self.userDefault.set(authtoken, forKey: "user_authtoken")
                         self.userDefault.set(email, forKey: "email")
                     }
-                    if message == "USER NOT EXISTS"{
-                        let alert = UIAlertController(title: "USER NOT EXISTS", message: "", preferredStyle: .alert)
-                        let action = UIAlertAction(title: "Check email or password", style: .cancel) { (action) in
+                    else{
+                        print("error")
+                        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Enter again", style: .cancel) { (action) in
+                            
                         }
                         alert.addAction(action)
                         self.present(alert, animated: true, completion: nil)
                     }
-                    
                 }
-              
             }
             else{
                 
@@ -179,6 +176,8 @@ class loginViewController: UIViewController {
         }
 
         task.resume()
+        activityIndicator.stopAnimating()
+        //UIApplication.shared.endIgnoringInteractionEvents()
     }
 }
 extension Dictionary {

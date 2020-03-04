@@ -20,8 +20,6 @@ class forgetPasswordViewController: UIViewController {
         super.viewDidLoad()
 
         OTPButtonOutlet.layer.cornerRadius = OTPButtonOutlet.frame.size.height/2
-        OTPButtonOutlet.layer.borderColor = UIColor.black.cgColor
-        OTPButtonOutlet.layer.borderWidth = 2.0
     }
     
     @IBAction func OTPButton(_ sender: UIButton) {

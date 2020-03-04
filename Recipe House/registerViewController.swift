@@ -10,9 +10,9 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class registerViewController: UIViewController,UIScrollViewDelegate {
+class registerViewController: UIViewController{
 
-    @IBOutlet weak var scrollView: UIScrollView!
+
     
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -27,15 +27,12 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
     var selectedGender = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.delegate = self
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+200)
-        buttonLayout()
+
+  buttonLayout()
        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+200)
-    }
+   
     @IBAction func radioBtnAction(_ sender: UIButton) {
         if sender.tag == 1{
             maleButtonOutlet.isSelected = true
@@ -52,11 +49,7 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
     
   func  buttonLayout(){
         registerButtonOutlet.layer.cornerRadius = registerButtonOutlet.frame.size.height/2
-               registerButtonOutlet.layer.borderColor = UIColor.black.cgColor
-               registerButtonOutlet.layer.borderWidth = 2.0
         backToLoginOutlet.layer.cornerRadius = backToLoginOutlet.frame.size.height/2
-               backToLoginOutlet.layer.borderColor = UIColor.black.cgColor
-               backToLoginOutlet.layer.borderWidth = 2.0
     }
     
     @IBAction func registrationButton(_ sender: UIButton) {
@@ -183,10 +176,8 @@ class registerViewController: UIViewController,UIScrollViewDelegate {
                 DispatchQueue.main.async(){
                     
                 }
-                
             }
             else{
-                
             }
         }
 

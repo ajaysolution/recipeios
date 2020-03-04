@@ -35,7 +35,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         cell.descriptionLabel.text = favoriteArray[indexPath.row].description
         cell.timeLabel.text = "\(favoriteArray[indexPath.row].time) minutes"
         cell.peopleLabel.text = "\(favoriteArray[indexPath.row].people) people"
-        cell.count.text = favoriteArray[indexPath.row].count
+        cell.count.text = favoriteArray[indexPath.row].favoriteCount
            return cell
        }
        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -84,10 +84,9 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
                         let level = json[i]["recipe_level"].stringValue
                         let description = json[i]["recipe_description"].stringValue
                         let people = json[i]["recipe_people"].stringValue
-                        let count = json[i]["favoriteCount"].stringValue
+                        let favCount = json[i]["favoriteCount"].stringValue
                       //  let image = UIImage(data: json[i]["recipe_image"])
-                        let image1 = UIImage(contentsOfFile: recipeImage)
-                        let image = UIImageView(image: image1)
+                
                         print(i)
                         let data = HomeRecipe()
                         data.recipeName = recipeName
@@ -96,8 +95,8 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
                         data.level = level
                         data.people = people
                         data.description = description
-                        data.count = count
-                       // data.recipeImage = image
+                        data.favoriteCount = favCount
+                        data.recipeImage = recipeImage
                         self.favoriteArray.append(data)
                         self.tableView.reloadData()
                     }

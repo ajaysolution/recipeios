@@ -10,24 +10,26 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+
 class loginViewController: UIViewController {
 
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
     
+    var check: Int?
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-    @IBOutlet weak var emailBtnLabel: UIButton!
+    @IBOutlet weak var loginBtnLabel: UIButton!
     
-    @IBOutlet weak var createBtnLabel: UIButton!
+
     
     @IBOutlet weak var guestBtnLabel: UIButton!
     var alertMessage : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        buttonLayout()
+ buttonLayout()
     }
   
     override func viewDidAppear(_ animated: Bool) {
@@ -88,7 +90,6 @@ class loginViewController: UIViewController {
                  return false
              }
              else{
-                print("data is valid")
                 return true
             }
         }
@@ -104,7 +105,7 @@ class loginViewController: UIViewController {
         performSegue(withIdentifier: "tab", sender: self)
     }
     func buttonLayout(){
-        emailBtnLabel.layer.cornerRadius = emailBtnLabel.frame.size.height/2
+        loginBtnLabel.layer.cornerRadius = loginBtnLabel.frame.size.height/2
 guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
     }
 
@@ -112,10 +113,9 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.large
-        
+         view.isUserInteractionEnabled = false
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-      //  UIApplication.shared.beginIgnoringInteractionEvents()
         let url = URL(string: "http://192.168.2.221:3000/user/login")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -147,17 +147,18 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
                     let status = json["status"].stringValue
                     print(status)
                     
-                    //self.alertMessage = message.stringValue
                     if status == "OK"{
                         let authtoken1 = json["user_authtoken"].string
                         let email1 = json["user_email"].string
                         authtoken = authtoken1!
                         email = email1!
+                        self.check = 1
                         self.performSegue(withIdentifier: "tab", sender: self)
                    
                         self.userDefault.set(true, forKey: "user_authtokenkey")
                         self.userDefault.set(authtoken, forKey: "user_authtoken")
                         self.userDefault.set(email, forKey: "email")
+                        
                     }
                     else{
                         print("error")
@@ -177,7 +178,7 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
 
         task.resume()
         activityIndicator.stopAnimating()
-        //UIApplication.shared.endIgnoringInteractionEvents()
+        view.isUserInteractionEnabled = true
     }
 }
 extension Dictionary {

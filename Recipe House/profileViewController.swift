@@ -26,13 +26,23 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        profileApi()
-        print(authtoken)
-        print(email)
-        imageView()
-        buttonLayout()
+        if authtoken != "" {
+                super.viewDidLoad()
+               
+               profileApi()
+               print(authtoken)
+               print(email)
+               imageView()
+               buttonLayout()
+            }else if authtoken == ""{
+                let alert = UIAlertController(title: "First you have to log in", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "log in", style: .default) { (alert) in
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+        }
+   
     }
     func imageView(){
         profileImage.layer.cornerRadius = (profileImage.frame.size.width)/2
@@ -45,11 +55,13 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
            logoutOutlet.layer.cornerRadius = logoutOutlet.frame.size.height/2
     }
     @IBAction func selesctProfilePicture(_ sender: UIButton) {
+         profileImageApi()
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
         image.allowsEditing = true
         present(image, animated: true, completion: nil)
+       
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
@@ -68,12 +80,21 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
        self.userDefault.set(authtoken, forKey: "user_authtoken")
         navigationController?.popToRootViewController(animated: true)
     }
+    func indicatorStart(){
+           activityIndicator.center = self.view.center
+           
+                  activityIndicator.hidesWhenStopped = true
+                  activityIndicator.style = UIActivityIndicatorView.Style.large
+                   view.isUserInteractionEnabled = false
+                  view.addSubview(activityIndicator)
+                  activityIndicator.startAnimating()
+       }
+       func indicatorEnd(){
+           activityIndicator.stopAnimating()
+                 view.isUserInteractionEnabled = true
+       }
     func profileApi(){
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = UIActivityIndicatorView.Style.large
-        view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
+    indicatorStart()
         let url = URL(string: "http://192.168.2.221:3000/user/profile")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -102,18 +123,19 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
-                    let firstname = json["user_firstname"]
-                    let lastname = json["user_lastname"]
+                    let userdetails=json["user_details"]
+                    let firstname = userdetails["user_firstname"]
+                    let lastname = userdetails["user_lastname"]
                     self.NameLabel.text = "\(firstname.string! + " " + lastname.string!)"
              
-                    let gender = json["user_gender"]
+                    let gender = userdetails["user_gender"]
                     if gender == "m"{
                         self.genderLabel.text = "Male"
                     }else if gender == "f"{
                         self.genderLabel.text = "Female"
                     }
-                    self.numberLabel.text = json["user_phone"].stringValue
-                    self.emailLabel.text = json["user_email"].string
+                    self.numberLabel.text = userdetails["user_phone"].stringValue
+                    self.emailLabel.text = userdetails["user_email"].string
                 }
                 
             }
@@ -121,9 +143,50 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
                 
             }
         }
-
         task.resume()
-        activityIndicator.stopAnimating()
+        indicatorEnd()
     }
+    func profileImageApi(){
+    indicatorStart()
+        let url = URL(string: "http://192.168.2.221:3000/user/profile")
+        var request = URLRequest(url: url!)
+        request.setValue("application/form-data", forHTTPHeaderField: "Content-Type")
+       // request.addValue(email, forHTTPHeaderField: "user_email")
+        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+        request.httpMethod = "POST"
+        let parameters: [String: Any] = ["user_email":email,"user_profile":"name.png"]
+        request.httpBody = parameters.percentEncoded()
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil else {
+                print("error", error ?? "Unknown error")
+                return
+            }
+
+            guard (200 ... 299) ~= response.statusCode else {
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+            let json = try! JSON(data: data)
+            let responseString = String(data: data, encoding: .utf8)
+            print(json)
+      
+            if responseString != nil{
+                DispatchQueue.main.async(){
+               
+                }
+                
+            }
+            else{
+                
+            }
+        }
+        task.resume()
+        indicatorEnd()
+    }
+    
    
 }

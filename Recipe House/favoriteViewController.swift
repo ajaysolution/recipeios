@@ -18,8 +18,18 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
     var favoriteArray = [HomeRecipe]()
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
-        super.viewDidLoad()
-        favoriteApi()
+        if authtoken != "" {
+               super.viewDidLoad()
+                 favoriteApi()
+               }else if authtoken == ""{
+                   let alert = UIAlertController(title: "First you have to log in", message: "", preferredStyle: .alert)
+                   let action = UIAlertAction(title: "log in", style: .default) { (alert) in
+                       self.navigationController?.popToRootViewController(animated: true)
+                   }
+                   alert.addAction(action)
+                   present(alert, animated: true, completion: nil)
+           }
+   
 
        tableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell1")
     }

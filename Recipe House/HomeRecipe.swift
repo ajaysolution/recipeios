@@ -15,6 +15,7 @@ class HomeRecipe{
     var level : String = ""
     var description : String = ""
     var people : String = ""
+    var recipeLike : String = ""
     var favoriteCount : String = ""
     var recipeImage : String = ""
     var recipeID : String = ""

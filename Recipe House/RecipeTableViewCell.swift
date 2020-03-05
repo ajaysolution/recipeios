@@ -9,10 +9,8 @@
 import UIKit
 
 class RecipeTableViewCell: UITableViewCell {
-
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var RecipeTypeLabel: UILabel!
-    var counts = 0
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var recipeNameLabel: UILabel!
      @IBOutlet weak var timeLabel: UILabel!
@@ -27,11 +25,10 @@ class RecipeTableViewCell: UITableViewCell {
     
     @IBAction func favoriteButton(_ sender: UIButton) {
         if counts == 0{
-            favoriteButtonLabel.isSelected = true
-             favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .selected)
+             favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
             counts = 1
-        }else{
-            favoriteButtonLabel.isSelected = false
+        }else if counts == 1{
+            favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
             counts = 0
         }
     }

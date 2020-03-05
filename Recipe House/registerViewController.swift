@@ -145,9 +145,23 @@ class registerViewController: UIViewController{
     }
     
     @IBAction func backToLogin(_ sender: UIButton) {
-        dismiss(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
+    func indicatorStart(){
+           activityIndicator.center = self.view.center
+           
+                  activityIndicator.hidesWhenStopped = true
+                  activityIndicator.style = UIActivityIndicatorView.Style.large
+                   view.isUserInteractionEnabled = false
+                  view.addSubview(activityIndicator)
+                  activityIndicator.startAnimating()
+       }
+       func indicatorEnd(){
+           activityIndicator.stopAnimating()
+                 view.isUserInteractionEnabled = true
+       }
     func registerApi(){
+        indicatorStart()
         let url = URL(string: "http://192.168.2.221:3000/user/register")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -182,5 +196,6 @@ class registerViewController: UIViewController{
         }
 
         task.resume()
+        indicatorEnd()
     }
 }

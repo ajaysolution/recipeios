@@ -15,9 +15,18 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
 
     @IBOutlet weak var searchBar: UISearchBar!
     var myrecipeArray = [HomeRecipe]()
+    
     override func viewDidLoad() {
+        if authtoken != "" {
         super.viewDidLoad()
-       
+        }else if authtoken == ""{
+            let alert = UIAlertController(title: "First you have to log in", message: "", preferredStyle: .alert)
+            let action = UIAlertAction(title: "log in", style: .default) { (alert) in
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+    }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

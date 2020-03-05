@@ -9,6 +9,7 @@
 import UIKit
 var authtoken:String = ""
 var email : String = ""
+
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate {

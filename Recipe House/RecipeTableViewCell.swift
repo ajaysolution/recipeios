@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class RecipeTableViewCell: UITableViewCell {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var RecipeTypeLabel: UILabel!
@@ -17,19 +18,21 @@ class RecipeTableViewCell: UITableViewCell {
      @IBOutlet weak var levelLabel: UILabel!
      @IBOutlet weak var peopleLabel: UILabel!
     
+    @IBOutlet weak var commentButtonLabel: UIButton!
     @IBOutlet weak var favoriteButtonLabel: UIButton!
     @IBOutlet weak var count: UILabel!
+    var recipeId : Int?
     
     @IBAction func commentButton(_ sender: UIButton) {
     }
     
     @IBAction func favoriteButton(_ sender: UIButton) {
-        if counts == 0{
-             favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
-            counts = 1
-        }else if counts == 1{
-            favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
-            counts = 0
-        }
+//        if counts == 0{
+//             favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
+//            counts = 1
+//        }else if counts == 1{
+//            favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
+//            counts = 0
+//        }
     }
 }

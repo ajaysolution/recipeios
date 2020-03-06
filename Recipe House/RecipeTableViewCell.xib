@@ -209,6 +209,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="RecipeTypeLabel" destination="Flc-DE-NXP" id="4e3-FM-XS0"/>
+                <outlet property="commentButtonLabel" destination="lEE-Kj-qf9" id="dJ4-MJ-D1i"/>
                 <outlet property="count" destination="EJe-6Y-vpM" id="jVX-0s-3W3"/>
                 <outlet property="descriptionLabel" destination="UPf-Au-ns0" id="qJT-Gw-S35"/>
                 <outlet property="favoriteButtonLabel" destination="ULD-7C-7Wx" id="kwe-o6-qwG"/>

@@ -102,6 +102,7 @@ class loginViewController: UIViewController {
         performSegue(withIdentifier: "reg", sender: self)
     }
     @IBAction func guestButton(_ sender: UIButton) {
+        authtoken = ""
         performSegue(withIdentifier: "tab", sender: self)
     }
     func buttonLayout(){

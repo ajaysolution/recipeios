@@ -9,8 +9,13 @@
 import UIKit
 
 class messageTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var userLogo: UIImageView!
+    @IBOutlet weak var background: UIView!
     override func awakeFromNib() {
+
         super.awakeFromNib()
         // Initialization code
     }    

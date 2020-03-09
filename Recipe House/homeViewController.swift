@@ -46,26 +46,27 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecipeTableViewCell
+        let recipeData = itemArray[indexPath.row]
         cell.favoriteButtonLabel.tag = indexPath.row
         cell.commentButtonLabel.tag = indexPath.row
         cell.commentButtonLabel.addTarget(self, action: #selector(pressOnComment(sender:)), for: .touchUpInside)
         cell.favoriteButtonLabel.addTarget(self, action: #selector(pressOnLike(sender:)), for: .touchUpInside)
-        cell.recipeNameLabel.text = itemArray[indexPath.row].recipeName
-        cell.RecipeTypeLabel.text = itemArray[indexPath.row].type
-        cell.levelLabel.text = itemArray[indexPath.row].level
-        cell.recipeId = Int(itemArray[indexPath.row].recipeID)
-        cell.descriptionLabel.text = itemArray[indexPath.row].description
-        let time = Int(itemArray[indexPath.row].time)
+        cell.recipeNameLabel.text = recipeData.recipeName
+        cell.RecipeTypeLabel.text = recipeData.type
+        cell.levelLabel.text = recipeData.level
+        cell.recipeId = Int(recipeData.recipeID)
+        cell.descriptionLabel.text = recipeData.description
+        let time = Int(recipeData.time)
         if time! > 60{
             let hr = time! / 60
             let min = time! % 60
             cell.timeLabel.text = String(hr)+"h" + " " + String(min)+"m"
         }else{
-        cell.timeLabel.text = "\(itemArray[indexPath.row].time) minutes"
+        cell.timeLabel.text = "\(recipeData.time) minutes"
         }
-        cell.peopleLabel.text = "\(itemArray[indexPath.row].people) people"
-        cell.count.text = String(itemArray[indexPath.row].favoriteCount)
-        let like = Int(itemArray[indexPath.row].recipeLike)
+        cell.peopleLabel.text = "\(recipeData.people) people"
+        cell.count.text = String(recipeData.favoriteCount)
+        let like = Int(recipeData.recipeLike)
         if like == 0{
             cell.favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
         }else if like == 1{
@@ -73,7 +74,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
         cell.recipeImageView.pin_updateWithProgress = true
         
-        cell.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(itemArray[indexPath.row].recipeImage)"))
+        cell.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(recipeData.recipeImage)"))
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -109,7 +110,11 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
       
     }
     @objc func pressOnComment(sender:UIButton){
+        if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
+            recipeID = cell.recipeId!
+        //commentApi(id: cell.recipeId!)
         performSegue(withIdentifier: "comment", sender: self)
+        }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         itemArray = finalArray.filter({ (recipe) -> Bool in
@@ -212,7 +217,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             let level = json[i]["recipe_level"].stringValue
                             let description = json[i]["recipe_description"].stringValue
                             let people = json[i]["recipe_people"].stringValue
-                            let favCount = json[i]["favoriteCount"].int!
+                           // let favCount = json[i]["favoriteCount"].int!
                             let recipeID = json[i]["recipe_id"].stringValue
                             let recipeLike = json[i]["recipeLike"].stringValue
                             print(i)
@@ -223,7 +228,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             data.level = level
                             data.people = people
                             data.description = description
-                            data.favoriteCount = favCount
+                           // data.favoriteCount = favCount
                             data.recipeImage = recipeImage
                             data.recipeID = recipeID
                             data.recipeLike = recipeLike

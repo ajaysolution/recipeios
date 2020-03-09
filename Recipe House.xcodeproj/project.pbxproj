@@ -17,6 +17,8 @@
 		361C10942405289D009A84B0 /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361C10932405289D009A84B0 /* profileViewController.swift */; };
 		362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362FE93624079EB7005B9696 /* HomeRecipe.swift */; };
 		363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF059240000DC00627917 /* forgetPasswordViewController.swift */; };
+		365208A2241624E500C60C9F /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365208A1241624E500C60C9F /* CommentData.swift */; };
+		365208A4241660FE00C60C9F /* recipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365208A3241660FE00C60C9F /* recipeDetailViewController.swift */; };
 		36CACAD624127A4500CE23AD /* commentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CACAD524127A4500CE23AD /* commentViewController.swift */; };
 		36CACAD9241286F600CE23AD /* messageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CACAD7241286F600CE23AD /* messageTableViewCell.swift */; };
 		36CACADA241286F600CE23AD /* messageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CACAD8241286F600CE23AD /* messageTableViewCell.xib */; };
@@ -42,6 +44,8 @@
 		361C10932405289D009A84B0 /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		362FE93624079EB7005B9696 /* HomeRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRecipe.swift; sourceTree = "<group>"; };
 		363BF059240000DC00627917 /* forgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetPasswordViewController.swift; sourceTree = "<group>"; };
+		365208A1241624E500C60C9F /* CommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
+		365208A3241660FE00C60C9F /* recipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipeDetailViewController.swift; sourceTree = "<group>"; };
 		36CACAD524127A4500CE23AD /* commentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentViewController.swift; sourceTree = "<group>"; };
 		36CACAD7241286F600CE23AD /* messageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messageTableViewCell.swift; sourceTree = "<group>"; };
 		36CACAD8241286F600CE23AD /* messageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = messageTableViewCell.xib; sourceTree = "<group>"; };
@@ -104,6 +108,7 @@
 				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
 				36F2C8A22407F19300992D2C /* Connection.swift */,
 				362FE93624079EB7005B9696 /* HomeRecipe.swift */,
+				365208A1241624E500C60C9F /* CommentData.swift */,
 				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
 				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
 				36CACAD7241286F600CE23AD /* messageTableViewCell.swift */,
@@ -116,6 +121,7 @@
 				360ACF5924069CE8006D4A22 /* myRecipeViewController.swift */,
 				360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */,
 				361C10932405289D009A84B0 /* profileViewController.swift */,
+				365208A3241660FE00C60C9F /* recipeDetailViewController.swift */,
 				360ACF5324065C58006D4A22 /* changePasswordViewController.swift */,
 				36CACAD524127A4500CE23AD /* commentViewController.swift */,
 				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
@@ -270,12 +276,14 @@
 				36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */,
 				361C10942405289D009A84B0 /* profileViewController.swift in Sources */,
 				360ACF52240630BF006D4A22 /* homeViewController.swift in Sources */,
+				365208A2241624E500C60C9F /* CommentData.swift in Sources */,
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
 				362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */,
 				363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */,
 				36CACAD9241286F600CE23AD /* messageTableViewCell.swift in Sources */,
 				3618329B240391E300ACE757 /* OTPViewController.swift in Sources */,
+				365208A4241660FE00C60C9F /* recipeDetailViewController.swift in Sources */,
 				36F2C8A32407F19300992D2C /* Connection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

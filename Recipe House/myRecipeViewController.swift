@@ -11,14 +11,17 @@ import SwiftyJSON
 import Alamofire
 import PINRemoteImage
 
-class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate {
 
     @IBOutlet weak var searchBar: UISearchBar!
     var myrecipeArray = [HomeRecipe]()
+    @IBOutlet weak var TableView: UITableView!
     
     override func viewDidLoad() {
         if authtoken != "" {
         super.viewDidLoad()
+            TableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell2")
+            searchBar.delegate = self
         }else if authtoken == ""{
             let alert = UIAlertController(title: "First you have to log in", message: "", preferredStyle: .alert)
             let action = UIAlertAction(title: "log in", style: .default) { (alert) in
@@ -38,4 +41,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     @IBAction func addButton(_ sender: UIButton) {
     }
+    
+    
 }

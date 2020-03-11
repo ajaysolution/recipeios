@@ -19,4 +19,6 @@ class HomeRecipe{
     var favoriteCount : Int = 0
     var recipeImage : String = ""
     var recipeID : String = ""
+    var ingredient : String = ""
+    var steps : String = ""
 }

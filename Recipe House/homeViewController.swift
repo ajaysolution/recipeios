@@ -41,6 +41,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
         }
     }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -75,10 +76,15 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         cell.recipeImageView.pin_updateWithProgress = true
         
         cell.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(recipeData.recipeImage)"))
+    
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 330
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        recipe_id = Int(itemArray[indexPath.row].recipeID)!
+        performSegue(withIdentifier: "detail", sender: self)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
       print(indexPath.row)
@@ -90,6 +96,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     @objc func pressOnLike(sender:UIButton){
+       
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
             if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
                 cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart" ), for: .normal)
@@ -107,7 +114,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             
         }
-      
     }
     @objc func pressOnComment(sender:UIButton){
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
@@ -217,7 +223,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             let level = json[i]["recipe_level"].stringValue
                             let description = json[i]["recipe_description"].stringValue
                             let people = json[i]["recipe_people"].stringValue
-                           // let favCount = json[i]["favoriteCount"].int!
+                            let favCount = json[i]["favoriteCount"].int!
                             let recipeID = json[i]["recipe_id"].stringValue
                             let recipeLike = json[i]["recipeLike"].stringValue
                             print(i)
@@ -228,7 +234,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             data.level = level
                             data.people = people
                             data.description = description
-                           // data.favoriteCount = favCount
+                            data.favoriteCount = favCount
                             data.recipeImage = recipeImage
                             data.recipeID = recipeID
                             data.recipeLike = recipeLike
@@ -243,9 +249,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                       
                   }
               }
-
+ indicatorEnd()
               task.resume()
-        indicatorEnd()
+       
           }
     func favoriteApi(id:Int,likeBool : String){
                   let url = URL(string: "http://192.168.2.221:3000/recipe/select/favorite")

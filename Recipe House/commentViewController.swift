@@ -42,7 +42,6 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     @IBAction func sendButton(_ sender: UIButton) {
         addCommentApi()
-        commentApi()
        }
     func commentApi(){
               let url = URL(string: "http://192.168.2.221:3000/recipe/comment?comment_status=show")

@@ -11,8 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 class registerViewController: UIViewController{
-
-
     
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!

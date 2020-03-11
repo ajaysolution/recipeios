@@ -21,7 +21,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
     override func viewDidLoad() {
         if authtoken != "" {
                super.viewDidLoad()
-                 favoriteApi()
+                // favoriteApi()
             searchBar.delegate = self
                }else if authtoken == ""{
                    let alert = UIAlertController(title: "First you have to log in", message: "", preferredStyle: .alert)
@@ -36,10 +36,10 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
        tableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell1")
     }
     override func viewWillAppear(_ animated: Bool) {
-
         DispatchQueue.main.async {
-            self.favoriteApi()
+            self.favoriteArray.removeAll()
             self.tableView.reloadData()
+            self.favoriteApi()
         }
     }
     

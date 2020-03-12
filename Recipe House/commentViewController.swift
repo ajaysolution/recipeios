@@ -24,11 +24,14 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        tableView.estimatedRowHeight = 150
+        
+        tableView.estimatedRowHeight = 120
             tableView.rowHeight = UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+         print(commentArray.count)
         return commentArray.count
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,11 +40,12 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         cell.commentLabel.text = commentArray[indexPath.row].userComment
         return cell
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
+    
     @IBAction func sendButton(_ sender: UIButton) {
         addCommentApi()
+       commentArray.removeAll()
+    //    tableView.reloadData()
+        commentApi()
        }
     func commentApi(){
               let url = URL(string: "http://192.168.2.221:3000/recipe/comment?comment_status=show")
@@ -143,8 +147,8 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
                             let data = CommentData()
                             data.username = username
                             data.userComment = comment
-                            self.commentArray.append(data)
-                            self.tableView.reloadData()
+                           self.commentArray.append(data)
+//                            self.tableView.reloadData()
                         }
                   
                       }

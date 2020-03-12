@@ -31,7 +31,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         print(authtoken)
         print(email)
         searchBar.delegate = self
-        homeRecipeApi(page: num)
+       // homeRecipeApi(page: num)
         tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
             }
             else{
@@ -40,6 +40,12 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print("not eligible")
             }
         }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        num = 0
+        self.itemArray.removeAll()
+        self.tableview.reloadData()
+        homeRecipeApi(page: num)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -213,7 +219,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             if responseString != nil{
                 DispatchQueue.main.async(){
-                    
+                    self.indicatorEnd()
                     for i in 0..<self.count{
                         
                         let recipeImage = json[i]["recipe_image"].stringValue
@@ -249,7 +255,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                       
                   }
               }
- indicatorEnd()
+
               task.resume()
        
           }

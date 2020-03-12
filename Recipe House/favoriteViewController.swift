@@ -46,6 +46,10 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteArray.count
        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        recipe_id = Int(favoriteArray[indexPath.row].recipeID)!
+        performSegue(withIdentifier: "detail", sender: self)
+    }
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! RecipeTableViewCell
         let favoriteRecipeData = favoriteArray[indexPath.row]

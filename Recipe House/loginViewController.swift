@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 
-class loginViewController: UIViewController {
+class loginViewController: UIViewController,UITextFieldDelegate {
 
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
@@ -20,19 +20,23 @@ class loginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var loginBtnLabel: UIButton!
     
 
     
     @IBOutlet weak var guestBtnLabel: UIButton!
     var alertMessage : String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
  buttonLayout()
     }
   
     override func viewDidAppear(_ animated: Bool) {
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         if userDefault.bool(forKey: "user_authtokenkey") == true{
             performSegue(withIdentifier: "tab", sender: self)
         }
@@ -51,6 +55,17 @@ class loginViewController: UIViewController {
         }
 
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 70), animated: true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -82,11 +97,9 @@ class loginViewController: UIViewController {
         }
         else{
              if !isValidEmail(emailID: emailTextField.text!){
-                //alert(alertTitle: "invalid email", alertMessage: "", actionTitle: "enter valid email")
                  return false
              }
              else if !isValidPassword(pass: passwordTextField.text!){
-                 //alert(alertTitle: "enter strong password", alertMessage: "", actionTitle: "re-enter password")
                  return false
              }
              else{
@@ -114,7 +127,7 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.large
-         view.isUserInteractionEnabled = false
+       // view.isUserInteractionEnabled = false
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         let url = URL(string: "http://192.168.2.221:3000/user/login")
@@ -142,6 +155,8 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
             
             if responseString != nil{
                 DispatchQueue.main.async(){
+                    self.activityIndicator.stopAnimating()
+                   // self.view.isUserInteractionEnabled = true
                   
                     print(responseString!)
                     let message = json["message"].stringValue
@@ -178,8 +193,7 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
         }
 
         task.resume()
-        activityIndicator.stopAnimating()
-        view.isUserInteractionEnabled = true
+        
     }
 }
 extension Dictionary {

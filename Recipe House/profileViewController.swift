@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import PINRemoteImage
 
 var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
 
@@ -55,23 +56,24 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
            logoutOutlet.layer.cornerRadius = logoutOutlet.frame.size.height/2
     }
     @IBAction func selesctProfilePicture(_ sender: UIButton) {
-         profileImageApi()
+        
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
         image.allowsEditing = true
         present(image, animated: true, completion: nil)
-       
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
             profileImage.image = image
-            
-        }else{
+            userProfile()
+            }
+            else{
             print(Error.self)
         }
         self.dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func changePasswordButton(_ sender: UIButton) {
   performSegue(withIdentifier: "change", sender: self)
     }
@@ -93,6 +95,64 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
            activityIndicator.stopAnimating()
                  view.isUserInteractionEnabled = true
        }
+    func userProfile(){
+        let url = NSURL(string: "http://192.168.2.221:3000/user/profile/update")
+            
+        let request = NSMutableURLRequest(url: url! as URL)
+        request.httpMethod = "POST"
+            
+            let boundary = generateBoundaryString()
+
+        //define the multipart request type
+
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+            if (profileImage.image == nil)
+            {
+                return
+            }
+            
+        let image_data = profileImage.image!.pngData()
+            
+            if(image_data == nil)
+            {
+                return
+            }
+            
+            let body = NSMutableData()
+            
+        _ = "test.png"
+        _ = "image/png"
+            
+      
+
+        request.httpBody = body as Data
+            
+            
+        let session = URLSession.shared
+
+            
+        let task = session.dataTask(with: request as URLRequest) {
+                (
+                data, response, error) in
+                
+            guard let _:NSData = data as NSData?, let _:URLResponse = response, error == nil else {
+                    print("error")
+                    return
+                }
+                
+            let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print(dataString!)
+                
+            }
+            
+            task.resume()
+    }
+    func generateBoundaryString() -> String
+    {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+
     func profileApi(){
     indicatorStart()
         let url = URL(string: "http://192.168.2.221:3000/user/profile")
@@ -123,6 +183,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
+                    self.indicatorEnd()
                     let userdetails=json["user_details"]
                     let firstname = userdetails["user_firstname"]
                     let lastname = userdetails["user_lastname"]
@@ -136,6 +197,9 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
                     }
                     self.numberLabel.text = userdetails["user_phone"].stringValue
                     self.emailLabel.text = userdetails["user_email"].string
+                   let image = userdetails["user_profile"].string
+                    self.profileImage.pin_setImage(from: URL(string: "http://192.168.2.221:3000/public/userimages/\(image)"))
+
                 }
                 
             }
@@ -144,7 +208,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             }
         }
         task.resume()
-        indicatorEnd()
+        
     }
     func profileImageApi(){
     indicatorStart()
@@ -176,6 +240,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
       
             if responseString != nil{
                 DispatchQueue.main.async(){
+                    self.indicatorEnd()
                
                 }
                 
@@ -185,7 +250,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             }
         }
         task.resume()
-        indicatorEnd()
+        
     }
     
    

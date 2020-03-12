@@ -10,8 +10,9 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class registerViewController: UIViewController{
+class registerViewController: UIViewController,UITextFieldDelegate{
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var numberTextField: UITextField!
@@ -25,6 +26,9 @@ class registerViewController: UIViewController{
     var selectedGender = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
 
   buttonLayout()
        
@@ -61,6 +65,16 @@ class registerViewController: UIViewController{
             print("invalid data")
         }
         
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 120), animated: true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
     func registration()->Bool{
         if firstNameTextField.text!.isEmpty{
@@ -186,7 +200,7 @@ class registerViewController: UIViewController{
             print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
-                    
+                    self.indicatorEnd()
                 }
             }
             else{
@@ -194,6 +208,6 @@ class registerViewController: UIViewController{
         }
 
         task.resume()
-        indicatorEnd()
+        
     }
 }

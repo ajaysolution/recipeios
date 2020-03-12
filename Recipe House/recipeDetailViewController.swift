@@ -25,8 +25,9 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var likeBtnOutlet: UIButton!
     @IBOutlet weak var commentBtnOutlet: UIButton!
     
-    var sections = ["Ingredient","instruction"]
-    var items = [ ["hi","hello"],["name","surname"]]
+    var sections = ["Ingredient","Steps"]
+    var name = RecipeInstruction()
+
     var recipeDetailArray = [HomeRecipe]()
     var count = 0
     override func viewDidLoad() {
@@ -42,16 +43,22 @@ func numberOfSections(in tableView: UITableView) -> Int {
     return sections.count
 }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        let cellCount = HomeRecipe()
+//        if section == 0{
+//            print(cellCount.ingredient.count)
+//            return cellCount.ingredient.count
+//        }
+//        if section == 1{
+//            print(cellCount.steps.count)
+//            return cellCount.steps.count
+//        }
         return recipeDetailArray.count
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let recipeData = recipeDetailArray[indexPath.row]
-//            cell.favoriteButtonLabel.tag = indexPath.row
-//            cell.commentButtonLabel.tag = indexPath.row
-//            commentBtnOutlet.addTarget(self, action: #selector(pressOnComment(sender:)), for: .touchUpInside)
-//        likeBtnOutlet.addTarget(self, action: #selector(pressOnLike(sender:)), for: .touchUpInside)
             recipeNameLabel.text = recipeData.recipeName
             typeLabel.text = recipeData.type
             levelLabel.text = recipeData.level
@@ -73,9 +80,19 @@ func numberOfSections(in tableView: UITableView) -> Int {
             }
             recipeImageView.pin_updateWithProgress = true
         recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(recipeData.recipeImage)"))
-        cell.textLabel?.text = items[indexPath.section][indexPath.row]
+        let Ingredients = recipeDetailArray[indexPath.row].ingredient
+        let Steps = recipeDetailArray[indexPath.row].steps
+        let ingredientSplit = Ingredients.components(separatedBy: ",")
+         let stepSplit = Steps.components(separatedBy: ",")
+        for i in 0..<ingredientSplit.count{
+            cell.textLabel?.text = ingredientSplit[i]
+        }
+        for i in 0..<stepSplit.count{
+            cell.textLabel?.text = stepSplit[i]
+        }
             return cell
     }
+    
 
     @IBAction func likeButton(_ sender: UIButton) {
         let recipeDetail = HomeRecipe()
@@ -116,6 +133,8 @@ func numberOfSections(in tableView: UITableView) -> Int {
 
                   guard (200 ... 299) ~= response.statusCode else {
                       print("statusCode should be 2xx, but is \(response.statusCode)")
+                    let alert = UIAlertController(title: "error", message: "\(response)", preferredStyle: .alert)
+                    self.present(alert, animated: true, completion: nil)
                     print("response = \(response)")
                       return
                   }
@@ -141,6 +160,8 @@ func numberOfSections(in tableView: UITableView) -> Int {
                              let favCount = json[i]["favoriteCount"].int!
                              let recipeID = json[i]["recipe_id"].stringValue
                              let recipeLike = json[i]["recipeLike"].stringValue
+                            let ingredient = json[i]["recipe_ingredients"].stringValue
+                            let steps = json[i]["recipe_steps"].stringValue
                              print(i)
                              let data = HomeRecipe()
                              data.recipeName = recipeName
@@ -153,6 +174,8 @@ func numberOfSections(in tableView: UITableView) -> Int {
                              data.recipeImage = recipeImage
                              data.recipeID = recipeID
                              data.recipeLike = recipeLike
+                            data.ingredient = ingredient
+                            data.steps = steps
                             self.recipeDetailArray.append(data)
                             self.tableView.reloadData()
                         }

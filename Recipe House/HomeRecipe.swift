@@ -21,4 +21,4 @@ class HomeRecipe{
     var recipeID : String = ""
     var ingredient : String = ""
     var steps : String = ""
-}
+ }

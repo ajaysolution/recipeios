@@ -9,6 +9,6 @@
 import Foundation
 
 class RecipeInstruction{
-    var ingredient : String = ""
-    var steps : String = ""
+    var ingredient = [String]()
+    var steps = [String]()
 }

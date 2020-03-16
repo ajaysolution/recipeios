@@ -8,7 +8,6 @@
 
 import Foundation
 
-class RecipeInstruction{
-    var ingredient = [String]()
-    var steps = [String]()
+class Step{
+    var stepName:String = ""
 }

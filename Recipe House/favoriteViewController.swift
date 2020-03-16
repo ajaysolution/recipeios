@@ -66,6 +66,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         cell.recipeId = Int(favoriteRecipeData.recipeID)
         cell.count.text = String(favoriteRecipeData.favoriteCount)
         let time = Int(favoriteRecipeData.time)
+        print(time!)
         if time! > 60{
             let hr = time! / 60
             let min = time! % 60
@@ -126,7 +127,21 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         searchBar.text = ""
         searchBar.resignFirstResponder()
     }
+    func indicatorStart(){
+        activityIndicator.center = self.view.center
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        view.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    func indicatorEnd(){
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
+    }
     func favoriteApi(){
+        indicatorStart()
           let url = URL(string: "http://192.168.2.221:3000/recipe/userfavorites")
           var request = URLRequest(url: url!)
           request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -154,25 +169,26 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
               print(json)
               print(responseString!)
             
-            self.count = json.count
+            self.count = json["recipes"].count
             print(self.count)
             let a = json[0]["type_id"].stringValue
             print(a)
            
               if responseString != nil{
                   DispatchQueue.main.async(){
+                    self.indicatorEnd()
                      for i in 0..<self.count{
                                            
-                                           let recipeImage = json[i]["recipe_image"].stringValue
-                                               let type = json[i]["type_name"].stringValue
-                                               let recipeName = json[i]["recipe_name"].stringValue
-                                               let time = json[i]["recipe_cookingtime"].stringValue
-                                               let level = json[i]["recipe_level"].stringValue
-                                               let description = json[i]["recipe_description"].stringValue
-                                               let people = json[i]["recipe_people"].stringValue
-                                               let favCount = json[i]["favoriteCount"].int!
-                                               let recipeID = json[i]["recipe_id"].stringValue
-                                               let recipeLike = json[i]["recipeLike"].stringValue
+                                           let recipeImage = json["recipes"][i]["recipe_image"].stringValue
+                                               let type = json["recipes"][i]["type_name"].stringValue
+                                               let recipeName = json["recipes"][i]["recipe_name"].stringValue
+                                               let time = json["recipes"][i]["recipe_cookingtime"].stringValue
+                                               let level = json["recipes"][i]["recipe_level"].stringValue
+                                               let description = json["recipes"][i]["recipe_description"].stringValue
+                                               let people = json["recipes"][i]["recipe_people"].stringValue
+                                               let favCount = json["recipes"][i]["favoriteCount"].intValue
+                                               let recipeID = json["recipes"][i]["recipe_id"].stringValue
+                                               let recipeLike = json["recipes"][i]["recipeLike"].stringValue
                                                print(i)
                                                let data = HomeRecipe()
                                                data.recipeName = recipeName

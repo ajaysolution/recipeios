@@ -198,10 +198,8 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
                     self.numberLabel.text = userdetails["user_phone"].stringValue
                     self.emailLabel.text = userdetails["user_email"].string
                    let image = userdetails["user_profile"].string
-                    self.profileImage.pin_setImage(from: URL(string: "http://192.168.2.221:3000/public/userimages/\(image)"))
-
+                    self.profileImage.pin_setImage(from: URL(string: "http://192.168.2.221:3000/userimages/1584344826009-user.jpg"))
                 }
-                
             }
             else{
                 

@@ -17,9 +17,14 @@
 		361C10942405289D009A84B0 /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361C10932405289D009A84B0 /* profileViewController.swift */; };
 		362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362FE93624079EB7005B9696 /* HomeRecipe.swift */; };
 		363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363BF059240000DC00627917 /* forgetPasswordViewController.swift */; };
+		3644540D241F88BD00F091AE /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3644540C241F88BD00F091AE /* Ingredient.swift */; };
+		36445410241FACCE00F091AE /* ingredientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3644540E241FACCE00F091AE /* ingredientTableViewCell.swift */; };
+		36445411241FACCE00F091AE /* ingredientTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3644540F241FACCE00F091AE /* ingredientTableViewCell.xib */; };
+		36445413241FAD8900F091AE /* addRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36445412241FAD8900F091AE /* addRecipeViewController.swift */; };
+		36445415241FAF8600F091AE /* AddIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36445414241FAF8600F091AE /* AddIngredient.swift */; };
 		365208A2241624E500C60C9F /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365208A1241624E500C60C9F /* CommentData.swift */; };
 		365208A4241660FE00C60C9F /* recipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365208A3241660FE00C60C9F /* recipeDetailViewController.swift */; };
-		36B022F0241A1D7200DA5AC7 /* RecipeInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B022EF241A1D7200DA5AC7 /* RecipeInstruction.swift */; };
+		36B022F0241A1D7200DA5AC7 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B022EF241A1D7200DA5AC7 /* Step.swift */; };
 		36CACAD624127A4500CE23AD /* commentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CACAD524127A4500CE23AD /* commentViewController.swift */; };
 		36CACAD9241286F600CE23AD /* messageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CACAD7241286F600CE23AD /* messageTableViewCell.swift */; };
 		36CACADA241286F600CE23AD /* messageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CACAD8241286F600CE23AD /* messageTableViewCell.xib */; };
@@ -45,9 +50,14 @@
 		361C10932405289D009A84B0 /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		362FE93624079EB7005B9696 /* HomeRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRecipe.swift; sourceTree = "<group>"; };
 		363BF059240000DC00627917 /* forgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetPasswordViewController.swift; sourceTree = "<group>"; };
+		3644540C241F88BD00F091AE /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
+		3644540E241FACCE00F091AE /* ingredientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ingredientTableViewCell.swift; sourceTree = "<group>"; };
+		3644540F241FACCE00F091AE /* ingredientTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ingredientTableViewCell.xib; sourceTree = "<group>"; };
+		36445412241FAD8900F091AE /* addRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addRecipeViewController.swift; sourceTree = "<group>"; };
+		36445414241FAF8600F091AE /* AddIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredient.swift; sourceTree = "<group>"; };
 		365208A1241624E500C60C9F /* CommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
 		365208A3241660FE00C60C9F /* recipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipeDetailViewController.swift; sourceTree = "<group>"; };
-		36B022EF241A1D7200DA5AC7 /* RecipeInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeInstruction.swift; sourceTree = "<group>"; };
+		36B022EF241A1D7200DA5AC7 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		36CACAD524127A4500CE23AD /* commentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentViewController.swift; sourceTree = "<group>"; };
 		36CACAD7241286F600CE23AD /* messageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messageTableViewCell.swift; sourceTree = "<group>"; };
 		36CACAD8241286F600CE23AD /* messageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = messageTableViewCell.xib; sourceTree = "<group>"; };
@@ -111,11 +121,15 @@
 				36F2C8A22407F19300992D2C /* Connection.swift */,
 				362FE93624079EB7005B9696 /* HomeRecipe.swift */,
 				365208A1241624E500C60C9F /* CommentData.swift */,
-				36B022EF241A1D7200DA5AC7 /* RecipeInstruction.swift */,
+				36445414241FAF8600F091AE /* AddIngredient.swift */,
+				36B022EF241A1D7200DA5AC7 /* Step.swift */,
+				3644540C241F88BD00F091AE /* Ingredient.swift */,
 				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
 				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
 				36CACAD7241286F600CE23AD /* messageTableViewCell.swift */,
 				36CACAD8241286F600CE23AD /* messageTableViewCell.xib */,
+				3644540E241FACCE00F091AE /* ingredientTableViewCell.swift */,
+				3644540F241FACCE00F091AE /* ingredientTableViewCell.xib */,
 				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
 				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
 				363BF059240000DC00627917 /* forgetPasswordViewController.swift */,
@@ -127,6 +141,7 @@
 				360ACF5324065C58006D4A22 /* changePasswordViewController.swift */,
 				36CACAD524127A4500CE23AD /* commentViewController.swift */,
 				365208A3241660FE00C60C9F /* recipeDetailViewController.swift */,
+				36445412241FAD8900F091AE /* addRecipeViewController.swift */,
 				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
 				36FCBEE523FD016F00427350 /* Main.storyboard */,
 				36FCBEE823FD017200427350 /* Assets.xcassets */,
@@ -215,6 +230,7 @@
 			files = (
 				36CACADA241286F600CE23AD /* messageTableViewCell.xib in Resources */,
 				36FCBEEC23FD017200427350 /* LaunchScreen.storyboard in Resources */,
+				36445411241FACCE00F091AE /* ingredientTableViewCell.xib in Resources */,
 				36FCBEE923FD017200427350 /* Assets.xcassets in Resources */,
 				36FCBEE723FD016F00427350 /* Main.storyboard in Resources */,
 				360ACF5824065E41006D4A22 /* RecipeTableViewCell.xib in Resources */,
@@ -273,17 +289,21 @@
 				360ACF5424065C58006D4A22 /* changePasswordViewController.swift in Sources */,
 				36CACAD624127A4500CE23AD /* commentViewController.swift in Sources */,
 				360ACF5A24069CE8006D4A22 /* myRecipeViewController.swift in Sources */,
-				36B022F0241A1D7200DA5AC7 /* RecipeInstruction.swift in Sources */,
+				36B022F0241A1D7200DA5AC7 /* Step.swift in Sources */,
 				360ACF5C2406A0F9006D4A22 /* favoriteViewController.swift in Sources */,
+				36445415241FAF8600F091AE /* AddIngredient.swift in Sources */,
+				3644540D241F88BD00F091AE /* Ingredient.swift in Sources */,
 				360ACF5724065E41006D4A22 /* RecipeTableViewCell.swift in Sources */,
 				36FCBEF423FD3AAD00427350 /* loginViewController.swift in Sources */,
 				36FCBEE023FD016F00427350 /* AppDelegate.swift in Sources */,
 				361C10942405289D009A84B0 /* profileViewController.swift in Sources */,
+				36445410241FACCE00F091AE /* ingredientTableViewCell.swift in Sources */,
 				360ACF52240630BF006D4A22 /* homeViewController.swift in Sources */,
 				365208A2241624E500C60C9F /* CommentData.swift in Sources */,
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
 				362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */,
+				36445413241FAD8900F091AE /* addRecipeViewController.swift in Sources */,
 				363BF05A240000DC00627917 /* forgetPasswordViewController.swift in Sources */,
 				36CACAD9241286F600CE23AD /* messageTableViewCell.swift in Sources */,
 				3618329B240391E300ACE757 /* OTPViewController.swift in Sources */,

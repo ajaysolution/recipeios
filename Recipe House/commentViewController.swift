@@ -11,8 +11,10 @@ import SwiftyJSON
 import Alamofire
 
 var recipeID : Int = 0
-class commentViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class commentViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     
+
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     var count = 0
@@ -20,14 +22,40 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         commentApi()
+         
         tableView.register(UINib(nibName: "messageTableViewCell", bundle: nil), forCellReuseIdentifier: "comment")
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.estimatedRowHeight = 120
             tableView.rowHeight = UITableView.automaticDimension
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//
+//    }
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
+//    }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        stackView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+//    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          print(commentArray.count)
         return commentArray.count
@@ -40,6 +68,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         cell.commentLabel.text = commentArray[indexPath.row].userComment
         return cell
     }
+    
     
     @IBAction func sendButton(_ sender: UIButton) {
         addCommentApi()

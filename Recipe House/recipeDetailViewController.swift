@@ -25,87 +25,77 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var likeBtnOutlet: UIButton!
     @IBOutlet weak var commentBtnOutlet: UIButton!
     
+    @IBOutlet weak var descriptionLabel: UILabel!
     var sections = ["Ingredient","Steps"]
-    var datas = [RecipeInstruction]()
+    var stepArray = [Step]()
     var recipeDetailArray = [HomeRecipe]()
     var count = 0
+    var ingredientArray = [Ingredient]()
+    var RecipeName:String = ""
+    var Types : String = ""
+    var Time : String = ""
+    var Level : String = ""
+    var Description : String = ""
+    var People : String = ""
+    var RecipeLike : String = ""
+    var FavoriteCount : Int = 0
+    var RecipeImage : String = ""
+    var RecipeID : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         recipeDetailApi()
-        print(recipe_id)
     recipeID = recipe_id
 }
-    class cell : UITableViewCell{
-        
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sections[section]
     }
-    class cell1 : UITableViewCell{
-        
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
     }
-//func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//    return self.sections[section]
-//}
-//func numberOfSections(in tableView: UITableView) -> Int {
-//    return sections.count
-//}
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        
+        if sections[section] == "Ingredient"{
+            return ingredientArray.count
+        }else{
+            return stepArray.count
+        }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            let recipeData = recipeDetailArray[indexPath.row]
-            recipeNameLabel.text = recipeData.recipeName
-            typeLabel.text = recipeData.type
-            levelLabel.text = recipeData.level
-            let time = Int(recipeData.time)
+           recipeNameLabel.text = RecipeName
+            typeLabel.text = Types
+            levelLabel.text = Level
+            let time = Int(Time)
+        print(time!)
             if time! > 60{
-                let hr = time! / 60
-                let min = time! % 60
+            let hr = time! / 60
+            let min = time! % 60
                   timeLabel.text = String(hr)+"h" + " " + String(min)+"m"
             }else{
-            timeLabel.text = "\(recipeData.time) minutes"
+            timeLabel.text = "\(Time) minutes"
             }
-            peopleLabel.text = "\(recipeData.people) people"
-            likeCount.text = String(recipeData.favoriteCount)
-            let like = Int(recipeData.recipeLike)
+            peopleLabel.text = "\(People) people"
+            likeCount.text = String(FavoriteCount)
+        descriptionLabel.text = String(Description)
+            let like = Int(RecipeLike)
             if like == 0{
                 likeBtnOutlet.setImage(UIImage(named: "grayHeart"), for: .normal)
             }else if like == 1{
                 likeBtnOutlet.setImage(UIImage(named: "redHeart"), for: .normal)
             }
             recipeImageView.pin_updateWithProgress = true
-        recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(recipeData.recipeImage)"))
-        print(datas[indexPath.row].ingredient)
-        print(datas[indexPath.row].steps)
-      
-       cell.textLabel?.text = "\(datas[indexPath.row].ingredient)"
-        cell.textLabel?.text = "\(datas[indexPath.row].steps)"
-    
+        recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(RecipeImage)"))
+
+            if sections[indexPath.section] == "Ingredient"{
+                 let bulletPoint: String = "\u{2022}"
+                cell.textLabel?.text = "\(bulletPoint) \(ingredientArray[indexPath.row].ingredientName)"
+            }
+            if sections[indexPath.section] == "Steps"{
+                print(stepArray[indexPath.row].stepName.count)
+                cell.textLabel?.text = "\(stepArray[indexPath.row].stepName)"
+            }
         return cell
-        
-//        if indexPath.row == 0 {
-//               let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//                       let Ingredients = recipeDetailArray[indexPath.row].ingredient
-//                       let ingredientSplit = Ingredients.components(separatedBy: ",")
-//            print(ingredientSplit.count)
-//                       for i in 0..<ingredientSplit.count{
-//                                  cell.textLabel?.text = ingredientSplit[i]
-//                           print(cell.textLabel?.text)
-//                              }
-//                       return cell
-//        }
-//         else{
-//             let cell1 = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! cell1
-//            let Steps = recipeDetailArray[indexPath.row].steps
-//              let stepSplit = Steps.components(separatedBy: ",")
-//
-//             for i in 0..<stepSplit.count{
-//                 cell1.textLabel?.text = stepSplit[i]
-//             }
-//
-//             return cell1
-//        }
-     
+  
     }
     
 
@@ -122,7 +112,6 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         else if (likeBtnOutlet.currentImage?.isEqual(UIImage(named: "redHeart")))!{
             likeBtnOutlet.setImage(UIImage(named: "grayHeart"), for: .normal)
             likeApi(likeBool: "false")
-           // recipeDetail.favoriteCount 
             let less = recipeDetail.favoriteCount
             print(less)
             likeCount.text = String(less)
@@ -155,62 +144,60 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                   }
                   let json = try! JSON(data: data)
                   let responseString = String(data: data, encoding: .utf8)
-                 // print(json)
+                  print(json)
                   print(responseString!)
                 
-                self.count = json.count
+                self.count = json["recipes"].count
                         print(self.count)
+                let name = json["recipe"]["recipe_name"].stringValue
+                print(name)
                 
                   if responseString != nil{
                       DispatchQueue.main.async(){
                         
-                        for i in 0..<self.count{
-                            let recipeImage = json[i]["recipe_image"].stringValue
-                             let type = json[i]["type_name"].stringValue
-                             let recipeName = json[i]["recipe_name"].stringValue
-                             let time = json[i]["recipe_cookingtime"].stringValue
-                             let level = json[i]["recipe_level"].stringValue
-                             let description = json[i]["recipe_description"].stringValue
-                             let people = json[i]["recipe_people"].stringValue
-                             let favCount = json[i]["favoriteCount"].int!
-                             let recipeID = json[i]["recipe_id"].stringValue
-                             let recipeLike = json[i]["recipeLike"].stringValue
-                            let ingredient = json[i]["recipe_ingredients"].stringValue
+                        
+                            let recipeImage = json["recipe"]["recipe_image"].stringValue
+                             let type = json["recipe"]["type_name"].stringValue
+                             let recipeName = json["recipe"]["recipe_name"].stringValue
+                             let time = json["recipe"]["recipe_cookingtime"].stringValue
+                             let level = json["recipe"]["recipe_level"].stringValue
+                             let description = json["recipe"]["recipe_description"].stringValue
+                             let people = json["recipe"]["recipe_people"].stringValue
+                             let favCount = json["recipe"]["favoriteCount"].intValue
+                             let recipeID = json["recipe"]["recipe_id"].stringValue
+                             let recipeLike = json["recipe"]["recipeLike"].stringValue
+                            let ingredient = json["recipe"]["recipe_ingredients"].stringValue
                             let ingredientSplit = ingredient.components(separatedBy: ",")
-                            let steps = json[i]["recipe_steps"].stringValue
+                            let steps = json["recipe"]["recipe_steps"].stringValue
                             let stepSplit = steps.components(separatedBy: ",")
                              print(stepSplit)
-                             let data = HomeRecipe()
-                             data.recipeName = recipeName
-                             data.type = type
-                             data.time = time
-                             data.level = level
-                             data.people = people
-                             data.description = description
-                             data.favoriteCount = favCount
-                             data.recipeImage = recipeImage
-                             data.recipeID = recipeID
-                             data.recipeLike = recipeLike
-                             let datas = RecipeInstruction()
-                             datas.ingredient = ingredientSplit
-                             datas.steps = stepSplit
-//                            for i in 0..<ingredientSplit.count{
-//                                datas.ingredient = ingredientSplit[i]
-//                                print(datas.ingredient)
-//                               }
-//                            for i in 0..<stepSplit.count{
-//                                datas.steps = stepSplit[i]
-//                                print(datas.steps)
-//                            }
-                            self.recipeDetailArray.append(data)
-                            self.datas.append(datas)
+                            
+                             self.RecipeName = recipeName
+                             self.Types = type
+                             self.Time = time
+                             self.Level = level
+                             self.People = people
+                             self.Description = description
+                             self.FavoriteCount = favCount
+                             self.RecipeImage = recipeImage
+                             self.RecipeID = recipeID
+                             self.RecipeLike = recipeLike
+                            
+                            for i in 0..<ingredientSplit.count{
+                                let sample = Ingredient()
+                                sample.ingredientName = ingredientSplit[i]
+                                self.ingredientArray.append(sample)
+                            }
+                             for i in 0..<stepSplit.count{
+                                 let sample = Step()
+                                let number : Int = i
+                                let step = stepSplit[i]
+                                sample.stepName = "\(number+1  ) \(step.self)"
+                                 self.stepArray.append(sample)
+                             }
                             self.tableView.reloadData()
                         }
-                  
-                      }
-                      
                   }
-                  
               }
 
               task.resume()

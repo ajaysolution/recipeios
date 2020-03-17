@@ -76,7 +76,21 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     //    tableView.reloadData()
         commentApi()
        }
+    func indicatorStart(){
+        activityIndicator.center = self.view.center
+        
+               activityIndicator.hidesWhenStopped = true
+               activityIndicator.style = UIActivityIndicatorView.Style.large
+                view.isUserInteractionEnabled = false
+               view.addSubview(activityIndicator)
+               activityIndicator.startAnimating()
+    }
+    func indicatorEnd(){
+        activityIndicator.stopAnimating()
+              view.isUserInteractionEnabled = true
+    }
     func commentApi(){
+              indicatorStart()
               let url = URL(string: "http://192.168.2.221:3000/recipe/comment?comment_status=show")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
@@ -112,6 +126,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
                
                   if responseString != nil{
                       DispatchQueue.main.async(){
+                        self.indicatorEnd()
                         
                         for i in 0..<self.count{
                             let comment = json["comment"][i]["comment_text"].stringValue

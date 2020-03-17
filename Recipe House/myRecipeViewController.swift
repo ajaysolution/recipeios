@@ -21,7 +21,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     override func viewDidLoad() {
         if authtoken != "" {
         super.viewDidLoad()
-            myrecipeApi()
+           // myrecipeApi()
             TableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell2")
             searchBar.delegate = self
         }else if authtoken == ""{
@@ -32,6 +32,11 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
     }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        myrecipeArray.removeAll()
+        myrecipeApi()
+        TableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,13 +58,13 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         cell.recipeId = Int(myRecipeData.recipeID)
         cell.count.text = String(myRecipeData.favoriteCount)
         let time = Int(myRecipeData.time)
-//        if time! > 60{
-//            let hr = time! / 60
-//            let min = time! % 60
-//            cell.timeLabel.text = String(hr)+"h" + " " + String(min)+"m"
-//        }else{
-//        cell.timeLabel.text = "\(myRecipeData.time) minutes"
-//        }
+        if time! > 60{
+            let hr = time! / 60
+            let min = time! % 60
+            cell.timeLabel.text = String(hr)+"h" + " " + String(min)+"m"
+        }else{
+        cell.timeLabel.text = "\(myRecipeData.time) minutes"
+        }
         let like = Int(myRecipeData.recipeLike)
         if like == 0{
             cell.favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
@@ -73,6 +78,10 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 330
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        recipe_id = Int(myrecipeArray[indexPath.row].recipeID)!
+        performSegue(withIdentifier: "detail", sender: self)
     }
     @IBAction func addButton(_ sender: UIButton) {
         performSegue(withIdentifier: "add", sender: self)
@@ -111,19 +120,20 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
 
     }
     @objc func pressOnComment(sender:UIButton){
-        performSegue(withIdentifier: "comment", sender: self)
+        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
+             recipeID = cell.recipeId!
+        // commentApi(id: cell.recipeId!)
+         performSegue(withIdentifier: "comment", sender: self)
+        }
     }
     func myrecipeApi(){
         indicatorStart()
-          let url = URL(string: "http://192.168.2.221:3000/recipe/myrecipes?count=0")
+          let url = URL(string: "http://192.168.2.221:3000/recipe/myrecipes?count=0&user_email=\(email)")
           var request = URLRequest(url: url!)
           request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
           request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-    //request.addValue(email, forHTTPHeaderField: "user_email")
-          request.httpMethod = "POST"
-       let parameters: [String: Any] = ["user_email":email]
-          request.httpBody = parameters.percentEncoded()
-          
+          request.httpMethod = "GET"
+
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
               guard let data = data,
                   let response = response as? HTTPURLResponse,

@@ -214,7 +214,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                               print(responseString!)
             
             self.count = json["recipes"].count
-            let a = json["recipes"][0]["recipe_name"].stringValue
 
             if responseString != nil{
                 DispatchQueue.main.async(){

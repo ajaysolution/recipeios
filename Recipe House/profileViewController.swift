@@ -55,7 +55,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
            changePassOutlet.layer.cornerRadius = changePassOutlet.frame.size.height/2
            logoutOutlet.layer.cornerRadius = logoutOutlet.frame.size.height/2
     }
-    @IBAction func selesctProfilePicture(_ sender: UIButton) {
+    @IBAction func selectProfilePicture(_ sender: UIButton) {
         
         let image = UIImagePickerController()
         image.delegate = self
@@ -63,17 +63,20 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         image.allowsEditing = true
         present(image, animated: true, completion: nil)
     }
+   
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
             profileImage.image = image
-            userProfile()
+            if let imageData = image.pngData(){
+              
+                uploadAPI(data_img: imageData)
+            }
             }
             else{
             print(Error.self)
         }
         self.dismiss(animated: true, completion: nil)
     }
-    
     @IBAction func changePasswordButton(_ sender: UIButton) {
   performSegue(withIdentifier: "change", sender: self)
     }
@@ -95,64 +98,22 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
            activityIndicator.stopAnimating()
                  view.isUserInteractionEnabled = true
        }
-    func userProfile(){
-        let url = NSURL(string: "http://192.168.2.221:3000/user/profile/update")
-            
-        let request = NSMutableURLRequest(url: url! as URL)
-        request.httpMethod = "POST"
-            
-            let boundary = generateBoundaryString()
-
-        //define the multipart request type
-
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-            request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-            if (profileImage.image == nil)
-            {
-                return
+  
+    func uploadAPI(data_img:Data?){
+        let url = "http://192.168.2.221:3000/user/profile/updated" /* your API url */
+        
+        let headers: HTTPHeaders = ["user_authtoken":authtoken,
+            "Content-type": "multipart/form-data"
+        ]
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(data_img!, withName: "user_profile",fileName: "user_profile.png",mimeType: "image/png")
+            multipartFormData.append(Data(email.utf8), withName: "user_email")
+        }, to: url,headers: headers)
+            .responseJSON { response in
+                debugPrint(response)
             }
-            
-        let image_data = profileImage.image!.pngData()
-            
-            if(image_data == nil)
-            {
-                return
-            }
-            
-            let body = NSMutableData()
-            
-        _ = "test.png"
-        _ = "image/png"
-            
-      
-
-        request.httpBody = body as Data
-            
-            
-        let session = URLSession.shared
-
-            
-        let task = session.dataTask(with: request as URLRequest) {
-                (
-                data, response, error) in
-                
-            guard let _:NSData = data as NSData?, let _:URLResponse = response, error == nil else {
-                    print("error")
-                    return
-                }
-                
-            let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            print(dataString!)
-                
-            }
-            
-            task.resume()
     }
-    func generateBoundaryString() -> String
-    {
-        return "Boundary-\(NSUUID().uuidString)"
-    }
-
     func profileApi(){
     indicatorStart()
         let url = URL(string: "http://192.168.2.221:3000/user/profile")

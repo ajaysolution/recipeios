@@ -62,7 +62,21 @@ class forgetPasswordViewController: UIViewController {
            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
            return emailTest.evaluate(with: emailID)
        }
+    func indicatorStart(){
+        activityIndicator.center = self.view.center
+        
+               activityIndicator.hidesWhenStopped = true
+               activityIndicator.style = UIActivityIndicatorView.Style.large
+                view.isUserInteractionEnabled = false
+               view.addSubview(activityIndicator)
+               activityIndicator.startAnimating()
+    }
+    func indicatorEnd(){
+        activityIndicator.stopAnimating()
+              view.isUserInteractionEnabled = true
+    }
     func forgetApi(){
+        indicatorStart()
             let url = URL(string: "http://192.168.2.221:3000/user/login/forget")
             var request = URLRequest(url: url!)
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -89,13 +103,10 @@ class forgetPasswordViewController: UIViewController {
                 print(responseString!)
                 let message = json["message"].stringValue
                 print(message)
-//                let OTP = json["user_otptoken"]
-//                print(OTP)
-//                otp = OTP.stringValue
-//                print(otp)
-               
+
                 if responseString != nil{
                     DispatchQueue.main.async(){
+                        self.indicatorEnd()
                         if message == "USER EMAIL ID IS NOT MATCH"{
                             self.alert(alertTitle: "USER EMAIL ID IS NOT MATCH", alertMessage: "", actionTitle: "check")
                             

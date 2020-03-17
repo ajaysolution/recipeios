@@ -104,6 +104,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         if (likeBtnOutlet.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
             likeBtnOutlet.setImage(UIImage(named: "redHeart" ), for: .normal)
             likeApi(likeBool: "true")
+            print(recipeDetail.favoriteCount)
             recipeDetail.favoriteCount += 1
             let add = recipeDetail.favoriteCount
             print(add)
@@ -112,6 +113,9 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         else if (likeBtnOutlet.currentImage?.isEqual(UIImage(named: "redHeart")))!{
             likeBtnOutlet.setImage(UIImage(named: "grayHeart"), for: .normal)
             likeApi(likeBool: "false")
+             print(recipeDetail.favoriteCount)
+            recipeDetail.favoriteCount -= 1
+            print(recipeDetail.favoriteCount)
             let less = recipeDetail.favoriteCount
             print(less)
             likeCount.text = String(less)
@@ -120,7 +124,21 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBAction func commentButton(_ sender: UIButton) {
         performSegue(withIdentifier: "comment", sender: self)
     }
+    func indicatorStart(){
+        activityIndicator.center = self.view.center
+        
+               activityIndicator.hidesWhenStopped = true
+               activityIndicator.style = UIActivityIndicatorView.Style.large
+                view.isUserInteractionEnabled = false
+               view.addSubview(activityIndicator)
+               activityIndicator.startAnimating()
+    }
+    func indicatorEnd(){
+        activityIndicator.stopAnimating()
+              view.isUserInteractionEnabled = true
+    }
     func recipeDetailApi(){
+              indicatorStart()
               let url = URL(string: "http://192.168.2.221:3000/recipe/getrecipe?recipe_id=\(recipe_id)")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
@@ -154,8 +172,8 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                 
                   if responseString != nil{
                       DispatchQueue.main.async(){
-                        
-                        
+                        self.indicatorEnd()
+                   
                             let recipeImage = json["recipe"]["recipe_image"].stringValue
                              let type = json["recipe"]["type_name"].stringValue
                              let recipeName = json["recipe"]["recipe_name"].stringValue

@@ -122,7 +122,9 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
             }
         }
     @IBAction func commentButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "comment", sender: self)
+        if authtoken != ""{
+             performSegue(withIdentifier: "comment", sender: self)
+        }
     }
     func indicatorStart(){
         activityIndicator.center = self.view.center

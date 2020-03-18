@@ -28,10 +28,12 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         tableView.estimatedRowHeight = 120
             tableView.rowHeight = UITableView.automaticDimension
     }
+    
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -41,11 +43,11 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
     }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
+//    @objc func keyboardWillHide(notification: NSNotification) {
+//        if self.view.frame.origin.y != 0 {
+//            self.view.frame.origin.y = 0
+//        }
+//    }
 //    func textFieldDidBeginEditing(_ textField: UITextField) {
 //
 //    }
@@ -72,9 +74,6 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @IBAction func sendButton(_ sender: UIButton) {
         addCommentApi()
-       commentArray.removeAll()
-    //    tableView.reloadData()
-        commentApi()
        }
     func indicatorStart(){
         activityIndicator.center = self.view.center
@@ -148,6 +147,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
               task.resume()
           }
     func addCommentApi(){
+        commentArray.removeAll()
               let url = URL(string: "http://192.168.2.221:3000/recipe/comment?comment_status=add")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
@@ -183,18 +183,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
                
                   if responseString != nil{
                       DispatchQueue.main.async(){
-                        
-                        for i in 0..<self.count{
-                            let comment = json["comment"][i]["comment_text"].stringValue
-                            let username = json["comment"][i]["fullname"].stringValue
-                            print(username)
-                            let data = CommentData()
-                            data.username = username
-                            data.userComment = comment
-                           self.commentArray.append(data)
-//                            self.tableView.reloadData()
-                        }
-                  
+                        self.commentApi()
                       }
                       
                   }

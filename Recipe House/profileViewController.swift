@@ -67,7 +67,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
             profileImage.image = image
-            if let imageData = image.pngData(){
+            if let imageData = image.jpegData(compressionQuality: 0.5){
               
                 uploadAPI(data_img: imageData)
             }
@@ -101,18 +101,18 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
   
     func uploadAPI(data_img:Data?){
         let url = "http://192.168.2.221:3000/user/profile/updated" /* your API url */
+        let headers: HTTPHeaders = ["user_authtoken":authtoken]
         
-        let headers: HTTPHeaders = ["user_authtoken":authtoken,
-            "Content-type": "multipart/form-data"
-        ]
+        AF.upload(multipartFormData: { MultipartFormData in
+            let uploadDict = ["user_email":email]
         
-        AF.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data_img!, withName: "user_profile",fileName: "user_profile.png",mimeType: "image/png")
-            multipartFormData.append(Data(email.utf8), withName: "user_email")
-        }, to: url,headers: headers)
-            .responseJSON { response in
-                debugPrint(response)
-            }
+            MultipartFormData.append(data_img!, withName: "user_profile" , fileName: "image.jpeg" , mimeType: "image/jpeg")
+            for(key,value) in uploadDict {
+                    MultipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                 }
+        },to: url, headers:headers).responseJSON { (response) in
+                 debugPrint("SUCCESS RESPONSE: \(response)")
+        }
     }
     func profileApi(){
     indicatorStart()
@@ -159,7 +159,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
                     self.numberLabel.text = userdetails["user_phone"].stringValue
                     self.emailLabel.text = userdetails["user_email"].string
                    let image = userdetails["user_profile"].string
-                    self.profileImage.pin_setImage(from: URL(string: "http://192.168.2.221:3000/userimages/1584344826009-user.jpg"))
+                    self.profileImage.pin_setImage(from: URL(string: "http://192.168.2.221:3000/userimages/\(image!)"))
                 }
             }
             else{

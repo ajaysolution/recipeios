@@ -36,7 +36,11 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             else{
                 homeRecipeApi(page: num)
+                
                 tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+//                let cell = RecipeTableViewCell()
+//                cell.commentButtonLabel.isEnabled = false
+//                cell.favoriteButtonLabel.isEnabled = false
                 print("not eligible")
             }
         }
@@ -123,10 +127,12 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     @objc func pressOnComment(sender:UIButton){
+        if authtoken != ""{
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
             recipeID = cell.recipeId!
        // commentApi(id: cell.recipeId!)
         performSegue(withIdentifier: "comment", sender: self)
+            }
         }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

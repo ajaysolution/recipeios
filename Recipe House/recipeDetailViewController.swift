@@ -100,25 +100,19 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     
 
     @IBAction func likeButton(_ sender: UIButton) {
-        let recipeDetail = HomeRecipe()
         if (likeBtnOutlet.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
             likeBtnOutlet.setImage(UIImage(named: "redHeart" ), for: .normal)
             likeApi(likeBool: "true")
-            print(recipeDetail.favoriteCount)
-            recipeDetail.favoriteCount += 1
-            let add = recipeDetail.favoriteCount
-            print(add)
-            likeCount.text = String(add)
+            print(FavoriteCount)
+            FavoriteCount += 1
+            likeCount.text = String(FavoriteCount)
         }
         else if (likeBtnOutlet.currentImage?.isEqual(UIImage(named: "redHeart")))!{
             likeBtnOutlet.setImage(UIImage(named: "grayHeart"), for: .normal)
             likeApi(likeBool: "false")
-             print(recipeDetail.favoriteCount)
-            recipeDetail.favoriteCount -= 1
-            print(recipeDetail.favoriteCount)
-            let less = recipeDetail.favoriteCount
-            print(less)
-            likeCount.text = String(less)
+             print(FavoriteCount)
+            FavoriteCount -= 1
+            likeCount.text = String(FavoriteCount)
             }
         }
     @IBAction func commentButton(_ sender: UIButton) {

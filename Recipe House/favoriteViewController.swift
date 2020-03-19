@@ -74,10 +74,8 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         }else{
         cell.timeLabel.text = "\(favoriteRecipeData.time) minutes"
         }
-        let like = Int(favoriteRecipeData.recipeLike)
-        if like == 0{
-            cell.favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
-        }else if like == 1{
+        let like = 1
+        if like == 1{
             cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
         }
         cell.recipeImageView.pin_updateWithProgress = true
@@ -109,7 +107,11 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
       
     }
     @objc func pressOnComment(sender:UIButton){
-        performSegue(withIdentifier: "comment", sender: self)
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
+            recipeID = cell.recipeId!
+            performSegue(withIdentifier: "comment", sender: self)
+        }
+        
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         favoriteArray = finalArray.filter({ (recipe) -> Bool in

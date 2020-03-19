@@ -21,9 +21,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     var finalArray = [HomeRecipe]()
     var count : Int = 0
-    
-    var num = 0
+    var num : Int = 0
     var fav : String = ""
+    var isLoading = false
     override func viewDidLoad() {
         if Connection.isConnectedToInternet(){
             if authtoken != ""{
@@ -35,12 +35,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
             }
             else{
-                homeRecipeApi(page: num)
+                homeRecipeApi()
                 
                 tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-//                let cell = RecipeTableViewCell()
-//                cell.commentButtonLabel.isEnabled = false
-//                cell.favoriteButtonLabel.isEnabled = false
                 print("not eligible")
             }
         }
@@ -49,7 +46,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         num = 0
         self.itemArray.removeAll()
         self.tableview.reloadData()
-        homeRecipeApi(page: num)
+        print(num)
+        homeRecipeApi()
+        tableview.tableFooterView = UIView(frame: .zero)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,7 +67,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         cell.recipeId = Int(recipeData.recipeID)
         cell.descriptionLabel.text = recipeData.description
         let time = Int(recipeData.time)
-        print(time!)
         if time! > 60{
             let hr = time! / 60
             let min = time! % 60
@@ -88,6 +86,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         cell.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(recipeData.recipeImage)"))
     
+      
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -98,14 +97,15 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         performSegue(withIdentifier: "detail", sender: self)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-      print(indexPath.row)
-    print(itemArray.count)
+        print(indexPath.row)
+        print(itemArray.count)
         if indexPath.row == itemArray.count - 1{
             print("call")
             num += 10
-            homeRecipeApi(page: num)
+            homeRecipeApi()
         }
     }
+
     @objc func pressOnLike(sender:UIButton){
        
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
@@ -154,7 +154,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         recipeCalling()
     }
     func recipeCalling(){
-        homeRecipeApi(page: num)
+        homeRecipeApi()
         num += 10
     }
     func filter(){
@@ -192,9 +192,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
-    func homeRecipeApi(page : Int){
+    func homeRecipeApi(){
         indicatorStart()
-        let url = URL(string: "http://192.168.2.221:3000/recipe/getrecipes?count=\(page)")
+        let url = URL(string: "http://192.168.2.221:3000/recipe/getrecipes?count=\(num)")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
@@ -292,9 +292,8 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                       print(responseString!)
                     
                     self.count = json.count
-                    print(self.count)
                     let a = json[0]["type_id"].stringValue
-                    print(a)
+                  
                    
                       if responseString != nil{
                           DispatchQueue.main.async(){

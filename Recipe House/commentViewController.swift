@@ -22,19 +22,13 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         commentApi()
-         
         tableView.register(UINib(nibName: "messageTableViewCell", bundle: nil), forCellReuseIdentifier: "comment")
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         tableView.estimatedRowHeight = 120
             tableView.rowHeight = UITableView.automaticDimension
     }
-    
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -42,32 +36,24 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
             }
         }
     }
-
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        if self.view.frame.origin.y != 0 {
-//            self.view.frame.origin.y = 0
-//        }
-//    }
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//    }
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        stackView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-//    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          print(commentArray.count)
         return commentArray.count
-       
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "comment", for: indexPath) as! messageTableViewCell
-        cell.userName.text = commentArray[indexPath.row].username
-        cell.commentLabel.text = commentArray[indexPath.row].userComment
+        let commentInfo = commentArray[indexPath.row]
+       // let userName = commentInfo.username
+        cell.commentLabel.text = commentInfo.userComment
+        cell.userName.text = commentInfo.username
+//        let userimage = commentInfo.userImage
+//        print(userName)
+//        let fullName = commentInfo.fullName
+//        print(fullName)
+//        if userName == fullName{
+//            cell.userName.text = "me"
+//        }
+//        cell.userLogo.pin_setImage(from: URL(string: "http://192.168.2.221:3000/userimages/\(userimage)"))
         return cell
     }
     
@@ -139,9 +125,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
                         }
                   
                       }
-                      
                   }
-                  
               }
 
               task.resume()
@@ -192,5 +176,55 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
 
               task.resume()
           }
+//    func profileApi(){
+//    indicatorStart()
+//        let url = URL(string: "http://192.168.2.221:3000/user/profile")
+//        var request = URLRequest(url: url!)
+//        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+//        request.addValue(email, forHTTPHeaderField: "user_email")
+//        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+//        request.httpMethod = "POST"
+//        let parameters: [String: Any] = ["user_email":email]
+//        request.httpBody = parameters.percentEncoded()
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard let data = data,
+//                let response = response as? HTTPURLResponse,
+//                error == nil else {
+//                print("error", error ?? "Unknown error")
+//                return
+//            }
+//
+//            guard (200 ... 299) ~= response.statusCode else {
+//                print("statusCode should be 2xx, but is \(response.statusCode)")
+//                print("response = \(response)")
+//                return
+//            }
+//            let json = try! JSON(data: data)
+//            let responseString = String(data: data, encoding: .utf8)
+//            print(json)
+//            print(responseString!)
+//            if responseString != nil{
+//                DispatchQueue.main.async(){
+//                    self.indicatorEnd()
+//                    let userdetails=json["user_details"]
+//                    let firstname = userdetails["user_firstname"]
+//                    let lastname = userdetails["user_lastname"]
+//                    let fullName = "\(firstname.string! + " " + lastname.string!)"
+//                   let image = userdetails["user_profile"].string
+//
+//                    let userData = CommentData()
+//                    userData.fullName = fullName
+//                    userData.userImage = image!
+//                    self.commentArray.append(userData)
+//                    self.tableView.reloadData()
+//                }
+//            }
+//            else{
+//            }
+//        }
+//        task.resume()
+//
+//    }
     
 }

@@ -49,9 +49,32 @@ class changePasswordViewController: UIViewController {
                let responseString = String(data: data, encoding: .utf8)
                print(json)
                print(responseString!)
+            let message = json["message"].stringValue
+            let status = json["status"].stringValue
                if responseString != nil{
                    DispatchQueue.main.async(){
-                      
+                    if status == "OK"{
+                        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "okay", style: .cancel) { (action) in
+                            
+                        }
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
+                    }else if status == "ERROR"{
+                        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "okay", style: .cancel) { (action) in
+                                               
+                        }
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
+                    }else{
+                        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "okay", style: .cancel) { (action) in
+                                               
+                        }
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
+                    }
                    }
                    
                }

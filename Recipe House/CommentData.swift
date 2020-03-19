@@ -11,4 +11,6 @@ import Foundation
 class CommentData{
     var username : String = ""
     var userComment : String = ""
+    var userImage : String = ""
+    var fullName : String = ""
 }

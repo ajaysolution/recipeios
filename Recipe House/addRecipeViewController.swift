@@ -15,22 +15,23 @@ import DropDown
 class addRecipeViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
     
     var levelDrop = DropDown()
-   //var addIngreArray = [AddIngredient]()
+    var typeDropDown = DropDown()
     var addIngredientArray = [Ingredient]()
     var addStepArray = [Step]()
     var arrayToString : String = ""
-    var type : String = ""
+    var levelSelect : String = ""
+    var typeSelect : Int = 0
     var sections = ["Ingredient","Steps"]
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recipeNameTxtField: UITextField!
-    @IBOutlet weak var recipeTypeTxtField: UITextField!
     @IBOutlet weak var recipeHourTxtField: UITextField!
     @IBOutlet weak var recipeMinuteTxtField: UITextField!
     @IBOutlet weak var recipePeopleTxtField: UITextField!
     @IBOutlet weak var ingredientTxtField: UITextField!
     @IBOutlet weak var stepTxtField: UITextField!
     @IBOutlet weak var levelButtonOutlet: UIButton!
+    @IBOutlet weak var typeButtonOutlet: UIButton!
     @IBOutlet weak var descriptionTextView: UITextView!
     override func viewDidLoad() {
             super.viewDidLoad()
@@ -102,28 +103,66 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     func levelDropdown(){
         levelDrop.anchorView = levelButtonOutlet
         levelDrop.dataSource = ["easy","medium","hard"]
-         levelDrop.selectionAction = {  (index: Int, item: String) in
-           print("Selected item: \(item) at index: \(index)")
-            if item == "easy"{
-                self.type = "easy"
-                self.levelButtonOutlet.titleLabel?.text = "easy"
+         levelDrop.selectionAction = {  (index: Int, level: String) in
+           print("Selected item: \(level) at index: \(index)")
+            if level == "easy"{
+                self.levelSelect = "easy"
+                self.levelButtonOutlet.setTitle("easy", for: .normal)
             }
-            else if item == "medium"{
-                self.type = "medium"
-                self.levelButtonOutlet.titleLabel?.text = "medium"
+            else if level == "medium"{
+                self.levelSelect = "medium"
+                self.levelButtonOutlet.setTitle("medium", for: .normal)
             }
             else{
-                self.levelButtonOutlet.titleLabel?.text = "hard"
-                self.type = "hard"
+                self.levelButtonOutlet.setTitle("hard", for: .normal)
+                self.levelSelect = "hard"
             }
          }
 
-         levelDrop.bottomOffset = CGPoint(x: -50, y: levelButtonOutlet.bounds.height)
+         levelDrop.bottomOffset = CGPoint(x: 0, y: levelButtonOutlet.bounds.height)
          levelDrop.width = 100
+    }
+    func typeDropdown(){
+        typeDropDown.anchorView = typeButtonOutlet
+        typeDropDown.dataSource = ["Dessert","Breakfast","Lunch","Drinks","Pizza","Salads","Main Courses","Side Dishes"]
+        typeDropDown.selectionAction = { (index : Int, type : String) in
+            if type == "Dessert"{
+                self.typeSelect = 1
+                self.typeButtonOutlet.setTitle("Dessert", for: .normal)
+            }else if type == "Breakfast"{
+                self.typeSelect = 2
+                self.typeButtonOutlet.setTitle("Breakfast", for: .normal)
+            }else if type == "Lunch"{
+                self.typeSelect = 3
+                self.typeButtonOutlet.setTitle("Lunch", for: .normal)
+            }else if type == "Drinks"{
+                self.typeSelect = 4
+                self.typeButtonOutlet.setTitle("Drinks", for: .normal)
+            }else if type == "Pizza"{
+                self.typeSelect = 5
+                self.typeButtonOutlet.setTitle("Pizza", for: .normal)
+            }else if type == "Salads"{
+                self.typeSelect = 6
+                self.typeButtonOutlet.setTitle("Salads", for: .normal)
+            }else if type == "Main Courses"{
+                self.typeSelect = 7
+                self.typeButtonOutlet.setTitle("Main Courses", for: .normal)
+            }else {
+                self.typeSelect = 8
+                self.typeButtonOutlet.setTitle("Side Dishes", for: .normal)
+            }
+            
+        }
+        typeDropDown.bottomOffset = CGPoint(x: 0, y: levelButtonOutlet.bounds.height)
+                typeDropDown.width = 100
     }
     @IBAction func levelDropdown(_ sender: UIButton) {
         levelDropdown()
         levelDrop.show()
+    }
+    @IBAction func typeDropDown(_ sender: UIButton) {
+        typeDropdown()
+        typeDropDown.show()
     }
     @IBAction func selectRecipeImage(_ sender: UIButton) {
         let image = UIImagePickerController()
@@ -143,10 +182,6 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     func addRecipeDetail()->Bool{
         if recipeNameTxtField.text!.isEmpty{
             alert(alertTitle: "Enter recipe name", alertMessage: "nil", actionTitle: "enter recipe name")
-            return false
-        }
-        else if recipeTypeTxtField.text!.isEmpty{
-            alert(alertTitle: "Enter recipe type", alertMessage: "nil", actionTitle: "enter recipe type")
             return false
         }
         else if recipeHourTxtField.text!.isEmpty{
@@ -243,7 +278,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         let stepString = stepArray.joined(separator: ",")
         print(stepString)
         AF.upload(multipartFormData: { MultipartFormData in
-            let uploadDict = ["recipe_name":self.recipeNameTxtField.text!,"type_id":"2","recipe_level":self.type,"recipe_cookingtime":"10","recipe_ingredients":ingredietString,"recipe_steps":stepString,"recipe_people":self.recipePeopleTxtField.text!,"recipe_description":self.descriptionTextView.text!]
+            let uploadDict = ["recipe_name":self.recipeNameTxtField.text!,"type_id":String(self.typeSelect),"recipe_level":self.levelSelect,"recipe_cookingtime":"10","recipe_ingredients":ingredietString,"recipe_steps":stepString,"recipe_people":self.recipePeopleTxtField.text!,"recipe_description":self.descriptionTextView.text!]
 
             MultipartFormData.append(data_img!, withName: "recipe_image" , fileName: "image.jpeg" , mimeType: "image/jpeg")
             for(key,value) in uploadDict {

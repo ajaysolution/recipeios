@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 var authtoken:String = ""
 var email : String = ""
 
@@ -24,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     authtoken = self.userDefault.value(forKey: "user_authtoken") as! String
                     self.userDefault.synchronize()
                     self.window?.rootViewController?.performSegue(withIdentifier: "tab", sender: nil)
+                    
+                    IQKeyboardManager.shared.enable = true
                 }
         }
         return true

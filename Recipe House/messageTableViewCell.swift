@@ -16,6 +16,10 @@ class messageTableViewCell: UITableViewCell {
     @IBOutlet weak var background: UIView!
     override func awakeFromNib() {
 
+         userLogo.layer.cornerRadius = (userLogo.frame.size.width)/2
+        userLogo.clipsToBounds = true
+        userLogo.layer.borderWidth = 3.0
+        userLogo.layer.borderColor = UIColor.white.cgColor
         super.awakeFromNib()
         // Initialization code
     }    

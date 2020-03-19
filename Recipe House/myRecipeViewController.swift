@@ -122,7 +122,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @objc func pressOnComment(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
              recipeID = cell.recipeId!
-        // commentApi(id: cell.recipeId!)
          performSegue(withIdentifier: "comment", sender: self)
         }
     }
@@ -184,7 +183,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                                                data.recipeImage = recipeImage
                                                data.recipeID = recipeID
                                                data.recipeLike = recipeLike
-                        print(data.recipeLike)
+                                               print(data.recipeLike)
                                                self.myrecipeArray.append(data)
                                             //   self.finalArray.append(data)
                                                self.TableView.reloadData()

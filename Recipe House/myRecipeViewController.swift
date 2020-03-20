@@ -45,6 +45,8 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! RecipeTableViewCell
         let myRecipeData = myrecipeArray[indexPath.row]
+        cell.editButtonOutlet.tag = indexPath.row
+        cell.editButtonOutlet.addTarget(self, action: #selector(pressOnEdit(sender:)), for: .touchUpInside)
         cell.favoriteButtonLabel.tag = indexPath.row
         cell.favoriteButtonLabel.addTarget(self, action: #selector(pressOnLike(sender:)), for: .touchUpInside)
         cell.commentButtonLabel.tag = indexPath.row
@@ -98,6 +100,13 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func indicatorEnd(){
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
+    }
+    @objc func pressOnEdit(sender:UIButton){
+        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0 )) as? RecipeTableViewCell{
+            
+            editRecipeId = cell.recipeId!
+        }
+        performSegue(withIdentifier: "add", sender: self)
     }
     @objc func pressOnLike(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{

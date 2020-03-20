@@ -378,6 +378,7 @@
                                                                 <constraint firstAttribute="height" constant="25" id="SM7-cq-v23"/>
                                                                 <constraint firstAttribute="width" constant="25" id="mnk-BJ-6lc"/>
                                                             </constraints>
+                                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             <state key="normal" image="message"/>
                                                             <connections>
                                                                 <action selector="commentButton:" destination="se7-d0-kM2" eventType="touchUpInside" id="KvT-LE-Efj"/>
@@ -835,7 +836,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2dK-Ed-zry">
-                                            <rect key="frame" x="23" y="417.66666666666669" width="86" height="21"/>
+                                            <rect key="frame" x="23" y="418" width="86" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -983,7 +984,7 @@
                         <outlet property="recipeNameTxtField" destination="5jk-iQ-C5v" id="VXq-7y-QQg"/>
                         <outlet property="recipePeopleTxtField" destination="Au7-Tp-D9f" id="jbT-ma-nhy"/>
                         <outlet property="stepTxtField" destination="Nxk-pr-bDn" id="uQU-Fh-i1R"/>
-                        <outlet property="tableView" destination="4xh-JA-Lsh" id="php-Ry-LwZ"/>
+                        <outlet property="tableView" destination="4xh-JA-Lsh" id="VGz-Sc-fff"/>
                         <outlet property="typeButtonOutlet" destination="o3v-wW-Z8j" id="etN-vZ-yB6"/>
                     </connections>
                 </viewController>

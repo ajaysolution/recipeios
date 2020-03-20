@@ -36,7 +36,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             else{
                 homeRecipeApi()
-                
                 tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
                 print("not eligible")
             }
@@ -74,6 +73,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }else{
         cell.timeLabel.text! = "\(recipeData.time) minutes"
         }
+        cell.editButtonOutlet.isHidden = true
         cell.peopleLabel.text = "\(recipeData.people) people"
         cell.count.text = String(recipeData.favoriteCount)
         let like = Int(recipeData.recipeLike)
@@ -130,14 +130,15 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if authtoken != ""{
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
             recipeID = cell.recipeId!
-       // commentApi(id: cell.recipeId!)
         performSegue(withIdentifier: "comment", sender: self)
             }
         }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+       
         itemArray = finalArray.filter({ (recipe) -> Bool in
             guard let text = searchBar.text else {return false }
+            
             return recipe.recipeName.contains(text)
         })
     

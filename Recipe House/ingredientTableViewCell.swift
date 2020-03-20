@@ -9,12 +9,10 @@
 import UIKit
 
 class ingredientTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var instructionLabel: UILabel!
     
+    @IBOutlet weak var addRecipeTextCell: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        addRecipeTextCell.borderStyle = UITextField.BorderStyle.none
     }
-
 }

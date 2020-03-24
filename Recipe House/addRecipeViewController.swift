@@ -45,6 +45,16 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
 //        tableView.isEditing = true
         tableView.register(UINib(nibName: "ingredientTableViewCell", bundle: nil), forCellReuseIdentifier: "ingredient")
     }
+//    override func viewDidAppear(_ animated: Bool) {
+//         if editRecipeId != 0 {
+//                    recipeDetailApi()
+//                     print(editRecipeId)
+//                }else{
+//                    print("nil")
+//                }
+//        //        tableView.isEditing = true
+//                tableView.register(UINib(nibName: "ingredientTableViewCell", bundle: nil), forCellReuseIdentifier: "ingredient")
+//    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.sections[section]
     }
@@ -258,25 +268,31 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             alert(alertTitle: "enter step", alertMessage: "", actionTitle: "enter step")
             return false
         }
-//        else if type == "select"{
-//            alert(alertTitle: "select any one", alertMessage: "", actionTitle: "select level")
-//            return false
-//        }
+        else if typeSelect == 0{
+            alert(alertTitle: "select any one", alertMessage: "", actionTitle: "select type")
+            return false
+        }
+        else if levelSelect == ""{
+            alert(alertTitle: "select any one", alertMessage: "", actionTitle: "select level")
+            return false
+        }
         else{
-//            if !isValidHour(hour: recipeHourTxtField.text!){
-//                alert(alertTitle: "enter valid hour", alertMessage: "", actionTitle: "re-enter hour")
-//                return false
-//            }
-            let hour = Int(recipeHourTxtField.text!)
-            if (hour! > 0) && (hour! < 12){
-                
-            }else{
-                print("Incorrect")
+            if !isValidHour(hour: recipeHourTxtField.text!){
+                alert(alertTitle: "enter valid hour", alertMessage: "", actionTitle: "re-enter hour")
+                return false
             }
-//            else if !isValidMinute(min: recipeMinuteTxtField.text!){
-//                alert(alertTitle: "invalid min", alertMessage: "", actionTitle: "enter valid minute")
-//                return false
-//            }
+            else if !isValidMinute(min: recipeMinuteTxtField.text!){
+                alert(alertTitle: "invalid min", alertMessage: "", actionTitle: "enter valid minute")
+                return false
+            }
+            else if !isValidpeople(people: recipePeopleTxtField.text!){
+                alert(alertTitle: "invalid format people", alertMessage: "", actionTitle: "limited people")
+                return false
+            }
+            else if recipeImageView.image == nil{
+                alert(alertTitle: "select image", alertMessage: "", actionTitle: "select image")
+                return false
+            }
 //            else{
 //                print("data is valid")
 //                return true
@@ -286,15 +302,19 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
       
     }
     func isValidHour(hour:String) -> Bool{
-        
-        let hourRegEx = "[0-9]"
+        let hourRegEx = "[0-2]{1}[0-3]{1}"
         let hourTest = NSPredicate(format:"SELF MATCHES %@", hourRegEx)
         return hourTest.evaluate(with: hour)
     }
     func isValidMinute(min:String) -> Bool{
-        let minRegEx = "[0-9]{1,2}"
+        let minRegEx = "[0-5]{1}[0-9]{1}"
         let minTest = NSPredicate(format:"SELF MATCHES %@", minRegEx)
         return minTest.evaluate(with: min)
+    }
+    func isValidpeople(people:String) -> Bool{
+        let peopleRegEx = "[0-2]{1}[0-5]{1}"
+        let peopleTest = NSPredicate(format:"SELF MATCHES %@", peopleRegEx)
+        return peopleTest.evaluate(with: people)
     }
   
     func alert(alertTitle : String,alertMessage : String,actionTitle : String){
@@ -319,7 +339,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     
 
     func addRecipeApi(data_img:Data?){
-        let url = "http://192.168.2.221:3000/recipe/add" /* your API url */
+        let url = "http://127.0.0.1:3000/recipe/add"
         let headers: HTTPHeaders = ["user_authtoken":authtoken]
 
         var ingredientArray:[String] = []
@@ -347,7 +367,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     }
     func recipeDetailApi(){
                  // indicatorStart()
-                  let url = URL(string: "http://192.168.2.221:3000/recipe/getrecipe?recipe_id=\(editRecipeId)")
+                  let url = URL(string: "http://127.0.0.1:3000/recipe/getrecipe?recipe_id=\(editRecipeId)")
                   var request = URLRequest(url: url!)
                   request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
                   request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
@@ -373,8 +393,6 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                       print(json)
                       print(responseString!)
 
-//                    self.count = json["recipes"].count
-//                            print(self.count)
                     let name = json["recipe"]["recipe_name"].stringValue
                     print(name)
 
@@ -385,11 +403,11 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                                 let recipeImage = json["recipe"]["recipe_image"].stringValue
                                  let type = json["recipe"]["type_name"].stringValue
                                  let recipeName = json["recipe"]["recipe_name"].stringValue
-                                 let time = json["recipe"]["recipe_cookingtime"].stringValue
+                                 let time = json["recipe"]["recipe_cookingtime"].intValue
                                  let level = json["recipe"]["recipe_level"].stringValue
                                  let description = json["recipe"]["recipe_description"].stringValue
                                  let people = json["recipe"]["recipe_people"].stringValue
-                                 let recipeID = json["recipe"]["recipe_id"].stringValue
+                              //   let recipeID = json["recipe"]["recipe_id"].stringValue
                                 let ingredient = json["recipe"]["recipe_ingredients"].stringValue
                                 let ingredientSplit = ingredient.components(separatedBy: ",")
                                 let steps = json["recipe"]["recipe_steps"].stringValue
@@ -401,7 +419,16 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                             self.levelButtonOutlet.setTitle(level, for: .normal)
                             self.recipePeopleTxtField.text = people
                             self.descriptionTextView.text = description
-                            self.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(recipeImage)"))
+                            if time >= 60{
+                                let hour = time/60
+                                let minute = time%60
+                                self.recipeHourTxtField.text = String(hour)
+                                self.recipeMinuteTxtField.text = String(minute)
+                            }else{
+                                self.recipeHourTxtField.text = "00"
+                                self.recipeMinuteTxtField.text = String(time)
+                            }
+                            self.recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(recipeImage)"))
 
                                 for i in 0..<ingredientSplit.count{
                                     let sample = Ingredient()
@@ -421,6 +448,37 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                   }
 
                   task.resume()
+    }
+    func editRecipeApi(data_img:Data?){
+        let url = "http://127.0.0.1:3000/recipe/edit"
+        let headers: HTTPHeaders = ["user_authtoken":authtoken]
+        var ingredientArray:[String] = []
+        for i in 0..<addIngredientArray.count{
+            ingredientArray.append(addIngredientArray[i].ingredientName)
+        }
+       let ingredietString = ingredientArray.joined(separator: ",")
+
+        var stepArray : [String] = []
+        for i in 0..<addStepArray.count{
+            stepArray.append(addStepArray[i].stepName)
+        }
+        let stepString = stepArray.joined(separator: ",")
+        print(stepString)
+        let hour = Int(recipeHourTxtField.text!)
+        let minute = Int(recipeMinuteTxtField.text!)
+       var time : Int = 0
+        time = hour! * 60 + minute!
+        
+        AF.upload(multipartFormData: { MultipartFormData in
+            let uploadDict = ["recipe_name":self.recipeNameTxtField.text!,"type_id":String(self.typeSelect),"recipe_level":self.levelSelect,"recipe_cookingtime":"\(time)","recipe_ingredients":ingredietString,"recipe_steps":stepString,"recipe_people":self.recipePeopleTxtField.text!,"recipe_description":self.descriptionTextView.text!,"recipe_id":String(editRecipeId)]
+
+            MultipartFormData.append(data_img!, withName: "recipe_image" , fileName: "image.jpeg" , mimeType: "image/jpeg")
+            for(key,value) in uploadDict {
+                MultipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                 }
+        },to: url, headers:headers).responseJSON { (response) in
+                 debugPrint("SUCCESS RESPONSE: \(response)")
+        }
     }
 }
 

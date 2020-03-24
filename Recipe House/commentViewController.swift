@@ -52,9 +52,13 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         if userName == fullName{
             cell.userName.text = "me"
-            cell.userLogo.pin_setImage(from: URL(string: "http://192.168.2.221:3000/userimages/\(userImage)"))
+            cell.userLogo.pin_setImage(from: URL(string: "http://127.0.0.1:3000/userimages/\(userImage)"))
+            cell.background.backgroundColor = .black
+            cell.userName.textColor = .lightGray
+            cell.commentLabel.textColor = .white
         }else{
             cell.userName.text = commentInfo.username
+            //cell.background.backgroundColor = .lightGray
         }
         return cell
     }
@@ -78,7 +82,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     func commentApi(){
               indicatorStart()
-              let url = URL(string: "http://192.168.2.221:3000/recipe/comment?comment_status=show")
+              let url = URL(string: "http://127.0.0.1:3000/recipe/comment?comment_status=show")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
               request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
@@ -136,7 +140,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
           }
     func addCommentApi(){
         commentArray.removeAll()
-              let url = URL(string: "http://192.168.2.221:3000/recipe/comment?comment_status=add")
+              let url = URL(string: "http://127.0.0.1:3000/recipe/comment?comment_status=add")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
               request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
@@ -182,7 +186,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
           }
     func profileApi(){
     indicatorStart()
-        let url = URL(string: "http://192.168.2.221:3000/user/profile")
+        let url = URL(string: "http://127.0.0.1:3000/user/profile")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.addValue(email, forHTTPHeaderField: "user_email")

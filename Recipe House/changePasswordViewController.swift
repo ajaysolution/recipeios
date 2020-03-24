@@ -24,7 +24,7 @@ class changePasswordViewController: UIViewController {
         changePasswordApi()
     }
     func changePasswordApi(){
-           let url = URL(string: "http://192.168.2.221:3000/user/userchangepassword")
+           let url = URL(string: "http://127.0.0.1:3000/user/userchangepassword")
            var request = URLRequest(url: url!)
            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
            request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")

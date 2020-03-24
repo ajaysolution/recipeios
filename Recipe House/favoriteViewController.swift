@@ -80,7 +80,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         }
         cell.recipeImageView.pin_updateWithProgress = true
         cell.editButtonOutlet.isHidden = true
-        cell.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(favoriteRecipeData.recipeImage)"))
+        cell.recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(favoriteRecipeData.recipeImage)"))
            return cell
        }
        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -144,14 +144,13 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
     }
     func favoriteApi(){
         indicatorStart()
-          let url = URL(string: "http://192.168.2.221:3000/recipe/userfavorites?user_email=\(email)")
-          var request = URLRequest(url: url!)
+        let url = URL(string:"http://127.0.0.1:3000/recipe/userfavorites?user_email=\(email)&count=0")!
+        print(url)
+        var request = URLRequest(url: url)
           request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
           request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
           request.httpMethod = "GET"
-//       let parameters: [String: Any] = ["user_email":email]
-//          request.httpBody = parameters.percentEncoded()
-          
+
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
               guard let data = data,
                   let response = response as? HTTPURLResponse,
@@ -217,7 +216,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
           task.resume()
       }
     func likeApi(id:Int,likeBool : String){
-              let url = URL(string: "http://192.168.2.221:3000/recipe/select/favorite")
+              let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
               request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")

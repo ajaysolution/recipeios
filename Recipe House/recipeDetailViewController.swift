@@ -84,7 +84,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                 likeBtnOutlet.setImage(UIImage(named: "redHeart"), for: .normal)
             }
             recipeImageView.pin_updateWithProgress = true
-        recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(RecipeImage)"))
+        recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(RecipeImage)"))
 
             if sections[indexPath.section] == "Ingredient"{
                  let bulletPoint: String = "\u{2022}"
@@ -135,7 +135,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     func recipeDetailApi(){
               indicatorStart()
-              let url = URL(string: "http://192.168.2.221:3000/recipe/getrecipe?recipe_id=\(recipe_id)")
+              let url = URL(string: "http://127.0.0.1:3000/recipe/getrecipe?recipe_id=\(recipe_id)")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
               request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
@@ -217,7 +217,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
               task.resume()
 }
     func likeApi(likeBool : String){
-                let url = URL(string: "http://192.168.2.221:3000/recipe/select/favorite")
+                let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
                 var request = URLRequest(url: url!)
                 request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
                 request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")

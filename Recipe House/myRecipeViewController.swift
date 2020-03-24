@@ -75,7 +75,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
         cell.recipeImageView.pin_updateWithProgress = true
         
-        cell.recipeImageView.pin_setImage(from: URL(string: "http://192.168.2.221:3000/recipeimages/\(myRecipeData.recipeImage)"))
+        cell.recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(myRecipeData.recipeImage)"))
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,7 +106,8 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             
             editRecipeId = cell.recipeId!
         }
-        performSegue(withIdentifier: "add", sender: self)
+      //  self.navigationController?.pushViewController(addRecipeViewController(), animated: true)
+              performSegue(withIdentifier: "add", sender: self)
     }
     @objc func pressOnLike(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
@@ -136,11 +137,12 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     func myrecipeApi(){
         indicatorStart()
-          let url = URL(string: "http://192.168.2.221:3000/recipe/myrecipes?count=0&user_email=\(email)")
-          var request = URLRequest(url: url!)
-          request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-          request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-          request.httpMethod = "GET"
+        let url = URL(string: "http://127.0.0.1:3000/recipe/myrecipes?count=0&user_email=\(email)")
+        var request = URLRequest(url: url!)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
+        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+        request.httpMethod = "GET"
+          
 
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
               guard let data = data,
@@ -208,7 +210,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
           task.resume()
       }
     func likeApi(id:Int,likeBool : String){
-              let url = URL(string: "http://192.168.2.221:3000/recipe/select/favorite")
+              let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
               var request = URLRequest(url: url!)
               request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
               request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")

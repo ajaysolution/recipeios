@@ -100,7 +100,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
        }
   
     func uploadAPI(data_img:Data?){
-        let url = "http://192.168.2.221:3000/user/profile/updated" /* your API url */
+        let url = "http://127.0.0.1:3000/user/profile/updated" 
         let headers: HTTPHeaders = ["user_authtoken":authtoken]
         
         AF.upload(multipartFormData: { MultipartFormData in
@@ -116,7 +116,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     }
     func profileApi(){
     indicatorStart()
-        let url = URL(string: "http://192.168.2.221:3000/user/profile")
+        let url = URL(string: "http://127.0.0.1:3000/user/profile")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.addValue(email, forHTTPHeaderField: "user_email")
@@ -171,7 +171,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     }
     func profileImageApi(){
     indicatorStart()
-        let url = URL(string: "http://192.168.2.221:3000/user/profile")
+        let url = URL(string: "http://127.0.0.1:3000/user/profile")
         var request = URLRequest(url: url!)
         request.setValue("application/form-data", forHTTPHeaderField: "Content-Type")
        // request.addValue(email, forHTTPHeaderField: "user_email")

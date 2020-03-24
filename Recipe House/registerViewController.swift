@@ -173,7 +173,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
        }
     func registerApi(){
         indicatorStart()
-        let url = URL(string: "http://192.168.2.221:3000/user/register")
+        let url = URL(string: "http://127.0.0.1:3000/user/register")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"

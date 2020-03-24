@@ -130,7 +130,7 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
        // view.isUserInteractionEnabled = false
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-        let url = URL(string: "http://192.168.2.221:3000/user/login")
+        let url = URL(string: "http://127.0.0.1:3000/user/login")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"

@@ -77,7 +77,7 @@ class forgetPasswordViewController: UIViewController {
     }
     func forgetApi(){
         indicatorStart()
-            let url = URL(string: "http://192.168.2.221:3000/user/login/forget")
+            let url = URL(string: "http://127.0.0.1:3000/user/login/forget")
             var request = URLRequest(url: url!)
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.httpMethod = "POST"

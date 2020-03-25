@@ -144,12 +144,12 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
     }
     func favoriteApi(){
         indicatorStart()
-        let url = URL(string:"http://127.0.0.1:3000/recipe/userfavorites?user_email=\(email)&count=0")!
-        print(url)
-        var request = URLRequest(url: url)
+        let url = URL(string: "http://127.0.0.1:3000/recipe/userfavorites?user_email=\(email)&count=0")
+        print(url!)
+        var request = URLRequest(url: url!)
           request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-          request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-          request.httpMethod = "GET"
+        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+        request.httpMethod = "GET"
 
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
               guard let data = data,

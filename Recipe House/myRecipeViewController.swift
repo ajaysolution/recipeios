@@ -86,11 +86,11 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         performSegue(withIdentifier: "detail", sender: self)
     }
     @IBAction func addButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "add", sender: self)
+//    editRecipeId = 0
+//        performSegue(withIdentifier: "add", sender: self)
     }
     func indicatorStart(){
         activityIndicator.center = self.view.center
-        
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.large
         view.isUserInteractionEnabled = false
@@ -106,8 +106,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             
             editRecipeId = cell.recipeId!
         }
-      //  self.navigationController?.pushViewController(addRecipeViewController(), animated: true)
-              performSegue(withIdentifier: "add", sender: self)
+              performSegue(withIdentifier: "edit", sender: self)
     }
     @objc func pressOnLike(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
@@ -125,9 +124,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 let less=myrecipeArray[sender.tag].favoriteCount
                 cell.count.text = String(less)
             }
-
         }
-
     }
     @objc func pressOnComment(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
@@ -246,11 +243,8 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                       DispatchQueue.main.async(){
                   
                       }
-                      
                   }
-                  
-              }
-
+        }
               task.resume()
           }
     

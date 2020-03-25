@@ -159,7 +159,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
                     self.numberLabel.text = userdetails["user_phone"].stringValue
                     self.emailLabel.text = userdetails["user_email"].string
                    let image = userdetails["user_profile"].string
-                    self.profileImage.pin_setImage(from: URL(string: "http://192.168.2.221:3000/userimages/\(image!)"))
+                    self.profileImage.pin_setImage(from: URL(string: "http://127.0.0.1:3000/userimages/\(image!)"))
                 }
             }
             else{
@@ -169,48 +169,4 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         task.resume()
         
     }
-    func profileImageApi(){
-    indicatorStart()
-        let url = URL(string: "http://127.0.0.1:3000/user/profile")
-        var request = URLRequest(url: url!)
-        request.setValue("application/form-data", forHTTPHeaderField: "Content-Type")
-       // request.addValue(email, forHTTPHeaderField: "user_email")
-        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-        request.httpMethod = "POST"
-        let parameters: [String: Any] = ["user_email":email,"user_profile":"name.png"]
-        request.httpBody = parameters.percentEncoded()
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data,
-                let response = response as? HTTPURLResponse,
-                error == nil else {
-                print("error", error ?? "Unknown error")
-                return
-            }
-
-            guard (200 ... 299) ~= response.statusCode else {
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                return
-            }
-            let json = try! JSON(data: data)
-            let responseString = String(data: data, encoding: .utf8)
-            print(json)
-      
-            if responseString != nil{
-                DispatchQueue.main.async(){
-                    self.indicatorEnd()
-               
-                }
-                
-            }
-            else{
-                
-            }
-        }
-        task.resume()
-        
-    }
-    
-   
 }

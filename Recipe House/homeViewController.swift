@@ -215,11 +215,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print("response = \(response)")
                 return
             }
-//            guard (300 ... 400) ~= response.statusCode else {
-//                print("statusCode should be 2xx, but is \(response.statusCode)")
-//                print("response = \(response)")
-//                return
-//            }
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
                               print(json)
@@ -288,6 +283,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                       }
 
                       guard (200 ... 299) ~= response.statusCode else {
+
                           print("statusCode should be 2xx, but is \(response.statusCode)")
                           print("response = \(response)")
                           return

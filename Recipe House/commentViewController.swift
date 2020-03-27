@@ -29,7 +29,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        tableView.estimatedRowHeight = 120
+        tableView.estimatedRowHeight = 166
             tableView.rowHeight = UITableView.automaticDimension
     }
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -53,9 +53,9 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         if userName == fullName{
             cell.userName.text = "me"
             cell.userLogo.pin_setImage(from: URL(string: "http://127.0.0.1:3000/userimages/\(userImage)"))
-            cell.background.backgroundColor = .black
-            cell.userName.textColor = .lightGray
-            cell.commentLabel.textColor = .white
+           // cell.background.backgroundColor = .black
+           // cell.userName.textColor = .lightGray
+         //   cell.commentLabel.textColor = .white
         }else{
             cell.userName.text = commentInfo.username
             //cell.background.backgroundColor = .lightGray

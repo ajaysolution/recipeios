@@ -14,14 +14,11 @@ class forgetPasswordViewController: UIViewController {
 
     var otpData = ""
     @IBOutlet weak var emailTextField: UITextField!
-    
     @IBOutlet weak var OTPButtonOutlet: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         OTPButtonOutlet.layer.cornerRadius = OTPButtonOutlet.frame.size.height/2
     }
-    
     @IBAction func OTPButton(_ sender: UIButton) {
         if emailValid(){
              forgetApi()
@@ -39,7 +36,6 @@ class forgetPasswordViewController: UIViewController {
     @objc func enableButton() {
         self.OTPButtonOutlet.alpha = 1.0
            self.OTPButtonOutlet.isEnabled = true
-        
        }
     func emailValid() -> Bool{
     if emailTextField.text!.isEmpty{
@@ -91,7 +87,7 @@ class forgetPasswordViewController: UIViewController {
                     print("error", error ?? "Unknown error")
                     return
                 }
-
+                print(response.statusCode)
                 guard (200 ... 299) ~= response.statusCode else {
                     print("statusCode should be 2xx, but is \(response.statusCode)")
                     print("response = \(response)")
@@ -123,7 +119,6 @@ class forgetPasswordViewController: UIViewController {
                     
                 }
             }
-
             task.resume()
         }
     }

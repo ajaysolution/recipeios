@@ -29,12 +29,8 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-
   buttonLayout()
-       
     }
-    
-   
     @IBAction func radioBtnAction(_ sender: UIButton) {
         if sender.tag == 1{
             maleButtonOutlet.isSelected = true
@@ -48,23 +44,20 @@ class registerViewController: UIViewController,UITextFieldDelegate{
             print("female")
         }
     }
-    
   func  buttonLayout(){
         registerButtonOutlet.layer.cornerRadius = registerButtonOutlet.frame.size.height/2
         backToLoginOutlet.layer.cornerRadius = backToLoginOutlet.frame.size.height/2
     }
-    
     @IBAction func registrationButton(_ sender: UIButton) {
-        
         if registration(){
             if Connection.isConnectedToInternet(){
             print("data valid")
             registerApi()
+                navigationController?.popViewController(animated: true)
             }
         }else{
             print("invalid data")
         }
-        
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         scrollView.setContentOffset(CGPoint(x: 0, y: 120), animated: true)
@@ -152,9 +145,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-        
     }
-    
     @IBAction func backToLogin(_ sender: UIButton) {
         navigationController?.popToRootViewController(animated: true)
     }
@@ -187,7 +178,6 @@ class registerViewController: UIViewController,UITextFieldDelegate{
                 print("error", error ?? "Unknown error")
                 return
             }
-
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -205,8 +195,6 @@ class registerViewController: UIViewController,UITextFieldDelegate{
             else{
             }
         }
-
         task.resume()
-        
     }
 }

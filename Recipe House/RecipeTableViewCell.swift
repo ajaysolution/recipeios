@@ -28,12 +28,5 @@ class RecipeTableViewCell: UITableViewCell {
     }
     
     @IBAction func favoriteButton(_ sender: UIButton) {
-//        if counts == 0{
-//             favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
-//            counts = 1
-//        }else if counts == 1{
-//            favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
-//            counts = 0
-//        }
     }
 }

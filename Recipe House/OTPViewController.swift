@@ -16,7 +16,6 @@ class OTPViewController: UIViewController {
     @IBOutlet weak var NewPasswordTextField: UITextField!
     @IBOutlet weak var OTPOutlet: UIButton!
     @IBOutlet weak var passwodOutlet: UIButton!
-    
     var email = ""
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +26,6 @@ class OTPViewController: UIViewController {
         Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(enableButton), userInfo: nil, repeats: false)
      buttonLayout()
     }
-    
     @IBAction func updatePasswordButton(_ sender: UIButton) {
         if otpValid(){
             forgetApi()
@@ -50,7 +48,6 @@ class OTPViewController: UIViewController {
         }
               return true
         }
-     
     func isValidPassword(pass:String) -> Bool {
         let passRegEx = "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", passRegEx)
@@ -62,7 +59,6 @@ class OTPViewController: UIViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
     @IBAction func otpButton(_ sender: UIButton) {
        
     }
@@ -76,7 +72,6 @@ class OTPViewController: UIViewController {
     }
     func indicatorStart(){
         activityIndicator.center = self.view.center
-        
                activityIndicator.hidesWhenStopped = true
                activityIndicator.style = UIActivityIndicatorView.Style.large
                 view.isUserInteractionEnabled = false
@@ -95,7 +90,6 @@ class OTPViewController: UIViewController {
         request.httpMethod = "POST"
         let parameters: [String: Any] = ["user_email":email,"user_newpassword":NewPasswordTextField.text!,"user_otptoken":otpTextField.text!]
         request.httpBody = parameters.percentEncoded()
-        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data,
                 let response = response as? HTTPURLResponse,
@@ -103,7 +97,6 @@ class OTPViewController: UIViewController {
                 print("error", error ?? "Unknown error")
                 return
             }
-
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -118,13 +111,10 @@ class OTPViewController: UIViewController {
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
                 }
-              
             }
             else{
-                
             }
         }
-
         task.resume()
     }
 }

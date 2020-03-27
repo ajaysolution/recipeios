@@ -18,7 +18,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var itemArray = [HomeRecipe]()
-    
     var finalArray = [HomeRecipe]()
     var count : Int = 0
     var num : Int = 0
@@ -83,10 +82,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
         }
         cell.recipeImageView.pin_updateWithProgress = true
-        
         cell.recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(recipeData.recipeImage)"))
-    
-      
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -105,9 +101,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             homeRecipeApi()
         }
     }
-
     @objc func pressOnLike(sender:UIButton){
-       
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
             if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
                 cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart" ), for: .normal)
@@ -123,7 +117,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let less=itemArray[sender.tag].favoriteCount
                 cell.count.text = String(less)
             }
-            
         }
     }
     @objc func pressOnComment(sender:UIButton){
@@ -135,13 +128,10 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-       
         itemArray = finalArray.filter({ (recipe) -> Bool in
             guard let text = searchBar.text else {return false }
-            
             return recipe.recipeName.contains(text)
         })
-    
         tableview.reloadData()
     }
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -182,7 +172,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     func indicatorStart(){
         activityIndicator.center = self.view.center
-        
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.large
         view.isUserInteractionEnabled = false
@@ -201,7 +190,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
         request.httpMethod = "GET"
         
-        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data,
                 let response = response as? HTTPURLResponse,
@@ -209,7 +197,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     print("error", error ?? "Unknown error")
                     return
             }
-            
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -226,7 +213,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
                     for i in 0..<self.count{
-                        
                         let recipeImage = json["recipes"][i]["recipe_image"].stringValue
                             let type = json["recipes"][i]["type_name"].stringValue
                             let recipeName = json["recipes"][i]["recipe_name"].stringValue
@@ -254,15 +240,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             self.tableview.reloadData()
                         }
                       }
-                      
                   }
-                  else{
-                      
-                  }
-              }
-
+        }
               task.resume()
-       
           }
     func favoriteApi(id:Int,likeBool : String){
                   let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
@@ -273,7 +253,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                   
         let parameters: [String: Any] = ["favorite":likeBool,"user_email":email,"recipe_id":id]
                   request.httpBody = parameters.percentEncoded()
-                  
                   let task = URLSession.shared.dataTask(with: request) { data, response, error in
                       guard let data = data,
                           let response = response as? HTTPURLResponse,
@@ -281,33 +260,21 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                           print("error", error ?? "Unknown error")
                           return
                       }
-
                       guard (200 ... 299) ~= response.statusCode else {
-
                           print("statusCode should be 2xx, but is \(response.statusCode)")
                           print("response = \(response)")
                           return
                       }
                       let json = try! JSON(data: data)
                       let responseString = String(data: data, encoding: .utf8)
-                      print(json)
-                      print(responseString!)
-                    
-                    self.count = json.count
-                    let a = json[0]["type_id"].stringValue
                   
-                   
                       if responseString != nil{
                           DispatchQueue.main.async(){
-                      
                           }
-                          
                       }
-                      
                   }
-
                   task.resume()
-              }
+}
     
 }
 

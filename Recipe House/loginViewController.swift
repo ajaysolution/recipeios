@@ -10,29 +10,21 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-
 class loginViewController: UIViewController,UITextFieldDelegate {
 
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
-    
     var check: Int?
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var loginBtnLabel: UIButton!
-    
-
-    
     @IBOutlet weak var guestBtnLabel: UIButton!
     var alertMessage : String?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
  buttonLayout()
     }
-  
     override func viewDidAppear(_ animated: Bool) {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
@@ -53,18 +45,17 @@ class loginViewController: UIViewController,UITextFieldDelegate {
             alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
             print("invalid data")
         }
-
     }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        scrollView.setContentOffset(CGPoint(x: 0, y: 70), animated: true)
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        scrollView.setContentOffset(CGPoint(x: 0, y: 70), animated: true)
+//    }
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
+//    }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+//    }
     
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -120,14 +111,13 @@ class loginViewController: UIViewController,UITextFieldDelegate {
     }
     func buttonLayout(){
         loginBtnLabel.layer.cornerRadius = loginBtnLabel.frame.size.height/2
-guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
+     guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
     }
 
     func loginApi(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.large
-       // view.isUserInteractionEnabled = false
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         let url = URL(string: "http://127.0.0.1:3000/user/login")
@@ -187,11 +177,7 @@ guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
                     }
                 }
             }
-            else{
-                
-            }
         }
-
         task.resume()
         
     }
@@ -207,7 +193,6 @@ extension Dictionary {
         .data(using: .utf8)
     }
 }
-
 extension CharacterSet {
     static let urlQueryValueAllowed: CharacterSet = {
         let generalDelimitersToEncode = ":#[]@"

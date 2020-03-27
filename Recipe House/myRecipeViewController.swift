@@ -16,13 +16,14 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var count = 0
     @IBOutlet weak var searchBar: UISearchBar!
     var myrecipeArray = [HomeRecipe]()
+    var finalArray = [HomeRecipe]()
     @IBOutlet weak var TableView: UITableView!
     
     override func viewDidLoad() {
         if authtoken != "" {
         super.viewDidLoad()
            // myrecipeApi()
-            TableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell2")
+            TableView.register(UINib(nibName: "myrecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "myRecipe")
             searchBar.delegate = self
         }else if authtoken == ""{
             let alert = UIAlertController(title: "First you have to log in", message: "", preferredStyle: .alert)
@@ -43,7 +44,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         return myrecipeArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! RecipeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myRecipe", for: indexPath) as! myrecipeTableViewCell
         let myRecipeData = myrecipeArray[indexPath.row]
         cell.editButtonOutlet.tag = indexPath.row
         cell.editButtonOutlet.addTarget(self, action: #selector(pressOnEdit(sender:)), for: .touchUpInside)
@@ -51,6 +52,8 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         cell.favoriteButtonLabel.addTarget(self, action: #selector(pressOnLike(sender:)), for: .touchUpInside)
         cell.commentButtonLabel.tag = indexPath.row
         cell.commentButtonLabel.addTarget(self, action: #selector(pressOnComment(sender:)), for: .touchUpInside)
+        cell.deleteButtonLabel.tag = indexPath.row
+        cell.deleteButtonLabel.addTarget(self, action: #selector(pressOnDelete(sender:)), for: .touchUpInside)
         cell.recipeNameLabel.text = myRecipeData.recipeName
         cell.RecipeTypeLabel.text = myRecipeData.type
         cell.levelLabel.text = myRecipeData.level
@@ -79,15 +82,11 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 330
+        return 335
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         recipe_id = Int(myrecipeArray[indexPath.row].recipeID)!
         performSegue(withIdentifier: "detail", sender: self)
-    }
-    @IBAction func addButton(_ sender: UIButton) {
-//    editRecipeId = 0
-//        performSegue(withIdentifier: "add", sender: self)
     }
     func indicatorStart(){
         activityIndicator.center = self.view.center
@@ -102,14 +101,18 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         view.isUserInteractionEnabled = true
     }
     @objc func pressOnEdit(sender:UIButton){
-        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0 )) as? RecipeTableViewCell{
-            
+        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0 )) as? myrecipeTableViewCell{
             editRecipeId = cell.recipeId!
         }
               performSegue(withIdentifier: "edit", sender: self)
     }
+    @objc func pressOnDelete(sender:UIButton){
+        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0 )) as? myrecipeTableViewCell{
+            deleteApi(id: cell.recipeId!)
+        }
+    }
     @objc func pressOnLike(sender:UIButton){
-        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
+        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? myrecipeTableViewCell{
             if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
                 cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart" ), for: .normal)
                 likeApi(id: cell.recipeId!, likeBool: "true")
@@ -127,10 +130,26 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
     }
     @objc func pressOnComment(sender:UIButton){
-        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
+        if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? myrecipeTableViewCell {
              recipeID = cell.recipeId!
          performSegue(withIdentifier: "comment", sender: self)
         }
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        myrecipeArray = finalArray.filter({ (recipe) -> Bool in
+            guard let text = searchBar.text else {return false }
+            return recipe.recipeName.contains(text)
+        })
+        TableView.reloadData()
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        myrecipeApi()
     }
     func myrecipeApi(){
         indicatorStart()
@@ -139,7 +158,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
         request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
         request.httpMethod = "GET"
-          
 
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
               guard let data = data,
@@ -148,7 +166,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                   print("error", error ?? "Unknown error")
                   return
               }
-
               guard (200 ... 299) ~= response.statusCode else {
                   print("statusCode should be 2xx, but is \(response.statusCode)")
                   print("response = \(response)")
@@ -161,15 +178,11 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             
             self.count = json["recipes"].count
             print(self.count)
-            let a = json["recipes"][0]["recipe_cookingtime"].stringValue
-            print(a)
-           
               if responseString != nil{
                   DispatchQueue.main.async(){
                     self.indicatorEnd()
                      for i in 0..<self.count{
-                                           
-                                           let recipeImage = json["recipes"][i]["recipe_image"].stringValue
+                                               let recipeImage = json["recipes"][i]["recipe_image"].stringValue
                                                let type = json["recipes"][i]["type_name"].stringValue
                                                let recipeName = json["recipes"][i]["recipe_name"].stringValue
                                                let time = json["recipes"][i]["recipe_cookingtime"].stringValue
@@ -193,7 +206,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                                                data.recipeLike = recipeLike
                                                print(data.recipeLike)
                                                self.myrecipeArray.append(data)
-                                            //   self.finalArray.append(data)
+                                               self.finalArray.append(data)
                                                self.TableView.reloadData()
                                            }
                   }
@@ -203,7 +216,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                   
               }
           }
-
           task.resume()
       }
     func likeApi(id:Int,likeBool : String){
@@ -215,7 +227,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
               
     let parameters: [String: Any] = ["favorite":likeBool,"user_email":email,"recipe_id":id]
               request.httpBody = parameters.percentEncoded()
-              
               let task = URLSession.shared.dataTask(with: request) { data, response, error in
                   guard let data = data,
                       let response = response as? HTTPURLResponse,
@@ -223,7 +234,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                       print("error", error ?? "Unknown error")
                       return
                   }
-
                   guard (200 ... 299) ~= response.statusCode else {
                       print("statusCode should be 2xx, but is \(response.statusCode)")
                       print("response = \(response)")
@@ -231,14 +241,8 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                   }
                   let json = try! JSON(data: data)
                   let responseString = String(data: data, encoding: .utf8)
-                  print(json)
-                  print(responseString!)
                 
                 self.count = json.count
-                print(self.count)
-                let a = json[0]["type_id"].stringValue
-                print(a)
-               
                   if responseString != nil{
                       DispatchQueue.main.async(){
                   
@@ -247,5 +251,37 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
               task.resume()
           }
-    
+    func deleteApi(id:Int){
+              let url = URL(string: "http://127.0.0.1:3000/recipe/delete")
+              var request = URLRequest(url: url!)
+              request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
+              request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+              request.httpMethod = "POST"
+              
+    let parameters: [String: Any] = ["recipe_id":id]
+              request.httpBody = parameters.percentEncoded()
+              let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                  guard let data = data,
+                      let response = response as? HTTPURLResponse,
+                      error == nil else {
+                      print("error", error ?? "Unknown error")
+                      return
+                  }
+                  guard (200 ... 299) ~= response.statusCode else {
+                      print("statusCode should be 2xx, but is \(response.statusCode)")
+                      print("response = \(response)")
+                      return
+                  }
+                //  let json = try! JSON(data: data)
+                  let responseString = String(data: data, encoding: .utf8)
+                  if responseString != nil{
+                      DispatchQueue.main.async(){
+                        self.myrecipeArray.removeAll()
+                        self.myrecipeApi()
+                        self.TableView.reloadData()
+                      }
+                  }
+        }
+              task.resume()
+          }
 }

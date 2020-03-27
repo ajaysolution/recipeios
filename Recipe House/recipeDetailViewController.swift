@@ -24,7 +24,8 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var likeCount: UILabel!
     @IBOutlet weak var likeBtnOutlet: UIButton!
     @IBOutlet weak var commentBtnOutlet: UIButton!
-    
+    @IBOutlet weak var editBtnOutlet: UIBarButtonItem!
+    @IBOutlet weak var deleteBtnOutlet: UIBarButtonItem!
     @IBOutlet weak var descriptionLabel: UILabel!
     var sections = ["Ingredient","Steps"]
     var stepArray = [Step]()
@@ -41,11 +42,17 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     var FavoriteCount : Int = 0
     var RecipeImage : String = ""
     var RecipeID : String = ""
+    var buttonShow : Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        recipeDetailApi()
-    recipeID = recipe_id
 }
+    override func viewDidAppear(_ animated: Bool) {
+        ingredientArray.removeAll()
+        stepArray.removeAll()
+        tableView.reloadData()
+        recipeDetailApi()
+        recipeID = recipe_id
+    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.sections[section]
     }
@@ -115,6 +122,14 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
             likeCount.text = String(FavoriteCount)
             }
         }
+    @IBAction func editButton(_ sender: UIBarButtonItem) {
+        editRecipeId = recipe_id
+              performSegue(withIdentifier: "edit", sender: self)
+    }
+    @IBAction func deleteButton(_ sender: UIBarButtonItem) {
+       // print(recipe_id)
+        deleteApi(id: recipe_id)
+    }
     @IBAction func commentButton(_ sender: UIButton) {
         if authtoken != ""{
              performSegue(withIdentifier: "comment", sender: self)
@@ -148,7 +163,6 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                       print("error", error ?? "Unknown error")
                       return
                   }
-
                   guard (200 ... 299) ~= response.statusCode else {
                       print("statusCode should be 2xx, but is \(response.statusCode)")
                     let alert = UIAlertController(title: "error", message: "\(response)", preferredStyle: .alert)
@@ -169,34 +183,31 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                   if responseString != nil{
                       DispatchQueue.main.async(){
                         self.indicatorEnd()
-                   
-                            let recipeImage = json["recipe"]["recipe_image"].stringValue
-                             let type = json["recipe"]["type_name"].stringValue
-                             let recipeName = json["recipe"]["recipe_name"].stringValue
-                             let time = json["recipe"]["recipe_cookingtime"].stringValue
-                             let level = json["recipe"]["recipe_level"].stringValue
-                             let description = json["recipe"]["recipe_description"].stringValue
-                             let people = json["recipe"]["recipe_people"].stringValue
-                             let favCount = json["recipe"]["favoriteCount"].intValue
-                             let recipeID = json["recipe"]["recipe_id"].stringValue
-                             let recipeLike = json["recipe"]["recipeLike"].stringValue
-                            let ingredient = json["recipe"]["recipe_ingredients"].stringValue
+                                            
+                             let ingredient = json["recipe"]["recipe_ingredients"].stringValue
                             let ingredientSplit = ingredient.components(separatedBy: ",")
                             let steps = json["recipe"]["recipe_steps"].stringValue
                             let stepSplit = steps.components(separatedBy: ",")
                              print(stepSplit)
                             
-                             self.RecipeName = recipeName
-                             self.Types = type
-                             self.Time = time
-                             self.Level = level
-                             self.People = people
-                             self.Description = description
-                             self.FavoriteCount = favCount
-                             self.RecipeImage = recipeImage
-                             self.RecipeID = recipeID
-                             self.RecipeLike = recipeLike
-                            
+                             self.RecipeName = json["recipe"]["recipe_name"].stringValue
+                             self.Types = json["recipe"]["type_name"].stringValue
+                             self.Time = json["recipe"]["recipe_cookingtime"].stringValue
+                             self.Level = json["recipe"]["recipe_level"].stringValue
+                             self.People = json["recipe"]["recipe_people"].stringValue
+                             self.Description = json["recipe"]["recipe_description"].stringValue
+                             self.FavoriteCount = json["recipe"]["favoriteCount"].intValue
+                             self.RecipeImage = json["recipe"]["recipe_image"].stringValue
+                             self.RecipeID = json["recipe"]["recipe_id"].stringValue
+                             self.RecipeLike = json["recipe"]["recipeLike"].stringValue
+                             self.buttonShow = json["recipe"]["userRecipe"].intValue
+                        
+                        if self.buttonShow == 0{
+                            self.deleteBtnOutlet.isEnabled = false
+                            self.editBtnOutlet.isEnabled = false
+                            self.editBtnOutlet.tintColor = UIColor.clear
+                            self.deleteBtnOutlet.tintColor = UIColor.clear
+                        }
                             for i in 0..<ingredientSplit.count{
                                 let sample = Ingredient()
                                 sample.ingredientName = ingredientSplit[i]
@@ -233,7 +244,6 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                         print("error", error ?? "Unknown error")
                         return
                     }
-
                     guard (200 ... 299) ~= response.statusCode else {
                         print("statusCode should be 2xx, but is \(response.statusCode)")
                         print("response = \(response)")
@@ -241,23 +251,44 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                     }
                     let json = try! JSON(data: data)
                     let responseString = String(data: data, encoding: .utf8)
-                    print(json)
-                    print(responseString!)
-                  
-                  self.count = json.count
-                  print(self.count)
-                  let a = json[0]["type_id"].stringValue
-                  print(a)
-                 
+             
                     if responseString != nil{
                         DispatchQueue.main.async(){
-                    
                         }
-                        
                     }
-                    
                 }
-
                 task.resume()
             }
+  func deleteApi(id:Int){
+            let url = URL(string: "http://127.0.0.1:3000/recipe/delete")
+            var request = URLRequest(url: url!)
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
+            request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+            request.httpMethod = "POST"
+            
+  let parameters: [String: Any] = ["recipe_id":id]
+            request.httpBody = parameters.percentEncoded()
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data,
+                    let response = response as? HTTPURLResponse,
+                    error == nil else {
+                    print("error", error ?? "Unknown error")
+                    return
+                }
+                guard (200 ... 299) ~= response.statusCode else {
+                    print("statusCode should be 2xx, but is \(response.statusCode)")
+                    print("response = \(response)")
+                    return
+                }
+              //  let json = try! JSON(data: data)
+                let responseString = String(data: data, encoding: .utf8)
+             print(responseString!)
+                if responseString != nil{
+                    DispatchQueue.main.async(){
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+      }
+            task.resume()
+        }
 }

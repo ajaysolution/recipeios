@@ -29,7 +29,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-  buttonLayout()
+        buttonLayout()
     }
     @IBAction func radioBtnAction(_ sender: UIButton) {
         if sender.tag == 1{
@@ -40,19 +40,19 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         }else if sender.tag == 2 {
             maleButtonOutlet.isSelected = false
             femaleButtonOutlet.isSelected = true
-             selectedGender = "F"
+            selectedGender = "F"
             print("female")
         }
     }
-  func  buttonLayout(){
+    func  buttonLayout(){
         registerButtonOutlet.layer.cornerRadius = registerButtonOutlet.frame.size.height/2
         backToLoginOutlet.layer.cornerRadius = backToLoginOutlet.frame.size.height/2
     }
     @IBAction func registrationButton(_ sender: UIButton) {
         if registration(){
             if Connection.isConnectedToInternet(){
-            print("data valid")
-            registerApi()
+                print("data valid")
+                registerApi()
                 navigationController?.popViewController(animated: true)
             }
         }else{
@@ -84,20 +84,20 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         }
         else if numberTextField.text!.isEmpty{
             alert(alertTitle: "Enter number", alertMessage: "nil", actionTitle: "enter number")
-                       return false
+            return false
         }
         else if emailTextField.text!.isEmpty{
-                   alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
+            alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
             return false
             
         }
         else if passwordTextField.text!.isEmpty{
             alert(alertTitle: "Enter password", alertMessage: "nil", actionTitle: "enter password")
-                       return false
+            return false
         }
         else if confirmPasswordTextField.text!.isEmpty{
             alert(alertTitle: "Enter confirm password", alertMessage: "nil", actionTitle: "enter confirm  password")
-                       return false
+            return false
         }
         else{
             if !isValidNumber(value: numberTextField.text!){
@@ -150,18 +150,18 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         navigationController?.popToRootViewController(animated: true)
     }
     func indicatorStart(){
-           activityIndicator.center = self.view.center
-           
-                  activityIndicator.hidesWhenStopped = true
-                  activityIndicator.style = UIActivityIndicatorView.Style.large
-                   view.isUserInteractionEnabled = false
-                  view.addSubview(activityIndicator)
-                  activityIndicator.startAnimating()
-       }
-       func indicatorEnd(){
-           activityIndicator.stopAnimating()
-                 view.isUserInteractionEnabled = true
-       }
+        activityIndicator.center = self.view.center
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        view.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    func indicatorEnd(){
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
+    }
     func registerApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/register")
@@ -175,8 +175,8 @@ class registerViewController: UIViewController,UITextFieldDelegate{
             guard let data = data,
                 let response = response as? HTTPURLResponse,
                 error == nil else {
-                print("error", error ?? "Unknown error")
-                return
+                    print("error", error ?? "Unknown error")
+                    return
             }
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")

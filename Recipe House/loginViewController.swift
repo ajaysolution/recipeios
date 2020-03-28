@@ -10,8 +10,8 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class loginViewController: UIViewController,UITextFieldDelegate {
-
+class loginViewController: UIViewController {
+    
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
     var check: Int?
@@ -23,7 +23,7 @@ class loginViewController: UIViewController,UITextFieldDelegate {
     var alertMessage : String?
     override func viewDidLoad() {
         super.viewDidLoad()
- buttonLayout()
+        buttonLayout()
     }
     override func viewDidAppear(_ animated: Bool) {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
@@ -36,27 +36,16 @@ class loginViewController: UIViewController,UITextFieldDelegate {
     }
     @IBAction func loginButton(_ sender: UIButton) {
         if login(){
-           if Connection.isConnectedToInternet(){
+            if Connection.isConnectedToInternet(){
                 print("connection")
-            print("valid data")
-            loginApi()
+                print("valid data")
+                loginApi()
             }
         }else{
             alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
             print("invalid data")
         }
     }
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        scrollView.setContentOffset(CGPoint(x: 0, y: 70), animated: true)
-//    }
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-//    }
-    
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -78,27 +67,27 @@ class loginViewController: UIViewController,UITextFieldDelegate {
     }
     func login()->Bool{
         if emailTextField.text!.isEmpty{
-                   alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
+            alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
             return false
             
         }
         else if passwordTextField.text!.isEmpty{
             alert(alertTitle: "Enter password", alertMessage: "nil", actionTitle: "enter password")
-                       return false
+            return false
         }
         else{
-             if !isValidEmail(emailID: emailTextField.text!){
-                 return false
-             }
-             else if !isValidPassword(pass: passwordTextField.text!){
-                 return false
-             }
-             else{
+            if !isValidEmail(emailID: emailTextField.text!){
+                return false
+            }
+            else if !isValidPassword(pass: passwordTextField.text!){
+                return false
+            }
+            else{
                 return true
             }
         }
     }
-
+    
     @IBAction func forgetButton(_ sender: UIButton) {
         performSegue(withIdentifier: "forget", sender: self)
     }
@@ -111,9 +100,9 @@ class loginViewController: UIViewController,UITextFieldDelegate {
     }
     func buttonLayout(){
         loginBtnLabel.layer.cornerRadius = loginBtnLabel.frame.size.height/2
-     guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
+        guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
     }
-
+    
     func loginApi(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -131,23 +120,23 @@ class loginViewController: UIViewController,UITextFieldDelegate {
             guard let data = data,
                 let response = response as? HTTPURLResponse,
                 error == nil else {
-                print("error", error ?? "Unknown error")
-                return
+                    print("error", error ?? "Unknown error")
+                    return
             }
-
+            
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
                 return
             }
-           let json = try! JSON(data: data)
-           let responseString = String(data: data, encoding: .utf8)
+            let json = try! JSON(data: data)
+            let responseString = String(data: data, encoding: .utf8)
             
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.activityIndicator.stopAnimating()
-                   // self.view.isUserInteractionEnabled = true
-                  
+                    // self.view.isUserInteractionEnabled = true
+                    
                     print(responseString!)
                     let message = json["message"].stringValue
                     let status = json["status"].stringValue
@@ -160,7 +149,7 @@ class loginViewController: UIViewController,UITextFieldDelegate {
                         email = email1!
                         self.check = 1
                         self.performSegue(withIdentifier: "tab", sender: self)
-                   
+                        
                         self.userDefault.set(true, forKey: "user_authtokenkey")
                         self.userDefault.set(authtoken, forKey: "user_authtoken")
                         self.userDefault.set(email, forKey: "email")

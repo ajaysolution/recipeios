@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 var otp = ""
 class OTPViewController: UIViewController {
-
+    
     @IBOutlet weak var otpTextField: UITextField!
     @IBOutlet weak var NewPasswordTextField: UITextField!
     @IBOutlet weak var OTPOutlet: UIButton!
@@ -24,11 +24,11 @@ class OTPViewController: UIViewController {
         self.OTPOutlet.alpha = 0.5
         self.OTPOutlet.isEnabled = false
         Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(enableButton), userInfo: nil, repeats: false)
-     buttonLayout()
+        buttonLayout()
     }
     @IBAction func updatePasswordButton(_ sender: UIButton) {
         if otpValid(){
-            forgetApi()
+            otpApi()
         }else{
             alert(alertTitle: "Invalid data", alertMessage: "", actionTitle: "check otp")
         }
@@ -42,12 +42,12 @@ class OTPViewController: UIViewController {
             alert(alertTitle: "alert", alertMessage: "", actionTitle: "enter password")
             return false
         }else{
-                if !isValidPassword(pass: NewPasswordTextField.text!){
-                    return false
+            if !isValidPassword(pass: NewPasswordTextField.text!){
+                return false
             }
         }
-              return true
-        }
+        return true
+    }
     func isValidPassword(pass:String) -> Bool {
         let passRegEx = "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", passRegEx)
@@ -60,7 +60,7 @@ class OTPViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     @IBAction func otpButton(_ sender: UIButton) {
-       
+        resendApi()
     }
     @objc func enableButton() {
         self.OTPOutlet.alpha = 1.0
@@ -72,17 +72,17 @@ class OTPViewController: UIViewController {
     }
     func indicatorStart(){
         activityIndicator.center = self.view.center
-               activityIndicator.hidesWhenStopped = true
-               activityIndicator.style = UIActivityIndicatorView.Style.large
-                view.isUserInteractionEnabled = false
-               view.addSubview(activityIndicator)
-               activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        view.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
     func indicatorEnd(){
         activityIndicator.stopAnimating()
-              view.isUserInteractionEnabled = true
+        view.isUserInteractionEnabled = true
     }
-    func forgetApi(){
+    func otpApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/forget/token/check")
         var request = URLRequest(url: url!)
@@ -94,8 +94,8 @@ class OTPViewController: UIViewController {
             guard let data = data,
                 let response = response as? HTTPURLResponse,
                 error == nil else {
-                print("error", error ?? "Unknown error")
-                return
+                    print("error", error ?? "Unknown error")
+                    return
             }
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
@@ -106,13 +106,60 @@ class OTPViewController: UIViewController {
             let responseString = String(data: data, encoding: .utf8)
             print(json)
             print(responseString!)
-           
+            let status = json["status"].stringValue
+            let message = json["message"].stringValue
+            
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
+                    if status == "OK"{
+                        let alert = UIAlertController(title: "password change successfully", message: "", preferredStyle: .alert)
+                        self.present(alert, animated: true, completion: nil)
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }else if status == "ERROR"{
+                        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Re-Enter Data", style: .cancel) { (alert) in}
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
             else{
+            }
+        }
+        task.resume()
+    }
+    func resendApi(){
+        indicatorStart()
+        let url = URL(string: "http://127.0.0.1:3000/user/login/forget")
+        var request = URLRequest(url: url!)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let parameters: [String: Any] = ["user_email":email]
+        request.httpBody = parameters.percentEncoded()
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil else {
+                    print("error", error ?? "Unknown error")
+                    return
+            }
+            print(response.statusCode)
+            guard (200 ... 299) ~= response.statusCode else {
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+            let responseString = String(data: data, encoding: .utf8)
+            
+            if responseString != nil{
+                DispatchQueue.main.async(){
+                    self.indicatorEnd()
+                    self.OTPOutlet.alpha = 0.5
+                    self.OTPOutlet.isEnabled = false
+                    Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.enableButton), userInfo: nil, repeats: false)
+                }
             }
         }
         task.resume()

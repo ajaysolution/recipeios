@@ -13,12 +13,13 @@ import PINRemoteImage
 import DropDown
 
 class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate{
-  let filterDrop = DropDown()
+    let filterDrop = DropDown()
     @IBOutlet weak var filterButtonOutlet: UIButton!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var itemArray = [HomeRecipe]()
     var finalArray = [HomeRecipe]()
+    var levelArray = [HomeRecipe]()
     var count : Int = 0
     var num : Int = 0
     var fav : String = ""
@@ -26,12 +27,12 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         if Connection.isConnectedToInternet(){
             if authtoken != ""{
-        super.viewDidLoad()
-        print(authtoken)
-        print(email)
-        searchBar.delegate = self
-       // homeRecipeApi(page: num)
-        tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+                super.viewDidLoad()
+                print(authtoken)
+                print(email)
+                searchBar.delegate = self
+                // homeRecipeApi(page: num)
+                tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
             }
             else{
                 homeRecipeApi()
@@ -48,7 +49,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         homeRecipeApi()
         tableview.tableFooterView = UIView(frame: .zero)
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -70,7 +71,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let min = time! % 60
             cell.timeLabel.text! = String(hr)+"h" + " " + String(min)+"m"
         }else{
-        cell.timeLabel.text! = "\(recipeData.time) minutes"
+            cell.timeLabel.text! = "\(recipeData.time) minutes"
         }
         cell.editButtonOutlet.isHidden = true
         cell.peopleLabel.text = "\(recipeData.people) people"
@@ -113,7 +114,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             else if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "redHeart")))!{
                 cell.favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
                 favoriteApi(id: cell.recipeId!, likeBool: "false")
-                 itemArray[sender.tag].favoriteCount -= 1
+                itemArray[sender.tag].favoriteCount -= 1
                 let less=itemArray[sender.tag].favoriteCount
                 cell.count.text = String(less)
             }
@@ -121,9 +122,9 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     @objc func pressOnComment(sender:UIButton){
         if authtoken != ""{
-        if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
-            recipeID = cell.recipeId!
-        performSegue(withIdentifier: "comment", sender: self)
+            if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
+                recipeID = cell.recipeId!
+                performSegue(withIdentifier: "comment", sender: self)
             }
         }
     }
@@ -150,21 +151,25 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     func filter(){
         filterDrop.anchorView = filterButtonOutlet
-        filterDrop.dataSource = ["level","like"]
-         filterDrop.selectionAction = {  (index: Int, item: String) in
-           print("Selected item: \(item) at index: \(index)")
-            if item == "level"{
+        filterDrop.dataSource = ["easy","medium","hard"]
+        filterDrop.selectionAction = {  (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            
+            if item == "easy"{
                 self.itemArray = self.finalArray.filter({$0.level == "easy"})
                 print("level")
             }
-            else if item == "like"{
-                self.itemArray = self.finalArray.filter({$0.recipeLike == "0"})
+            else if item == "medium"{
+                self.itemArray = self.finalArray.filter({$0.level == "medium"})
+            }
+            else if item == "hard"{
+                self.itemArray = self.finalArray.filter({$0.level == "hard"})
             }
             self.tableview.reloadData()
-         }
-
-         filterDrop.bottomOffset = CGPoint(x: -50, y: filterButtonOutlet.bounds.height)
-         filterDrop.width = 100
+        }
+        
+        filterDrop.bottomOffset = CGPoint(x: -50, y: filterButtonOutlet.bounds.height)
+        filterDrop.width = 100
     }
     @IBAction func filterButton(_ sender: UIButton) {
         filter()
@@ -204,77 +209,78 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
-                              print(json)
-                              print(responseString!)
+            print(json)
+            print(responseString!)
             
             self.count = json["recipes"].count
-
+            
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
                     for i in 0..<self.count{
                         let recipeImage = json["recipes"][i]["recipe_image"].stringValue
-                            let type = json["recipes"][i]["type_name"].stringValue
-                            let recipeName = json["recipes"][i]["recipe_name"].stringValue
-                            let time = json["recipes"][i]["recipe_cookingtime"].stringValue
-                            let level = json["recipes"][i]["recipe_level"].stringValue
-                            let description = json["recipes"][i]["recipe_description"].stringValue
-                            let people = json["recipes"][i]["recipe_people"].stringValue
-                            let favCount = json["recipes"][i]["favoriteCount"].intValue
-                            let recipeID = json["recipes"][i]["recipe_id"].stringValue
-                            let recipeLike = json["recipes"][i]["recipeLike"].stringValue
-                            print(i)
-                            let data = HomeRecipe()
-                            data.recipeName = recipeName
-                            data.type = type
-                            data.time = time
-                            data.level = level
-                            data.people = people
-                            data.description = description
-                            data.favoriteCount = favCount
-                            data.recipeImage = recipeImage
-                            data.recipeID = recipeID
-                            data.recipeLike = recipeLike
-                            self.itemArray.append(data)
-                            self.finalArray.append(data)
-                            self.tableview.reloadData()
-                        }
-                      }
-                  }
+                        let type = json["recipes"][i]["type_name"].stringValue
+                        let recipeName = json["recipes"][i]["recipe_name"].stringValue
+                        let time = json["recipes"][i]["recipe_cookingtime"].stringValue
+                        let level = json["recipes"][i]["recipe_level"].stringValue
+                        let description = json["recipes"][i]["recipe_description"].stringValue
+                        let people = json["recipes"][i]["recipe_people"].stringValue
+                        let favCount = json["recipes"][i]["favoriteCount"].intValue
+                        let recipeID = json["recipes"][i]["recipe_id"].stringValue
+                        let recipeLike = json["recipes"][i]["recipeLike"].stringValue
+                        print(i)
+                        let data = HomeRecipe()
+                        data.recipeName = recipeName
+                        data.type = type
+                        data.time = time
+                        data.level = level
+                        data.people = people
+                        data.description = description
+                        data.favoriteCount = favCount
+                        data.recipeImage = recipeImage
+                        data.recipeID = recipeID
+                        data.recipeLike = recipeLike
+                        self.itemArray.append(data)
+                        self.finalArray.append(data)
+                        self.tableview.reloadData()
+                    }
+                }
+            }
         }
-              task.resume()
-          }
+        task.resume()
+    }
+    
     func favoriteApi(id:Int,likeBool : String){
-                  let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
-                  var request = URLRequest(url: url!)
-                  request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
-                  request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-                  request.httpMethod = "POST"
-                  
+        let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
+        var request = URLRequest(url: url!)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
+        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+        request.httpMethod = "POST"
+        
         let parameters: [String: Any] = ["favorite":likeBool,"user_email":email,"recipe_id":id]
-                  request.httpBody = parameters.percentEncoded()
-                  let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                      guard let data = data,
-                          let response = response as? HTTPURLResponse,
-                          error == nil else {
-                          print("error", error ?? "Unknown error")
-                          return
-                      }
-                      guard (200 ... 299) ~= response.statusCode else {
-                          print("statusCode should be 2xx, but is \(response.statusCode)")
-                          print("response = \(response)")
-                          return
-                      }
-                      let json = try! JSON(data: data)
-                      let responseString = String(data: data, encoding: .utf8)
-                  
-                      if responseString != nil{
-                          DispatchQueue.main.async(){
-                          }
-                      }
-                  }
-                  task.resume()
-}
+        request.httpBody = parameters.percentEncoded()
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil else {
+                    print("error", error ?? "Unknown error")
+                    return
+            }
+            guard (200 ... 299) ~= response.statusCode else {
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+            // let json = try! JSON(data: data)
+            let responseString = String(data: data, encoding: .utf8)
+            
+            if responseString != nil{
+                DispatchQueue.main.async(){
+                }
+            }
+        }
+        task.resume()
+    }
     
 }
 

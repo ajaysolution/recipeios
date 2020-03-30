@@ -13,7 +13,7 @@ import Alamofire
 var recipeID : Int = 0
 class commentViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     
-    
+     //MARK: - outlet , array , variable
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -21,24 +21,19 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var userImage:String = ""
     var count = 0
     var commentArray = [CommentData]()
+     //MARK: - viewdidload function
     override func viewDidLoad() {
         super.viewDidLoad()
-        profileApi()
+        userDataApi()
         commentApi()
         tableView.register(UINib(nibName: "messageTableViewCell", bundle: nil), forCellReuseIdentifier: "comment")
-        
     }
+     //MARK: - viewwillappear function
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 166
         tableView.rowHeight = UITableView.automaticDimension
     }
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
+     //MARK: - tableview method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(commentArray.count)
         return commentArray.count
@@ -48,25 +43,19 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let commentInfo = commentArray[indexPath.row]
         let userName = commentInfo.username
         cell.commentLabel.text = commentInfo.userComment
-        
-        
         if userName == fullName{
             cell.userName.text = "me"
             cell.userLogo.pin_setImage(from: URL(string: "http://127.0.0.1:3000/userimages/\(userImage)"))
-            // cell.background.backgroundColor = .black
-            // cell.userName.textColor = .lightGray
-            //   cell.commentLabel.textColor = .white
         }else{
             cell.userName.text = commentInfo.username
-            //cell.background.backgroundColor = .lightGray
         }
         return cell
     }
-    
-    
+     //MARK: - send button press
     @IBAction func sendButton(_ sender: UIButton) {
         addCommentApi()
     }
+     //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         
@@ -80,6 +69,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
+     //MARK: - comment show API
     func commentApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/recipe/comment?comment_status=show")
@@ -131,13 +121,12 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
                         self.commentArray.append(data)
                         self.tableView.reloadData()
                     }
-                    
                 }
             }
         }
-        
         task.resume()
     }
+     //MARK: - Add Comment API
     func addCommentApi(){
         commentArray.removeAll()
         let url = URL(string: "http://127.0.0.1:3000/recipe/comment?comment_status=add")
@@ -156,7 +145,6 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
                     print("error", error ?? "Unknown error")
                     return
             }
-            
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -165,26 +153,16 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(json)
-            print(responseString!)
-            
-            self.count = json.count
-            print(self.count)
-            
-            let username = json["comment"][0]["comment_text"].stringValue
-            print(username)
-            
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.commentApi()
                 }
-                
             }
-            
         }
-        
         task.resume()
     }
-    func profileApi(){
+     //MARK: - use data API
+    func userDataApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/profile")
         var request = URLRequest(url: url!)

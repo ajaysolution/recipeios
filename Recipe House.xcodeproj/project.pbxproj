@@ -90,11 +90,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		363BF05823FFDE3500627917 /* model */ = {
+		362370602431FE5B003D9B30 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				36B022EF241A1D7200DA5AC7 /* Step.swift */,
+				362FE93624079EB7005B9696 /* HomeRecipe.swift */,
+				365208A1241624E500C60C9F /* CommentData.swift */,
+				36F2C8A22407F19300992D2C /* Connection.swift */,
+				3644540C241F88BD00F091AE /* Ingredient.swift */,
 			);
-			path = model;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3623B101243206B8002EB05C /* view */ = {
+			isa = PBXGroup;
+			children = (
+				36FCBEEA23FD017200427350 /* LaunchScreen.storyboard */,
+				36FCBEE523FD016F00427350 /* Main.storyboard */,
+				36FCBEE823FD017200427350 /* Assets.xcassets */,
+				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
+				3619E287242B92A0004156E7 /* myrecipeTableViewCell.xib */,
+				36CACAD8241286F600CE23AD /* messageTableViewCell.xib */,
+				3644540F241FACCE00F091AE /* ingredientTableViewCell.xib */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		3623B10224320736002EB05C /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				3623B1032432074E002EB05C /* cell */,
+				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
+				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
+				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
+				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
+				363BF059240000DC00627917 /* forgetPasswordViewController.swift */,
+				3618329A240391E300ACE757 /* OTPViewController.swift */,
+				360ACF51240630BF006D4A22 /* homeViewController.swift */,
+				360ACF5924069CE8006D4A22 /* myRecipeViewController.swift */,
+				36445412241FAD8900F091AE /* addRecipeViewController.swift */,
+				360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */,
+				361C10932405289D009A84B0 /* profileViewController.swift */,
+				360ACF5324065C58006D4A22 /* changePasswordViewController.swift */,
+				36CACAD524127A4500CE23AD /* commentViewController.swift */,
+				365208A3241660FE00C60C9F /* recipeDetailViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		3623B1032432074E002EB05C /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				3619E286242B92A0004156E7 /* myrecipeTableViewCell.swift */,
+				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
+				36CACAD7241286F600CE23AD /* messageTableViewCell.swift */,
+				3644540E241FACCE00F091AE /* ingredientTableViewCell.swift */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 		36FCBED323FD016F00427350 = {
@@ -118,37 +170,9 @@
 		36FCBEDE23FD016F00427350 /* Recipe House */ = {
 			isa = PBXGroup;
 			children = (
-				363BF05823FFDE3500627917 /* model */,
-				36FCBEDF23FD016F00427350 /* AppDelegate.swift */,
-				36B022EF241A1D7200DA5AC7 /* Step.swift */,
-				362FE93624079EB7005B9696 /* HomeRecipe.swift */,
-				365208A1241624E500C60C9F /* CommentData.swift */,
-				3644540C241F88BD00F091AE /* Ingredient.swift */,
-				36F2C8A22407F19300992D2C /* Connection.swift */,
-				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
-				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
-				3619E286242B92A0004156E7 /* myrecipeTableViewCell.swift */,
-				3619E287242B92A0004156E7 /* myrecipeTableViewCell.xib */,
-				36CACAD8241286F600CE23AD /* messageTableViewCell.xib */,
-				36CACAD7241286F600CE23AD /* messageTableViewCell.swift */,
-				3644540F241FACCE00F091AE /* ingredientTableViewCell.xib */,
-				3644540E241FACCE00F091AE /* ingredientTableViewCell.swift */,
-				36FCBEF323FD3AAD00427350 /* loginViewController.swift */,
-				36FCBEF523FD6BAE00427350 /* registerViewController.swift */,
-				363BF059240000DC00627917 /* forgetPasswordViewController.swift */,
-				3618329A240391E300ACE757 /* OTPViewController.swift */,
-				360ACF51240630BF006D4A22 /* homeViewController.swift */,
-				360ACF5924069CE8006D4A22 /* myRecipeViewController.swift */,
-				360ACF5B2406A0F9006D4A22 /* favoriteViewController.swift */,
-				361C10932405289D009A84B0 /* profileViewController.swift */,
-				360ACF5324065C58006D4A22 /* changePasswordViewController.swift */,
-				36CACAD524127A4500CE23AD /* commentViewController.swift */,
-				365208A3241660FE00C60C9F /* recipeDetailViewController.swift */,
-				36445412241FAD8900F091AE /* addRecipeViewController.swift */,
-				36FCBEE123FD016F00427350 /* SceneDelegate.swift */,
-				36FCBEE523FD016F00427350 /* Main.storyboard */,
-				36FCBEE823FD017200427350 /* Assets.xcassets */,
-				36FCBEEA23FD017200427350 /* LaunchScreen.storyboard */,
+				362370602431FE5B003D9B30 /* Model */,
+				3623B101243206B8002EB05C /* view */,
+				3623B10224320736002EB05C /* controller */,
 				36FCBEED23FD017200427350 /* Info.plist */,
 			);
 			path = "Recipe House";
@@ -466,7 +490,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saview.Recipe-House";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -484,7 +508,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saview.Recipe-House";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

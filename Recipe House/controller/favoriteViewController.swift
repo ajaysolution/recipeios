@@ -12,13 +12,14 @@ import Alamofire
 import PINRemoteImage
 
 class favoriteViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate {
-
-    @IBOutlet weak var searchBar: UISearchBar!
+ //MARK: - variable ,array ,outlet
     var count = 0
     var num : Int = 0
     var favoriteArray = [HomeRecipe]()
     var finalArray = [HomeRecipe]()
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+     //MARK: - viewdidload function
     override func viewDidLoad() {
         if authtoken != "" {
                super.viewDidLoad()
@@ -34,16 +35,16 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
            }
        tableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell1")
     }
+    //MARK: - viewwillappear function
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
             self.num = 0
             self.favoriteArray.removeAll()
             self.tableView.reloadData()
-          //  self.AlamofireGetCode()
-           // self.favoriteRecipeApi()
             self.favoriteApi()
         }
     }
+    //MARK: - Tableview Method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteArray.count
        }
@@ -53,6 +54,10 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
     }
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! RecipeTableViewCell
+        cell.contentView.layer.cornerRadius = 15.0
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.borderColor = UIColor.black.cgColor
+        cell.contentView.layer.masksToBounds = true
         let favoriteRecipeData = favoriteArray[indexPath.row]
         cell.favoriteButtonLabel.tag = indexPath.row
         cell.favoriteButtonLabel.addTarget(self, action: #selector(pressOnLike(sender:)), for: .touchUpInside)
@@ -87,6 +92,13 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
            return 330
        }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == favoriteArray.count - 1{
+            num += 10
+            favoriteApi()
+        }
+    }
+    //MARK: - like button pressed function
     @objc func pressOnLike(sender:UIButton){
         if let cell = self.tableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
             if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
@@ -105,6 +117,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
             }
         }
     }
+    //MARK: - comment button pressed function
     @objc func pressOnComment(sender:UIButton){
         if let cell = self.tableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
             recipeID = cell.recipeId!
@@ -112,10 +125,11 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         }
         
     }
+    //MARK: - search method
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         favoriteArray = finalArray.filter({ (recipe) -> Bool in
             guard let text = searchBar.text else {return false }
-            return recipe.recipeName.contains(text)
+            return recipe.recipeName.contains(text.lowercased())
         })
         tableView.reloadData()
     }
@@ -133,6 +147,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         favoriteApi()
          num += 10
      }
+    //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -145,36 +160,14 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
-//    func AlamofireGetCode()
-//    {
-//        var url:String!
-//        url = "http://127.0.0.1:3000/recipe/userfavorites?user_email=\(email)&count=0"
-//    let header: HTTPHeaders = ["user_authtoken":authtoken]
-//        AF.request(url, method: .get, encoding: JSONEncoding.default,headers: header)
-//            .responseJSON { response in
-//                switch response.result{
-//                    case .success(let json):
-//                        print(json)
-//                        DispatchQueue.main.async {
-//                           print(json)
-////                           self.mainarray = json as? NSArray
-////                           print(self.mainarray as Any)
-////                           self.mytableviewreload.reloadData()
-//                        }
-//                    case .failure(let error):
-//                        print(error)
-//                    }
-//            }
-//    }
-
+    //MARK: - favorite recipe API
     func favoriteApi(){
         indicatorStart()
         let url = URL(string:"http://127.0.0.1:3000/recipe/userfavorites?user_email=\(email)&count=\(num)")
-        print(url!)
-  var request = URLRequest(url: url!)
-  request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-  request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
-  request.httpMethod = "GET"
+        var request = URLRequest(url: url!)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.addValue(authtoken, forHTTPHeaderField: "user_authtoken")
+        request.httpMethod = "GET"
 
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
               guard let data = data,
@@ -191,7 +184,6 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
               let json = try! JSON(data: data)
               let responseString = String(data: data, encoding: .utf8)
               print(json)
-              print(responseString!)
 
             self.count = json["recipes"].count
             print(self.count)
@@ -234,8 +226,7 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
           }
           task.resume()
       }
-    
-    
+ //MARK: - like API
     func likeApi(id:Int,likeBool : String){
         let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
         var request = URLRequest(url: url!)
@@ -258,7 +249,6 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
                 print("response = \(response)")
                 return
             }
-            let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             if responseString != nil{
                 DispatchQueue.main.async(){

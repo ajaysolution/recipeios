@@ -23,7 +23,7 @@
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Wmv-cc-BL2">
-                        <rect key="frame" x="16.000000000000007" y="188" width="101.66666666666669" height="38.666666666666657"/>
+                        <rect key="frame" x="16" y="188" width="117" height="41.333333333333343"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vtu-f6-6Sh">
                                 <rect key="frame" x="0.0" y="0.0" width="25.666666666666668" height="13.333333333333334"/>
@@ -32,21 +32,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4y-sG-6Pr">
-                                <rect key="frame" x="0.0" y="18.333333333333343" width="101.66666666666667" height="20.333333333333329"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="0.0" y="18.333333333333343" width="117" height="23"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This recipe is so delicious you have to try this recipe.this recipe is easy to made." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S1W-JQ-fIw">
-                        <rect key="frame" x="16" y="234.66666666666666" width="288" height="28.666666666666657"/>
+                        <rect key="frame" x="18" y="237.33333333333334" width="284" height="28.666666666666657"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QZU-xn-qVE">
-                        <rect key="frame" x="19.666666666666657" y="271.33333333333331" width="281" height="22"/>
+                        <rect key="frame" x="19.666666666666657" y="274" width="281" height="22"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rRO-6o-qTd">
                                 <rect key="frame" x="0.0" y="0.0" width="97" height="22"/>
@@ -127,7 +127,7 @@
                         </subviews>
                     </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="Hc1-pv-J2w">
-                        <rect key="frame" x="5.6666666666666572" y="301.33333333333331" width="308.66666666666674" height="25"/>
+                        <rect key="frame" x="5.6666666666666572" y="304" width="308.66666666666674" height="25"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Frm-RI-9YU">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="25"/>
@@ -234,6 +234,7 @@
                         </subviews>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" red="0.80844329699999995" green="0.97899898200000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="QZU-xn-qVE" firstAttribute="top" secondItem="S1W-JQ-fIw" secondAttribute="bottom" constant="8" id="6ch-R9-27F"/>
                     <constraint firstItem="QZU-xn-qVE" firstAttribute="centerX" secondItem="4cu-H4-u47" secondAttribute="centerX" id="LZf-dh-6la"/>
@@ -243,9 +244,9 @@
                     <constraint firstItem="Hc1-pv-J2w" firstAttribute="top" secondItem="QZU-xn-qVE" secondAttribute="bottom" constant="8" symbolic="YES" id="g7S-YZ-eJw"/>
                     <constraint firstItem="ihK-v4-MWJ" firstAttribute="leading" secondItem="4cu-H4-u47" secondAttribute="leading" id="gFn-kS-KzD"/>
                     <constraint firstAttribute="trailing" secondItem="ihK-v4-MWJ" secondAttribute="trailing" id="l6y-Yj-9O9"/>
-                    <constraint firstItem="S1W-JQ-fIw" firstAttribute="leading" secondItem="4cu-H4-u47" secondAttribute="leading" constant="16" id="nfd-st-QJG"/>
+                    <constraint firstItem="S1W-JQ-fIw" firstAttribute="leading" secondItem="4cu-H4-u47" secondAttribute="leading" constant="18" id="nfd-st-QJG"/>
                     <constraint firstItem="ihK-v4-MWJ" firstAttribute="top" secondItem="4cu-H4-u47" secondAttribute="top" id="rdC-uT-8nH"/>
-                    <constraint firstAttribute="trailing" secondItem="S1W-JQ-fIw" secondAttribute="trailing" constant="16" id="vaK-ds-O8w"/>
+                    <constraint firstAttribute="trailing" secondItem="S1W-JQ-fIw" secondAttribute="trailing" constant="18" id="vaK-ds-O8w"/>
                     <constraint firstItem="Wmv-cc-BL2" firstAttribute="top" secondItem="ihK-v4-MWJ" secondAttribute="bottom" constant="8" id="wb9-Zh-3r7"/>
                     <constraint firstItem="QZU-xn-qVE" firstAttribute="leading" secondItem="4cu-H4-u47" secondAttribute="leadingMargin" constant="3.5" id="zW4-eP-3DG"/>
                     <constraint firstItem="Hc1-pv-J2w" firstAttribute="centerX" secondItem="S1W-JQ-fIw" secondAttribute="centerX" id="zlJ-D1-rzP"/>
@@ -266,7 +267,7 @@
                 <outlet property="recipeNameLabel" destination="p4y-sG-6Pr" id="esF-Si-d6a"/>
                 <outlet property="timeLabel" destination="kuK-mj-0xx" id="PKm-k6-MJg"/>
             </connections>
-            <point key="canvasLocation" x="-126.08695652173914" y="0.33482142857142855"/>
+            <point key="canvasLocation" x="23" y="-4"/>
         </tableViewCell>
     </objects>
     <resources>

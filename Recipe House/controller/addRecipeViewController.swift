@@ -14,7 +14,7 @@ import DropDown
 
 var editRecipeId : Int = 0
 class addRecipeViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate {
-    
+    //MARK: - array , variable
     var levelDrop = DropDown()
     var typeDropDown = DropDown()
     var addIngredientArray = [Ingredient]()
@@ -23,7 +23,9 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     var arrayToString : String = ""
     var levelSelect : String = ""
     var typeSelect : Int = 0
+    var select : String = ""
     var sections = ["Ingredient","Steps"]
+    //MARK: - outlet
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recipeNameTxtField: UITextField!
@@ -36,11 +38,13 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     @IBOutlet weak var typeButtonOutlet: UIButton!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var submitButtonOutlet: UIButton!
+    //MARK: - viewdidload function
     override func viewDidLoad() {
         super.viewDidLoad()
         submitButtonOutlet.layer.cornerRadius = submitButtonOutlet.frame.size.height/2
         tableView.register(UINib(nibName: "ingredientTableViewCell", bundle: nil), forCellReuseIdentifier: "ingredient")
     }
+    //MARK: - viewdidappear function
     override func viewDidAppear(_ animated: Bool) {
         if authtoken != ""{
             if editRecipeId == 0{
@@ -67,9 +71,8 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
         }
-        
     }
-    
+    //MARK: - tableview method
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.sections[section]
     }
@@ -86,88 +89,54 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ingredient", for: indexPath) as! ingredientTableViewCell
-        cell.addRecipeTextCell.tag = indexPath.row
-        cell.addRecipeTextCell.delegate = self
+        
         if sections[indexPath.section] == "Ingredient"{
             cell.addRecipeTextCell.text = addIngredientArray[indexPath.row].ingredientName
-            
-            
-            //            let data = Ingredient()
-            //            data.ingredientName = cell.addRecipeTextCell.text!
-            //            editIngredientArray.append(data)
+            select = "Ingredient"
+            cell.addRecipeTextCell.tag = indexPath.row
+            cell.addRecipeTextCell.delegate = self
         }
         if sections[indexPath.section] == "Steps"{
+             select = "Steps"
             cell.addRecipeTextCell.text = addStepArray[indexPath.row].stepName
-            //            cell.addRecipeTextCell.tag = indexPath.row
-            //            cell.addRecipeTextCell.delegate = self
+            cell.addRecipeTextCell.tag = indexPath.section
+            cell.addRecipeTextCell.tag = indexPath.row
+            cell.addRecipeTextCell.delegate = self
         }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
     }
-    //    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    //        let delete = UIContextualAction(style: .normal, title: "delete") { (UIContextualAction, UIView, success :(Bool) -> Void) in
-    //            success(true)
-    //            if self.sections[indexPath.section] == "Ingredient"{
-    //                self.addIngredientArray.remove(at: indexPath.row)
-    //            }
-    //            if self.sections[indexPath.section] == "Steps"{
-    //                self.addStepArray.remove(at: indexPath.row)
-    //
-    //            }
-    //            tableView.reloadData()
-    //        }
-    //        delete.backgroundColor = .red
-    //        return UISwipeActionsConfiguration(actions: [delete])
-    //    }
-    
+    //MARK: - delete row method
+        func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+            let delete = UIContextualAction(style: .normal, title: "delete") { (UIContextualAction, UIView, success :(Bool) -> Void) in
+                success(true)
+                if self.sections[indexPath.section] == "Ingredient"{
+                    self.addIngredientArray.remove(at: indexPath.row)
+                }
+                if self.sections[indexPath.section] == "Steps"{
+                    self.addStepArray.remove(at: indexPath.row)
+                }
+                tableView.reloadData()
+            }
+            delete.backgroundColor = .red
+            return UISwipeActionsConfiguration(actions: [delete])
+        }
+    //MARK: - textfield change method
     func textFieldDidEndEditing(_ textField: UITextField) {
-        addIngredientArray[textField.tag].ingredientName = textField.text!
-        // addStepArray[textField.tag].stepName = textField.text!
-    }
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let edit = UIContextualAction(style: .normal, title: "Edit") { (UIContextualAction, UIView, success :(Bool) -> Void) in
-            success(true)
-            if self.sections[indexPath.section] == "Ingredient"{
-                //  self.addIngredientArray.insert(, at: addIngredientArray[indexPath.row].ingredientName)
-                self.addIngredientArray.remove(at: indexPath.row)
-            }
-            if self.sections[indexPath.section] == "Steps"{
-                
-                
-            }
-            tableView.reloadData()
-        }
-        edit.backgroundColor = .darkGray
-        return UISwipeActionsConfiguration(actions: [edit])
-    }
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if sections[sourceIndexPath.section] == "Ingredient"{
-            let movIngreCell = addIngredientArray[sourceIndexPath.item]
-            addIngredientArray.remove(at: sourceIndexPath.item)
-            addIngredientArray.insert(movIngreCell, at: destinationIndexPath.item)
-        }
-        if sections[sourceIndexPath.section] == "Steps"{
-            let movStepCell = addStepArray[sourceIndexPath.item]
-            addStepArray.remove(at: sourceIndexPath.item)
-            addStepArray.insert(movStepCell, at: destinationIndexPath.item)
+        if select == "Ingredient"{
+            addIngredientArray[textField.tag].ingredientName = textField.text!
+        }else if select == "Steps"{
+              addStepArray[textField.tag].stepName = textField.text!
         }
     }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == .delete){
-            addIngredientArray.remove(at: indexPath.item)
-            addStepArray.remove(at: indexPath.item)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
+    //MARK: - add ingredient button
     @IBAction func addIngredientButton(_ sender: UIButton) {
         let ingredientData = Ingredient()
-        time()
         if ingredientTxtField.text!.isEmpty{
             let alert = UIAlertController(title: "you can't add null value", message: "", preferredStyle: .alert)
             let action = UIAlertAction(title: "fill value", style: .cancel) { (action) in
-                
             }
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
@@ -178,23 +147,22 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             ingredientTxtField.text = ""
         }
     }
+    //MARK: - add step button
     @IBAction func addStepButton(_ sender: UIButton) {
         let stepData = Step()
         if stepTxtField.text!.isEmpty{
             let alert = UIAlertController(title: "you can't add null value", message: "", preferredStyle: .alert)
-            let action = UIAlertAction(title: "fill value", style: .cancel) { (action) in
-                
-            }
+            let action = UIAlertAction(title: "fill value", style: .cancel) { (action) in}
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
         }else{
             stepData.stepName = stepTxtField.text!
             addStepArray.append(stepData)
-            print(addStepArray)
             tableView.reloadData()
             stepTxtField.text = ""
         }
     }
+    //MARK: - level dropdown function
     func levelDropdown(){
         levelDrop.anchorView = levelButtonOutlet
         levelDrop.dataSource = ["easy","medium","hard"]
@@ -217,6 +185,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         levelDrop.bottomOffset = CGPoint(x: 0, y: levelButtonOutlet.bounds.height)
         levelDrop.width = 100
     }
+    //MARK: - type dropdown function
     func typeDropdown(){
         typeDropDown.anchorView = typeButtonOutlet
         typeDropDown.dataSource = ["Dessert","Breakfast","Lunch","Drinks","Pizza","Salads","Main Courses","Side Dishes"]
@@ -250,14 +219,17 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         typeDropDown.bottomOffset = CGPoint(x: 0, y: levelButtonOutlet.bounds.height)
         typeDropDown.width = 100
     }
+    //MARK: - level dropdown button
     @IBAction func levelDropdown(_ sender: UIButton) {
         levelDropdown()
         levelDrop.show()
     }
+    //MARK: - type dropdown button
     @IBAction func typeDropDown(_ sender: UIButton) {
         typeDropdown()
         typeDropDown.show()
     }
+    //MARK: - select recipe image
     @IBAction func selectRecipeImage(_ sender: UIButton) {
         let image = UIImagePickerController()
         image.delegate = self
@@ -265,6 +237,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         image.allowsEditing = true
         present(image, animated: true, completion: nil)
     }
+    //MARK: - image picker function
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage{
             recipeImageView.image = image
@@ -273,6 +246,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         }
         self.dismiss(animated: true, completion: nil)
     }
+    //MARK: - add recipe validation check
     func addRecipeDetail()->Bool{
         if recipeNameTxtField.text!.isEmpty{
             alert(alertTitle: "Enter recipe name", alertMessage: "nil", actionTitle: "enter recipe name")
@@ -320,6 +294,10 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                 alert(alertTitle: "invalid min", alertMessage: "", actionTitle: "enter valid minute")
                 return false
             }
+            else if !isValidDescription(des: descriptionTextView.text!){
+                    alert(alertTitle: "description length is not sufficient", alertMessage: "", actionTitle: "enter in 30 character")
+                    return false
+            }
             else if !isValidpeople(people: recipePeopleTxtField.text!){
                 alert(alertTitle: "invalid format people", alertMessage: "", actionTitle: "limited people")
                 return false
@@ -331,11 +309,17 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             return true
         }
     }
+    //MARK: - add recipe validation
     func isValidHour(hour:String) -> Bool{
         // let hourRegEx = "[0-2]{1}[0-3]{1}"
         let hourRegEx = "[0-9]{1}"
         let hourTest = NSPredicate(format:"SELF MATCHES %@", hourRegEx)
         return hourTest.evaluate(with: hour)
+    }
+    func isValidDescription(des:String) -> Bool{
+        let desRegEx = "^.{1,50}$"
+        let desTest = NSPredicate(format:"SELF MATCHES %@", desRegEx)
+        return desTest.evaluate(with: des)
     }
     func isValidMinute(min:String) -> Bool{
         let minRegEx = "[0-5]{1}[0-9]{1}"
@@ -343,11 +327,11 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         return minTest.evaluate(with: min)
     }
     func isValidpeople(people:String) -> Bool{
-        let peopleRegEx = "[0-2]{1}[0-5]{1}"
+        let peopleRegEx = "^[0-9]{1,2}[:.,-]?$"
         let peopleTest = NSPredicate(format:"SELF MATCHES %@", peopleRegEx)
         return peopleTest.evaluate(with: people)
     }
-    
+    //MARK: - alert function
     func alert(alertTitle : String,alertMessage : String,actionTitle : String){
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         let action = UIAlertAction(title: actionTitle, style: .cancel) { (alert) in
@@ -355,34 +339,35 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    //MARK: - submit button
     @IBAction func submitButton(_ sender: UIButton) {
         if addRecipeDetail(){
             print(editRecipeId)
             if editRecipeId == 0{
                 if let imageData = recipeImageView.image!.jpegData(compressionQuality: 0.5){
                     addRecipeApi(data_img: imageData)
+                    navigationController?.popViewController(animated: true)
                 }
             }else if editRecipeId != 0{
-                
                 if let editImage = recipeImageView.image?.jpegData(compressionQuality: 0.5){
                     editRecipeApi(data_img: editImage)
+                    navigationController?.popViewController(animated: true)
                 }
             }
         }
-        navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
         editRecipeId = 0
     }
+    //MARK: - add recipe API
     func addRecipeApi(data_img:Data?){
         let url = "http://127.0.0.1:3000/recipe/add"
         let headers: HTTPHeaders = ["user_authtoken":authtoken]
         
         var ingredientArray:[String] = []
         for i in 0..<addIngredientArray.count{
-            print(addIngredientArray[i].ingredientName)
             ingredientArray.append(addIngredientArray[i].ingredientName)
         }
         let ingredietString = ingredientArray.joined(separator: ",")
-        
         var stepArray : [String] = []
         for i in 0..<addStepArray.count{
             stepArray.append(addStepArray[i].stepName)
@@ -392,7 +377,6 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         let minute = Int(recipeMinuteTxtField.text!)
         var time = ""
         time = String(hour! * 60 + minute!)
-        print(time)
         AF.upload(multipartFormData: { MultipartFormData in
             let uploadDict = ["recipe_name":self.recipeNameTxtField.text!,"type_id":String(self.typeSelect),"recipe_level":self.levelSelect,"recipe_cookingtime":"\(time)","recipe_ingredients":ingredietString,"recipe_steps":stepString,"recipe_people":self.recipePeopleTxtField.text!,"recipe_description":self.descriptionTextView.text!]
             
@@ -404,8 +388,23 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             debugPrint("SUCCESS RESPONSE: \(response)")
         }
     }
+    //MARK: - indicator function
+    func indicatorStart(){
+        activityIndicator.center = self.view.center
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        view.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    func indicatorEnd(){
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
+    }
+    //MARK: - recipe detail API
     func recipeDetailApi(){
-        // indicatorStart()
+        self.indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/recipe/getrecipe?recipe_id=\(editRecipeId)")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
@@ -419,7 +418,6 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                     print("error", error ?? "Unknown error")
                     return
             }
-            
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 let alert = UIAlertController(title: "error", message: "\(response)", preferredStyle: .alert)
@@ -430,15 +428,9 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(json)
-            print(responseString!)
-            
-            let name = json["recipe"]["recipe_name"].stringValue
-            print(name)
-            
             if responseString != nil{
                 DispatchQueue.main.async(){
-                    //  self.indicatorEnd()
-                    
+                    self.indicatorEnd()
                     let recipeImage = json["recipe"]["recipe_image"].stringValue
                     let type = json["recipe"]["type_name"].stringValue
                     let recipeName = json["recipe"]["recipe_name"].stringValue
@@ -446,13 +438,10 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                     let level = json["recipe"]["recipe_level"].stringValue
                     let description = json["recipe"]["recipe_description"].stringValue
                     let people = json["recipe"]["recipe_people"].stringValue
-                    //   let recipeID = json["recipe"]["recipe_id"].stringValue
                     let ingredient = json["recipe"]["recipe_ingredients"].stringValue
                     let ingredientSplit = ingredient.components(separatedBy: ",")
                     let steps = json["recipe"]["recipe_steps"].stringValue
                     let stepSplit = steps.components(separatedBy: ",")
-                    print(stepSplit)
-                    
                     self.recipeNameTxtField.text = recipeName
                     self.typeButtonOutlet.setTitle(type, for: .normal)
                     self.levelSelect = level
@@ -507,13 +496,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         }
         task.resume()
     }
-    func time(){
-        let hour = Int(recipeHourTxtField.text!)
-        let minute = Int(recipeMinuteTxtField.text!)
-        var time : Int = 0
-        time = hour! * 60 + minute!
-        print(time)
-    }
+      //MARK: - edit recipe API
     func editRecipeApi(data_img:Data?){
         let url = "http://127.0.0.1:3000/recipe/edit"
         let headers: HTTPHeaders = ["user_authtoken":authtoken]

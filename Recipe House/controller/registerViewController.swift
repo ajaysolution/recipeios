@@ -11,7 +11,9 @@ import Alamofire
 import SwiftyJSON
 
 class registerViewController: UIViewController,UITextFieldDelegate{
-    
+    //variable
+      var selectedGender = ""
+    //MARK: - outlet
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -23,7 +25,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
     @IBOutlet weak var maleButtonOutlet: UIButton!
     @IBOutlet weak var registerButtonOutlet: UIButton!
     @IBOutlet weak var backToLoginOutlet: UIButton!
-    var selectedGender = ""
+  //MARK: - viewdidload function
     override func viewDidLoad() {
         super.viewDidLoad()
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
@@ -31,27 +33,27 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         view.addGestureRecognizer(tap)
         buttonLayout()
     }
+    //MARK: - gender radio button
     @IBAction func radioBtnAction(_ sender: UIButton) {
         if sender.tag == 1{
             maleButtonOutlet.isSelected = true
             femaleButtonOutlet.isSelected = false
             selectedGender = "M"
-            print("male")
         }else if sender.tag == 2 {
             maleButtonOutlet.isSelected = false
             femaleButtonOutlet.isSelected = true
             selectedGender = "F"
-            print("female")
         }
     }
+    //MARK: - button layout
     func  buttonLayout(){
         registerButtonOutlet.layer.cornerRadius = registerButtonOutlet.frame.size.height/2
         backToLoginOutlet.layer.cornerRadius = backToLoginOutlet.frame.size.height/2
     }
+    //MARK: - registration button pressed
     @IBAction func registrationButton(_ sender: UIButton) {
         if registration(){
             if Connection.isConnectedToInternet(){
-                print("data valid")
                 registerApi()
                 navigationController?.popViewController(animated: true)
             }
@@ -59,6 +61,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
             print("invalid data")
         }
     }
+    //MARK: - textfield editing for keyboard
     func textFieldDidBeginEditing(_ textField: UITextField) {
         scrollView.setContentOffset(CGPoint(x: 0, y: 120), animated: true)
     }
@@ -69,6 +72,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
+       //MARK: - registration validation check function
     func registration()->Bool{
         if firstNameTextField.text!.isEmpty{
             alert(alertTitle: "Enter firstname", alertMessage: "nil", actionTitle: "enter firstname")
@@ -123,6 +127,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         }
         return true
     }
+    //MARK: - validation function
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -139,6 +144,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         let result =  phoneTest.evaluate(with: value)
         return result
     }
+       //MARK: - alert function
     func alert(alertTitle : String,alertMessage : String,actionTitle : String){
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         let action = UIAlertAction(title: actionTitle, style: .cancel) { (alert) in
@@ -146,9 +152,11 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+       //MARK: - backToLogin Button
     @IBAction func backToLogin(_ sender: UIButton) {
         navigationController?.popToRootViewController(animated: true)
     }
+        //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         
@@ -162,6 +170,7 @@ class registerViewController: UIViewController,UITextFieldDelegate{
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
+        //MARK: - registration API
     func registerApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/register")
@@ -185,8 +194,6 @@ class registerViewController: UIViewController,UITextFieldDelegate{
             }
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
-            print(json)
-            print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.indicatorEnd()

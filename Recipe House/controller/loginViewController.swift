@@ -11,41 +11,44 @@ import Alamofire
 import SwiftyJSON
 
 class loginViewController: UIViewController {
-    
+    //MARK: - variable
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
     var check: Int?
+    var alertMessage : String?
+    
+    //MARK: - outlet
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var loginBtnLabel: UIButton!
     @IBOutlet weak var guestBtnLabel: UIButton!
-    var alertMessage : String?
+    
+    //MARK: - viewdidiload function
     override func viewDidLoad() {
         super.viewDidLoad()
         buttonLayout()
     }
+    //MARK: - viewdidappear function
     override func viewDidAppear(_ animated: Bool) {
-        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        emailTextField.text = ""
+        passwordTextField.text = ""
         if userDefault.bool(forKey: "user_authtokenkey") == true{
             performSegue(withIdentifier: "tab", sender: self)
         }
         return
     }
+    //MARK: - Login Button
     @IBAction func loginButton(_ sender: UIButton) {
         if login(){
             if Connection.isConnectedToInternet(){
-                print("connection")
-                print("valid data")
                 loginApi()
             }
         }else{
             alert(alertTitle: "INVALID EMAIL OR PASSWORD", alertMessage: "", actionTitle: "RE-ENTER DATA")
-            print("invalid data")
         }
     }
+    //MARK: - Login validation function
     func isValidEmail(emailID:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -56,6 +59,7 @@ class loginViewController: UIViewController {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", passRegEx)
         return emailTest.evaluate(with: pass)
     }
+    //MARK: - alert function
     func alert(alertTitle : String,alertMessage : String,actionTitle : String){
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         let action = UIAlertAction(title: actionTitle, style: .cancel) { (alert) in
@@ -65,6 +69,7 @@ class loginViewController: UIViewController {
         present(alert, animated: true, completion: nil)
         
     }
+    //MARK: - Login validation check function
     func login()->Bool{
         if emailTextField.text!.isEmpty{
             alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
@@ -87,22 +92,25 @@ class loginViewController: UIViewController {
             }
         }
     }
-    
+  //MARK: - forget button pressed
     @IBAction func forgetButton(_ sender: UIButton) {
         performSegue(withIdentifier: "forget", sender: self)
     }
+    //MARK: - registration button pressed
     @IBAction func registrationButton(_ sender: UIButton) {
         performSegue(withIdentifier: "reg", sender: self)
     }
+    //MARK: - guest button pressed
     @IBAction func guestButton(_ sender: UIButton) {
         authtoken = ""
         performSegue(withIdentifier: "tab", sender: self)
     }
+     //MARK: - Button layout
     func buttonLayout(){
         loginBtnLabel.layer.cornerRadius = loginBtnLabel.frame.size.height/2
         guestBtnLabel.layer.cornerRadius = guestBtnLabel.frame.size.height/2
     }
-    
+    //MARK: - Login API
     func loginApi(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -135,13 +143,8 @@ class loginViewController: UIViewController {
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.activityIndicator.stopAnimating()
-                    // self.view.isUserInteractionEnabled = true
-                    
-                    print(responseString!)
                     let message = json["message"].stringValue
                     let status = json["status"].stringValue
-                    print(status)
-                    
                     if status == "OK"{
                         let authtoken1 = json["user_authtoken"].string
                         let email1 = json["user_email"].string
@@ -149,18 +152,13 @@ class loginViewController: UIViewController {
                         email = email1!
                         self.check = 1
                         self.performSegue(withIdentifier: "tab", sender: self)
-                        
                         self.userDefault.set(true, forKey: "user_authtokenkey")
                         self.userDefault.set(authtoken, forKey: "user_authtoken")
                         self.userDefault.set(email, forKey: "email")
-                        
                     }
                     else{
-                        print("error")
                         let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
-                        let action = UIAlertAction(title: "Enter again", style: .cancel) { (action) in
-                            
-                        }
+                        let action = UIAlertAction(title: "Enter again", style: .cancel) { (action) in }
                         alert.addAction(action)
                         self.present(alert, animated: true, completion: nil)
                     }
@@ -168,9 +166,9 @@ class loginViewController: UIViewController {
             }
         }
         task.resume()
-        
     }
 }
+//MARK: - extension
 extension Dictionary {
     func percentEncoded() -> Data? {
         return map { key, value in

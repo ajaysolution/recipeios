@@ -13,10 +13,8 @@ import PINRemoteImage
 import DropDown
 
 class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate{
+      //MARK: - variable, array
     let filterDrop = DropDown()
-    @IBOutlet weak var filterButtonOutlet: UIButton!
-    @IBOutlet weak var tableview: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
     var itemArray = [HomeRecipe]()
     var finalArray = [HomeRecipe]()
     var levelArray = [HomeRecipe]()
@@ -24,6 +22,11 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var num : Int = 0
     var fav : String = ""
     var isLoading = false
+      //MARK: - outlet
+    @IBOutlet weak var filterButtonOutlet: UIButton!
+    @IBOutlet weak var tableview: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+      //MARK: - viewdidload function
     override func viewDidLoad() {
         if Connection.isConnectedToInternet(){
             if authtoken != ""{
@@ -31,7 +34,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print(authtoken)
                 print(email)
                 searchBar.delegate = self
-                // homeRecipeApi(page: num)
                 tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
             }
             else{
@@ -41,6 +43,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
         }
     }
+      //MARK: - viewdidappear function
     override func viewDidAppear(_ animated: Bool) {
         num = 0
         self.itemArray.removeAll()
@@ -49,12 +52,16 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         homeRecipeApi()
         tableview.tableFooterView = UIView(frame: .zero)
     }
-    
+      //MARK: - tableview method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecipeTableViewCell
+        cell.contentView.layer.cornerRadius = 15.0
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.borderColor = UIColor.black.cgColor
+        cell.contentView.layer.masksToBounds = true
         let recipeData = itemArray[indexPath.row]
         cell.favoriteButtonLabel.tag = indexPath.row
         cell.commentButtonLabel.tag = indexPath.row
@@ -94,32 +101,32 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         performSegue(withIdentifier: "detail", sender: self)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-        print(itemArray.count)
         if indexPath.row == itemArray.count - 1{
             print("call")
             num += 10
             homeRecipeApi()
         }
     }
+  //MARK: - like button pressed function
     @objc func pressOnLike(sender:UIButton){
         if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell{
             if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
                 cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart" ), for: .normal)
-                favoriteApi(id: cell.recipeId!, likeBool: "true")
+                likeApi(id: cell.recipeId!, likeBool: "true")
                 itemArray[sender.tag].favoriteCount += 1
                 let add = itemArray[sender.tag].favoriteCount
                 cell.count.text = String(add)
             }
             else if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "redHeart")))!{
                 cell.favoriteButtonLabel.setImage(UIImage(named: "grayHeart"), for: .normal)
-                favoriteApi(id: cell.recipeId!, likeBool: "false")
+                likeApi(id: cell.recipeId!, likeBool: "false")
                 itemArray[sender.tag].favoriteCount -= 1
                 let less=itemArray[sender.tag].favoriteCount
                 cell.count.text = String(less)
             }
         }
     }
+      //MARK: - comment button pressed function
     @objc func pressOnComment(sender:UIButton){
         if authtoken != ""{
             if let cell = self.tableview.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? RecipeTableViewCell {
@@ -128,10 +135,11 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
         }
     }
+      //MARK: - search method
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         itemArray = finalArray.filter({ (recipe) -> Bool in
             guard let text = searchBar.text else {return false }
-            return recipe.recipeName.contains(text)
+            return recipe.recipeName.contains(text.lowercased())
         })
         tableview.reloadData()
     }
@@ -149,6 +157,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         homeRecipeApi()
         num += 10
     }
+      //MARK: - dropdown function
     func filter(){
         filterDrop.anchorView = filterButtonOutlet
         filterDrop.dataSource = ["easy","medium","hard"]
@@ -171,10 +180,12 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         filterDrop.bottomOffset = CGPoint(x: -50, y: filterButtonOutlet.bounds.height)
         filterDrop.width = 100
     }
+      //MARK: - filter button
     @IBAction func filterButton(_ sender: UIButton) {
         filter()
         filterDrop.show()
     }
+      //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -187,6 +198,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
+      //MARK: - home recipe API
     func homeRecipeApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/recipe/getrecipes?count=\(num)")
@@ -210,8 +222,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(json)
-            print(responseString!)
-            
             self.count = json["recipes"].count
             
             if responseString != nil{
@@ -249,8 +259,8 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
         task.resume()
     }
-    
-    func favoriteApi(id:Int,likeBool : String){
+      //MARK: - like API
+    func likeApi(id:Int,likeBool : String){
         let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
         var request = URLRequest(url: url!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "ContentType")
@@ -271,7 +281,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print("response = \(response)")
                 return
             }
-            // let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             
             if responseString != nil{

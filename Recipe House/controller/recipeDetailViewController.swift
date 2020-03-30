@@ -13,7 +13,7 @@ import PINRemoteImage
 
 var recipe_id : Int = 0
 class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
+      //MARK: - outlet
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var typeLabel: UILabel!
@@ -27,6 +27,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var editBtnOutlet: UIBarButtonItem!
     @IBOutlet weak var deleteBtnOutlet: UIBarButtonItem!
     @IBOutlet weak var descriptionLabel: UILabel!
+      //MARK: - array , variable
     var sections = ["Ingredient","Steps"]
     var stepArray = [Step]()
     var recipeDetailArray = [HomeRecipe]()
@@ -43,9 +44,13 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
     var RecipeImage : String = ""
     var RecipeID : String = ""
     var buttonShow : Int = 0
+      //MARK: - viewdidload method
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.estimatedRowHeight = 45
+           tableView.rowHeight = UITableView.automaticDimension
     }
+      //MARK: - viewdidappear function
     override func viewDidAppear(_ animated: Bool) {
         ingredientArray.removeAll()
         stepArray.removeAll()
@@ -53,6 +58,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         recipeDetailApi()
         recipeID = recipe_id
     }
+      //MARK: - tableview method
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.sections[section]
     }
@@ -95,6 +101,8 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         
         if sections[indexPath.section] == "Ingredient"{
             let bulletPoint: String = "\u{2022}"
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
             cell.textLabel?.text = "\(bulletPoint) \(ingredientArray[indexPath.row].ingredientName)"
         }
         if sections[indexPath.section] == "Steps"{
@@ -104,8 +112,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         return cell
         
     }
-    
-    
+      //MARK: - like button press
     @IBAction func likeButton(_ sender: UIButton) {
         if (likeBtnOutlet.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
             likeBtnOutlet.setImage(UIImage(named: "redHeart" ), for: .normal)
@@ -122,19 +129,23 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
             likeCount.text = String(FavoriteCount)
         }
     }
+      //MARK: - edit button press
     @IBAction func editButton(_ sender: UIBarButtonItem) {
         editRecipeId = recipe_id
         performSegue(withIdentifier: "edit", sender: self)
     }
+     //MARK: - delete button press
     @IBAction func deleteButton(_ sender: UIBarButtonItem) {
         // print(recipe_id)
         deleteApi(id: recipe_id)
     }
+     //MARK: - comment button press
     @IBAction func commentButton(_ sender: UIButton) {
         if authtoken != ""{
             performSegue(withIdentifier: "comment", sender: self)
         }
     }
+     //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         
@@ -148,6 +159,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
+     //MARK: - recipe detail API
     func recipeDetailApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/recipe/getrecipe?recipe_id=\(recipe_id)")
@@ -175,21 +187,13 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
             print(json)
             print(responseString!)
             
-            self.count = json["recipes"].count
-            print(self.count)
-            let name = json["recipe"]["recipe_name"].stringValue
-            print(name)
-            
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
-                    
                     let ingredient = json["recipe"]["recipe_ingredients"].stringValue
                     let ingredientSplit = ingredient.components(separatedBy: ",")
                     let steps = json["recipe"]["recipe_steps"].stringValue
                     let stepSplit = steps.components(separatedBy: ",")
-                    print(stepSplit)
-                    
                     self.RecipeName = json["recipe"]["recipe_name"].stringValue
                     self.Types = json["recipe"]["type_name"].stringValue
                     self.Time = json["recipe"]["recipe_cookingtime"].stringValue
@@ -227,6 +231,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         
         task.resume()
     }
+     //MARK: - like API
     func likeApi(likeBool : String){
         let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
         var request = URLRequest(url: url!)
@@ -249,9 +254,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                 print("response = \(response)")
                 return
             }
-            let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
-            
             if responseString != nil{
                 DispatchQueue.main.async(){
                 }
@@ -259,6 +262,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         }
         task.resume()
     }
+     //MARK: - Delete API
     func deleteApi(id:Int){
         let url = URL(string: "http://127.0.0.1:3000/recipe/delete")
         var request = URLRequest(url: url!)
@@ -280,7 +284,6 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
                 print("response = \(response)")
                 return
             }
-            //  let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(responseString!)
             if responseString != nil{

@@ -17,6 +17,7 @@ let loginEmail = ""
 class profileViewController: UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
     
     let userDefault = UserDefaults.standard
+     //MARK: - outlet
     @IBOutlet weak var NameLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -25,7 +26,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
     @IBOutlet weak var logoutOutlet: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
     
-    
+     //MARK: - viewdidload function
     override func viewDidLoad() {
         if authtoken != "" {
             super.viewDidLoad()
@@ -45,16 +46,19 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         }
         
     }
+     //MARK: - iamgeview layout
     func imageView(){
         profileImage.layer.cornerRadius = (profileImage.frame.size.width)/2
         profileImage.clipsToBounds = true
         profileImage.layer.borderWidth = 3.0
         profileImage.layer.borderColor = UIColor.white.cgColor
     }
+     //MARK: - button layout
     func  buttonLayout(){
         changePassOutlet.layer.cornerRadius = changePassOutlet.frame.size.height/2
         logoutOutlet.layer.cornerRadius = logoutOutlet.frame.size.height/2
     }
+     //MARK: - select image button
     @IBAction func selectProfilePicture(_ sender: UIButton) {
         
         let image = UIImagePickerController()
@@ -63,13 +67,13 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         image.allowsEditing = true
         present(image, animated: true, completion: nil)
     }
-    
+     //MARK: - image picker function
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
             profileImage.image = image
             if let imageData = image.jpegData(compressionQuality: 0.5){
                 
-                uploadAPI(data_img: imageData)
+                imageUploadAPI(data_img: imageData)
             }
         }
         else{
@@ -77,14 +81,17 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         }
         self.dismiss(animated: true, completion: nil)
     }
+     //MARK: - change password button pressed
     @IBAction func changePasswordButton(_ sender: UIButton) {
         performSegue(withIdentifier: "change", sender: self)
     }
+     //MARK: - logout button pressed
     @IBAction func logoutButton(_ sender: UIButton) {
         self.userDefault.set(false, forKey: "user_authtokenkey")
         self.userDefault.set(authtoken, forKey: "user_authtoken")
         navigationController?.popToRootViewController(animated: true)
     }
+     //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         
@@ -98,8 +105,8 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
-    
-    func uploadAPI(data_img:Data?){
+     //MARK: - image upload API
+    func imageUploadAPI(data_img:Data?){
         let url = "http://127.0.0.1:3000/user/profile/updated" 
         let headers: HTTPHeaders = ["user_authtoken":authtoken]
         
@@ -114,6 +121,7 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             debugPrint("SUCCESS RESPONSE: \(response)")
         }
     }
+     //MARK: - profile API
     func profileApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/profile")
@@ -141,7 +149,6 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             print(json)
-            print(responseString!)
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
@@ -149,7 +156,6 @@ class profileViewController: UIViewController,UINavigationControllerDelegate,UII
                     let firstname = userdetails["user_firstname"]
                     let lastname = userdetails["user_lastname"]
                     self.NameLabel.text = "\(firstname.string! + " " + lastname.string!)"
-                    
                     let gender = userdetails["user_gender"]
                     if gender == "m"{
                         self.genderLabel.text = "Male"

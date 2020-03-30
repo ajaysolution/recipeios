@@ -11,29 +11,30 @@ import Alamofire
 import SwiftyJSON
 var otp = ""
 class OTPViewController: UIViewController {
-    
+     var email = ""
+    //MARK: - outlet
     @IBOutlet weak var otpTextField: UITextField!
     @IBOutlet weak var NewPasswordTextField: UITextField!
     @IBOutlet weak var OTPOutlet: UIButton!
     @IBOutlet weak var passwodOutlet: UIButton!
-    var email = ""
+//MARK: - viewdidiload function
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(otp)
-        print(email)
         self.OTPOutlet.alpha = 0.5
         self.OTPOutlet.isEnabled = false
         Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(enableButton), userInfo: nil, repeats: false)
         buttonLayout()
     }
+    //MARK: - update password button pressed
     @IBAction func updatePasswordButton(_ sender: UIButton) {
         if otpValid(){
-            otpApi()
+            otpCheckApi()
         }else{
             alert(alertTitle: "Invalid data", alertMessage: "", actionTitle: "check otp")
         }
         navigationController?.popToRootViewController(animated: true)
     }
+    //MARK: - validation check function
     func otpValid() -> Bool{
         if otpTextField.text!.isEmpty{
             alert(alertTitle: "alert", alertMessage: "", actionTitle: "enter otp")
@@ -48,28 +49,34 @@ class OTPViewController: UIViewController {
         }
         return true
     }
+    //MARK: - password validation function
     func isValidPassword(pass:String) -> Bool {
         let passRegEx = "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", passRegEx)
         return emailTest.evaluate(with: pass)
     }
+    //MARK: - alert function
     func alert(alertTitle : String,alertMessage : String,actionTitle : String){
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         let action = UIAlertAction(title: actionTitle, style: .cancel) { (alert) in}
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    //MARK: - otpButton pressed
     @IBAction func otpButton(_ sender: UIButton) {
         resendApi()
     }
+    //MARK: - enable button
     @objc func enableButton() {
         self.OTPOutlet.alpha = 1.0
         self.OTPOutlet.isEnabled = true
     }
+    //MARK: - button layout
     func buttonLayout(){
         OTPOutlet.layer.cornerRadius = OTPOutlet.frame.size.height/2
         passwodOutlet.layer.cornerRadius = passwodOutlet.frame.size.height/2
     }
+    //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -82,7 +89,8 @@ class OTPViewController: UIViewController {
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
-    func otpApi(){
+    //MARK: - OTP APi
+    func otpCheckApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/forget/token/check")
         var request = URLRequest(url: url!)
@@ -104,7 +112,6 @@ class OTPViewController: UIViewController {
             }
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
-            print(json)
             print(responseString!)
             let status = json["status"].stringValue
             let message = json["message"].stringValue
@@ -124,11 +131,10 @@ class OTPViewController: UIViewController {
                     }
                 }
             }
-            else{
-            }
         }
         task.resume()
     }
+    //MARK: - Re-send OTP API
     func resendApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/login/forget")

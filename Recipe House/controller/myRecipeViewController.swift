@@ -12,13 +12,14 @@ import Alamofire
 import PINRemoteImage
 
 class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate {
-    
+      //MARK: - variable , array ,outlet
     var count = 0
-    @IBOutlet weak var searchBar: UISearchBar!
+    var num : Int = 0
     var myrecipeArray = [HomeRecipe]()
     var finalArray = [HomeRecipe]()
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var TableView: UITableView!
-    var num : Int = 0
+    //MARK: - viewdidload function
     override func viewDidLoad() {
         if authtoken != "" {
             super.viewDidLoad()
@@ -34,18 +35,23 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             present(alert, animated: true, completion: nil)
         }
     }
+    //MARK: - viewwillappear function
     override func viewWillAppear(_ animated: Bool) {
         num = 0
         myrecipeArray.removeAll()
         myrecipeApi()
         TableView.reloadData()
     }
-    
+    //MARK: - tableview method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return myrecipeArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myRecipe", for: indexPath) as! myrecipeTableViewCell
+        cell.contentView.layer.cornerRadius = 15.0
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.borderColor = UIColor.black.cgColor
+        cell.contentView.layer.masksToBounds = true
         let myRecipeData = myrecipeArray[indexPath.row]
         cell.editButtonOutlet.tag = indexPath.row
         cell.editButtonOutlet.addTarget(self, action: #selector(pressOnEdit(sender:)), for: .touchUpInside)
@@ -85,18 +91,17 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 335
     }
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        recipe_id = Int(myrecipeArray[indexPath.row].recipeID)!
-    //        performSegue(withIdentifier: "detail", sender: self)
-    //    }
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            recipe_id = Int(myrecipeArray[indexPath.row].recipeID)!
+            performSegue(withIdentifier: "detail", sender: self)
+        }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         if indexPath.row == myrecipeArray.count - 1{
-            print("call")
             num += 10
             myrecipeApi()
         }
     }
+    //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -109,17 +114,20 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
+    //MARK: - edit button pressed function
     @objc func pressOnEdit(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0 )) as? myrecipeTableViewCell{
             editRecipeId = cell.recipeId!
         }
         performSegue(withIdentifier: "edit", sender: self)
     }
+    //MARK: - delete button pressed function
     @objc func pressOnDelete(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0 )) as? myrecipeTableViewCell{
             deleteApi(id: cell.recipeId!)
         }
     }
+    //MARK: - like button pressed function
     @objc func pressOnLike(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? myrecipeTableViewCell{
             if (cell.favoriteButtonLabel.currentImage?.isEqual(UIImage(named: "grayHeart")))!{
@@ -138,16 +146,18 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
         }
     }
+    //MARK: - comment button pressed function
     @objc func pressOnComment(sender:UIButton){
         if let cell = self.TableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? myrecipeTableViewCell {
             recipeID = cell.recipeId!
             performSegue(withIdentifier: "comment", sender: self)
         }
     }
+    //MARK: - search method
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         myrecipeArray = finalArray.filter({ (recipe) -> Bool in
             guard let text = searchBar.text else {return false }
-            return recipe.recipeName.contains(text)
+            return recipe.recipeName.contains(text.lowercased())
         })
         TableView.reloadData()
     }
@@ -165,6 +175,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         myrecipeApi()
         num += 10
     }
+    //MARK: - my recipe API
     func myrecipeApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/recipe/myrecipes?count=\(num)&user_email=\(email)")
@@ -187,11 +198,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
-            print(json)
-            print(responseString!)
-            
             self.count = json["recipes"].count
-            print(self.count)
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.indicatorEnd()
@@ -206,7 +213,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         let favCount = json["recipes"][i]["favoriteCount"].intValue
                         let recipeID = json["recipes"][i]["recipe_id"].stringValue
                         let recipeLike = json["recipes"][i]["recipeLike"].stringValue
-                        print(recipeLike)
                         let data = HomeRecipe()
                         data.recipeName = recipeName
                         data.type = type
@@ -218,7 +224,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         data.recipeImage = recipeImage
                         data.recipeID = recipeID
                         data.recipeLike = recipeLike
-                        print(data.recipeLike)
                         self.myrecipeArray.append(data)
                         self.finalArray.append(data)
                         self.TableView.reloadData()
@@ -227,11 +232,11 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 
             }
             else{
-                
             }
         }
         task.resume()
     }
+    //MARK: - like API
     func likeApi(id:Int,likeBool : String){
         let url = URL(string: "http://127.0.0.1:3000/recipe/select/favorite")
         var request = URLRequest(url: url!)
@@ -265,6 +270,7 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
         task.resume()
     }
+    //MARK: - delete API
     func deleteApi(id:Int){
         let url = URL(string: "http://127.0.0.1:3000/recipe/delete")
         var request = URLRequest(url: url!)
@@ -286,11 +292,11 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 print("response = \(response)")
                 return
             }
-            //  let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.myrecipeArray.removeAll()
+                    self.num = 0
                     self.myrecipeApi()
                     self.TableView.reloadData()
                 }

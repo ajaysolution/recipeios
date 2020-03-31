@@ -45,10 +45,12 @@ class forgetPasswordViewController: UIViewController {
         if emailTextField.text!.isEmpty{
             alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
             return false
+            
         } else if !isValidEmail(emailID: emailTextField.text!){
             alert(alertTitle: "check email format", alertMessage: "", actionTitle: "re-enter email")
             return false
         }
+        
         return true
     }
     //MARK: - alert function

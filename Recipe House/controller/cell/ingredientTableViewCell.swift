@@ -9,8 +9,9 @@
 import UIKit
 
 class ingredientTableViewCell: UITableViewCell {
-    
+    //MARK: - outlet
     @IBOutlet weak var addRecipeTextCell: UITextField!
+    //MARK: - 
     override func awakeFromNib() {
         super.awakeFromNib()
         addRecipeTextCell.borderStyle = UITextField.BorderStyle.none

@@ -12,7 +12,7 @@ import Alamofire
 import PINRemoteImage
 
 class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate {
-      //MARK: - variable , array ,outlet
+    //MARK: - variable , array ,outlet
     var count = 0
     var num : Int = 0
     var myrecipeArray = [HomeRecipe]()
@@ -90,10 +90,10 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 335
     }
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            recipe_id = Int(myrecipeArray[indexPath.row].recipeID)!
-            performSegue(withIdentifier: "detail", sender: self)
-        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        recipe_id = Int(myrecipeArray[indexPath.row].recipeID)!
+        performSegue(withIdentifier: "detail", sender: self)
+    }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == myrecipeArray.count - 1{
             num += 10

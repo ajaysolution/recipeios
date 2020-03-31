@@ -13,7 +13,7 @@ import Alamofire
 var recipeID : Int = 0
 class commentViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     
-     //MARK: - outlet , array , variable
+    //MARK: - outlet , array , variable
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -21,19 +21,19 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var userImage:String = ""
     var count = 0
     var commentArray = [CommentData]()
-     //MARK: - viewdidload function
+    //MARK: - viewdidload function
     override func viewDidLoad() {
         super.viewDidLoad()
         userDataApi()
         commentApi()
         tableView.register(UINib(nibName: "messageTableViewCell", bundle: nil), forCellReuseIdentifier: "comment")
     }
-     //MARK: - viewwillappear function
+    //MARK: - viewwillappear function
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 166
         tableView.rowHeight = UITableView.automaticDimension
     }
-     //MARK: - tableview method
+    //MARK: - tableview method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(commentArray.count)
         return commentArray.count
@@ -51,11 +51,12 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         return cell
     }
-     //MARK: - send button press
+    //MARK: - send button press
     @IBAction func sendButton(_ sender: UIButton) {
         addCommentApi()
+        commentTextField.text = ""
     }
-     //MARK: - indicator function
+    //MARK: - indicator function
     func indicatorStart(){
         activityIndicator.center = self.view.center
         
@@ -69,7 +70,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
     }
-     //MARK: - comment show API
+    //MARK: - comment show API
     func commentApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/recipe/comment?comment_status=show")
@@ -126,7 +127,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         task.resume()
     }
-     //MARK: - Add Comment API
+    //MARK: - Add Comment API
     func addCommentApi(){
         commentArray.removeAll()
         let url = URL(string: "http://127.0.0.1:3000/recipe/comment?comment_status=add")
@@ -161,7 +162,7 @@ class commentViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         task.resume()
     }
-     //MARK: - use data API
+    //MARK: - use data API
     func userDataApi(){
         indicatorStart()
         let url = URL(string: "http://127.0.0.1:3000/user/profile")

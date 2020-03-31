@@ -97,7 +97,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             cell.addRecipeTextCell.delegate = self
         }
         if sections[indexPath.section] == "Steps"{
-             select = "Steps"
+            select = "Steps"
             cell.addRecipeTextCell.font = UIFont(name: "Chalkboard SE", size: 15)
             cell.addRecipeTextCell.text = addStepArray[indexPath.row].stepName
             cell.addRecipeTextCell.tag = indexPath.row
@@ -109,26 +109,26 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         return 40
     }
     //MARK: - delete row method
-        func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-            let delete = UIContextualAction(style: .normal, title: "delete") { (UIContextualAction, UIView, success :(Bool) -> Void) in
-                success(true)
-                if self.sections[indexPath.section] == "Ingredient"{
-                    self.addIngredientArray.remove(at: indexPath.row)
-                }
-                if self.sections[indexPath.section] == "Steps"{
-                    self.addStepArray.remove(at: indexPath.row)
-                }
-                tableView.reloadData()
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "delete") { (UIContextualAction, UIView, success :(Bool) -> Void) in
+            success(true)
+            if self.sections[indexPath.section] == "Ingredient"{
+                self.addIngredientArray.remove(at: indexPath.row)
             }
-            delete.backgroundColor = .red
-            return UISwipeActionsConfiguration(actions: [delete])
+            if self.sections[indexPath.section] == "Steps"{
+                self.addStepArray.remove(at: indexPath.row)
+            }
+            tableView.reloadData()
         }
+        delete.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
     //MARK: - textfield change method
     func textFieldDidEndEditing(_ textField: UITextField) {
         if select == "Ingredient"{
             addIngredientArray[textField.tag].ingredientName = textField.text!
         }else if select == "Steps"{
-              addStepArray[textField.tag].stepName = textField.text!
+            addStepArray[textField.tag].stepName = textField.text!
         }
     }
     //MARK: - add ingredient button
@@ -295,8 +295,8 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                 return false
             }
             else if !isValidDescription(des: descriptionTextView.text!){
-                    alert(alertTitle: "description length is not sufficient", alertMessage: "", actionTitle: "enter in 30 character")
-                    return false
+                alert(alertTitle: "description length is not sufficient", alertMessage: "", actionTitle: "enter in 30 character")
+                return false
             }
             else if !isValidpeople(people: recipePeopleTxtField.text!){
                 alert(alertTitle: "invalid format people", alertMessage: "", actionTitle: "limited people")
@@ -355,24 +355,22 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                 }
             }
         }
-        //navigationController?.popViewController(animated: true)
         editRecipeId = 0
     }
     //MARK: - add recipe API
     func addRecipeApi(data_img:Data?){
         let url = "http://127.0.0.1:3000/recipe/add"
         let headers: HTTPHeaders = ["user_authtoken":authtoken]
-        
         var ingredientArray:[String] = []
         for i in 0..<addIngredientArray.count{
             ingredientArray.append(addIngredientArray[i].ingredientName)
         }
-        let ingredietString = ingredientArray.joined(separator: ",")
+        let ingredietString = ingredientArray.joined(separator: "#")
         var stepArray : [String] = []
         for i in 0..<addStepArray.count{
             stepArray.append(addStepArray[i].stepName)
         }
-        let stepString = stepArray.joined(separator: ",")
+        let stepString = stepArray.joined(separator: "#")
         let hour = Int(recipeHourTxtField.text!)
         let minute = Int(recipeMinuteTxtField.text!)
         var time = ""
@@ -439,9 +437,9 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
                     let description = json["recipe"]["recipe_description"].stringValue
                     let people = json["recipe"]["recipe_people"].stringValue
                     let ingredient = json["recipe"]["recipe_ingredients"].stringValue
-                    let ingredientSplit = ingredient.components(separatedBy: ",")
+                    let ingredientSplit = ingredient.components(separatedBy: "#")
                     let steps = json["recipe"]["recipe_steps"].stringValue
-                    let stepSplit = steps.components(separatedBy: ",")
+                    let stepSplit = steps.components(separatedBy: "#")
                     self.recipeNameTxtField.text = recipeName
                     self.typeButtonOutlet.setTitle(type, for: .normal)
                     self.levelSelect = level
@@ -496,7 +494,7 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
         }
         task.resume()
     }
-      //MARK: - edit recipe API
+    //MARK: - edit recipe API
     func editRecipeApi(data_img:Data?){
         let url = "http://127.0.0.1:3000/recipe/edit"
         let headers: HTTPHeaders = ["user_authtoken":authtoken]
@@ -506,13 +504,13 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
             print(addIngredientArray[i].ingredientName)
             ingredientArray.append(addIngredientArray[i].ingredientName)
         }
-        let ingredietString = ingredientArray.joined(separator: ",")
+        let ingredietString = ingredientArray.joined(separator: "#")
         
         var stepArray : [String] = []
         for i in 0..<addStepArray.count{
             stepArray.append(addStepArray[i].stepName)
         }
-        let stepString = stepArray.joined(separator: ",")
+        let stepString = stepArray.joined(separator: "#")
         let hour = Int(recipeHourTxtField.text!)
         let minute = Int(recipeMinuteTxtField.text!)
         var time = ""

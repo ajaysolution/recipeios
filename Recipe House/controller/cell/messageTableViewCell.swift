@@ -9,19 +9,18 @@
 import UIKit
 
 class messageTableViewCell: UITableViewCell {
-    
+    //MARK: - outlet
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var userLogo: UIImageView!
     @IBOutlet weak var background: UIView!
+    //MARK: -
     override func awakeFromNib() {
-
         userLogo.layer.cornerRadius = (userLogo.frame.size.width)/2
         background.layer.cornerRadius = 10
         userLogo.clipsToBounds = true
         userLogo.layer.borderWidth = 3.0
         userLogo.layer.borderColor = UIColor.white.cgColor
         super.awakeFromNib()
-        // Initialization code
     }    
 }

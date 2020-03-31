@@ -9,7 +9,7 @@
 import UIKit
 
 class detailCellTableViewCell: UITableViewCell {
-
+//MARK: - outlet
     @IBOutlet weak var detailCellLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()

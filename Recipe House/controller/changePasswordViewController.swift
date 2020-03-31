@@ -11,20 +11,20 @@ import Alamofire
 import SwiftyJSON
 
 class changePasswordViewController: UIViewController {
-     //MARK: - outlet
+    //MARK: - outlet
     @IBOutlet weak var oldPasswordTextField: UITextField!
     @IBOutlet weak var newPasswordTextField: UITextField!
     @IBOutlet weak var changeButtonOutlet: UIButton!
-     //MARK: - viewdidload function
+    //MARK: - viewdidload function
     override func viewDidLoad() {
         super.viewDidLoad()
         changeButtonOutlet.layer.cornerRadius = changeButtonOutlet.frame.size.height/2
     }
-     //MARK: - change password button pressed
+    //MARK: - change password button pressed
     @IBAction func changePasswordButton(_ sender: UIButton) {
         changePasswordApi()
     }
-     //MARK: - change password ApI
+    //MARK: - change password ApI
     func changePasswordApi(){
         let url = URL(string: "http://127.0.0.1:3000/user/userchangepassword")
         var request = URLRequest(url: url!)

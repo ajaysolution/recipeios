@@ -16,7 +16,6 @@ class loginViewController: UIViewController {
     let userDefault = UserDefaults.standard
     var check: Int?
     var alertMessage : String?
-    
     //MARK: - outlet
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -74,7 +73,6 @@ class loginViewController: UIViewController {
         if emailTextField.text!.isEmpty{
             alert(alertTitle: "Enter email", alertMessage: "nil", actionTitle: "enter email")
             return false
-            
         }
         else if passwordTextField.text!.isEmpty{
             alert(alertTitle: "Enter password", alertMessage: "nil", actionTitle: "enter password")
@@ -131,7 +129,6 @@ class loginViewController: UIViewController {
                     print("error", error ?? "Unknown error")
                     return
             }
-            
             guard (200 ... 299) ~= response.statusCode else {
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -139,7 +136,6 @@ class loginViewController: UIViewController {
             }
             let json = try! JSON(data: data)
             let responseString = String(data: data, encoding: .utf8)
-            
             if responseString != nil{
                 DispatchQueue.main.async(){
                     self.activityIndicator.stopAnimating()

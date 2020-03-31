@@ -11,13 +11,13 @@ import Alamofire
 import SwiftyJSON
 var otp = ""
 class OTPViewController: UIViewController {
-     var email = ""
+    var email = ""
     //MARK: - outlet
     @IBOutlet weak var otpTextField: UITextField!
     @IBOutlet weak var NewPasswordTextField: UITextField!
     @IBOutlet weak var OTPOutlet: UIButton!
     @IBOutlet weak var passwodOutlet: UIButton!
-//MARK: - viewdidiload function
+    //MARK: - viewdidiload function
     override func viewDidLoad() {
         super.viewDidLoad()
         self.OTPOutlet.alpha = 0.5

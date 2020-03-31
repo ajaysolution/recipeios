@@ -39,7 +39,8 @@ class registerViewController: UIViewController,UITextFieldDelegate{
             maleButtonOutlet.isSelected = true
             femaleButtonOutlet.isSelected = false
             selectedGender = "M"
-        }else if sender.tag == 2 {
+        }
+        else if sender.tag == 2 {
             maleButtonOutlet.isSelected = false
             femaleButtonOutlet.isSelected = true
             selectedGender = "F"

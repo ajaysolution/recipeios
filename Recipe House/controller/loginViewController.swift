@@ -12,7 +12,6 @@ import SwiftyJSON
 
 class loginViewController: UIViewController {
     //MARK: - variable
-    var name = ""
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let userDefault = UserDefaults.standard
     var check: Int?

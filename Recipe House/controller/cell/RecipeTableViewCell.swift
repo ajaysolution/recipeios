@@ -17,7 +17,6 @@ class RecipeTableViewCell: UITableViewCell {
      @IBOutlet weak var timeLabel: UILabel!
      @IBOutlet weak var levelLabel: UILabel!
      @IBOutlet weak var peopleLabel: UILabel!
-    @IBOutlet weak var editButtonOutlet: UIButton!
     @IBOutlet weak var commentButtonLabel: UIButton!
     @IBOutlet weak var favoriteButtonLabel: UIButton!
     @IBOutlet weak var count: UILabel!

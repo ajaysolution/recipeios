@@ -17,15 +17,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lFw-5e-dQD">
-                        <rect key="frame" x="0.0" y="4" width="320" height="35"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <color key="backgroundColor" red="0.80844329699999995" green="0.97899898200000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="lFw-5e-dQD" secondAttribute="trailing" id="CS8-kv-QIS"/>
-                    <constraint firstAttribute="bottom" secondItem="lFw-5e-dQD" secondAttribute="bottom" constant="4" id="cic-RZ-1TZ"/>
-                    <constraint firstItem="lFw-5e-dQD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="opj-UG-Z5l"/>
+                    <constraint firstAttribute="bottom" secondItem="lFw-5e-dQD" secondAttribute="bottom" id="cic-RZ-1TZ"/>
+                    <constraint firstItem="lFw-5e-dQD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="opj-UG-Z5l"/>
                     <constraint firstItem="lFw-5e-dQD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="szz-V2-kd6"/>
                 </constraints>
             </tableViewCellContentView>

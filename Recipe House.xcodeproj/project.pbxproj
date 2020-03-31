@@ -25,6 +25,8 @@
 		36445413241FAD8900F091AE /* addRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36445412241FAD8900F091AE /* addRecipeViewController.swift */; };
 		365208A2241624E500C60C9F /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365208A1241624E500C60C9F /* CommentData.swift */; };
 		365208A4241660FE00C60C9F /* recipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365208A3241660FE00C60C9F /* recipeDetailViewController.swift */; };
+		36770CAE2432FF5B0056BC25 /* detailCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36770CAC2432FF5B0056BC25 /* detailCellTableViewCell.swift */; };
+		36770CAF2432FF5B0056BC25 /* detailCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36770CAD2432FF5B0056BC25 /* detailCellTableViewCell.xib */; };
 		36B022F0241A1D7200DA5AC7 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B022EF241A1D7200DA5AC7 /* Step.swift */; };
 		36CACAD624127A4500CE23AD /* commentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CACAD524127A4500CE23AD /* commentViewController.swift */; };
 		36CACAD9241286F600CE23AD /* messageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CACAD7241286F600CE23AD /* messageTableViewCell.swift */; };
@@ -59,6 +61,8 @@
 		36445412241FAD8900F091AE /* addRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addRecipeViewController.swift; sourceTree = "<group>"; };
 		365208A1241624E500C60C9F /* CommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
 		365208A3241660FE00C60C9F /* recipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipeDetailViewController.swift; sourceTree = "<group>"; };
+		36770CAC2432FF5B0056BC25 /* detailCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailCellTableViewCell.swift; sourceTree = "<group>"; };
+		36770CAD2432FF5B0056BC25 /* detailCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = detailCellTableViewCell.xib; sourceTree = "<group>"; };
 		36B022EF241A1D7200DA5AC7 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		36CACAD524127A4500CE23AD /* commentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentViewController.swift; sourceTree = "<group>"; };
 		36CACAD7241286F600CE23AD /* messageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messageTableViewCell.swift; sourceTree = "<group>"; };
@@ -111,6 +115,7 @@
 				360ACF5624065E41006D4A22 /* RecipeTableViewCell.xib */,
 				3619E287242B92A0004156E7 /* myrecipeTableViewCell.xib */,
 				36CACAD8241286F600CE23AD /* messageTableViewCell.xib */,
+				36770CAD2432FF5B0056BC25 /* detailCellTableViewCell.xib */,
 				3644540F241FACCE00F091AE /* ingredientTableViewCell.xib */,
 			);
 			path = view;
@@ -143,6 +148,7 @@
 			children = (
 				3619E286242B92A0004156E7 /* myrecipeTableViewCell.swift */,
 				360ACF5524065E41006D4A22 /* RecipeTableViewCell.swift */,
+				36770CAC2432FF5B0056BC25 /* detailCellTableViewCell.swift */,
 				36CACAD7241286F600CE23AD /* messageTableViewCell.swift */,
 				3644540E241FACCE00F091AE /* ingredientTableViewCell.swift */,
 			);
@@ -257,6 +263,7 @@
 			files = (
 				3619E289242B92A1004156E7 /* myrecipeTableViewCell.xib in Resources */,
 				36CACADA241286F600CE23AD /* messageTableViewCell.xib in Resources */,
+				36770CAF2432FF5B0056BC25 /* detailCellTableViewCell.xib in Resources */,
 				36FCBEEC23FD017200427350 /* LaunchScreen.storyboard in Resources */,
 				36445411241FACCE00F091AE /* ingredientTableViewCell.xib in Resources */,
 				36FCBEE923FD017200427350 /* Assets.xcassets in Resources */,
@@ -328,6 +335,7 @@
 				36445410241FACCE00F091AE /* ingredientTableViewCell.swift in Sources */,
 				360ACF52240630BF006D4A22 /* homeViewController.swift in Sources */,
 				365208A2241624E500C60C9F /* CommentData.swift in Sources */,
+				36770CAE2432FF5B0056BC25 /* detailCellTableViewCell.swift in Sources */,
 				36FCBEE223FD016F00427350 /* SceneDelegate.swift in Sources */,
 				36FCBEF623FD6BAE00427350 /* registerViewController.swift in Sources */,
 				362FE93724079EB7005B9696 /* HomeRecipe.swift in Sources */,

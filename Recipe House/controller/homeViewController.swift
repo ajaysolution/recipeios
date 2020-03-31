@@ -34,6 +34,8 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print(authtoken)
                 print(email)
                 searchBar.delegate = self
+                tableview.estimatedRowHeight = 330
+                tableview.rowHeight = UITableView.automaticDimension
                 tableview.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
             }
             else{
@@ -80,7 +82,6 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }else{
             cell.timeLabel.text! = "\(recipeData.time) minutes"
         }
-        cell.editButtonOutlet.isHidden = true
         cell.peopleLabel.text = "\(recipeData.people) people"
         cell.count.text = String(recipeData.favoriteCount)
         let like = Int(recipeData.recipeLike)

@@ -22,35 +22,25 @@
                             <constraint firstAttribute="height" constant="180" id="Yu1-Gx-UPU"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dSb-Ch-0CC">
-                        <rect key="frame" x="16" y="188" width="117" height="33"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="dSb-Ch-0CC">
+                        <rect key="frame" x="16" y="188" width="122" height="51"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Flc-DE-NXP">
-                                <rect key="frame" x="0.0" y="0.0" width="25.5" height="13.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="20"/>
+                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4l-GM-yfX">
-                                <rect key="frame" x="0.0" y="18.5" width="117" height="14.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                <rect key="frame" x="0.0" y="21" width="122" height="30"/>
+                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This recipe is so delicious you have to try this recipe.this recipe is easy to made." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPf-Au-ns0">
-                        <rect key="frame" x="16" y="222" width="288" height="31"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="31" id="5VN-8e-g90"/>
-                            <constraint firstAttribute="width" constant="288" id="cdc-Oa-ftG"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="S5m-6y-6Fp">
-                        <rect key="frame" x="19.5" y="261" width="281" height="22"/>
+                        <rect key="frame" x="19.5" y="267" width="281" height="22"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="WUB-P3-Ncu">
                                 <rect key="frame" x="0.0" y="0.0" width="97" height="22"/>
@@ -68,7 +58,7 @@
                                             <constraint firstAttribute="width" constant="70" id="eOh-vZ-rfX"/>
                                             <constraint firstAttribute="height" constant="22" id="fpP-rR-uJx"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -93,7 +83,7 @@
                                             <constraint firstAttribute="width" constant="50" id="Jhm-YY-Eaq"/>
                                             <constraint firstAttribute="height" constant="22" id="Nh6-NV-VCD"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -118,7 +108,7 @@
                                             <constraint firstAttribute="height" constant="22" id="Vf1-38-sbo"/>
                                             <constraint firstAttribute="width" constant="70" id="jjG-nq-xrS"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -131,7 +121,7 @@
                         </subviews>
                     </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="UdY-Tg-LcT">
-                        <rect key="frame" x="57.5" y="291" width="205" height="25"/>
+                        <rect key="frame" x="57.5" y="297" width="205" height="25"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6Av-PD-wye">
                                 <rect key="frame" x="0.0" y="0.0" width="92" height="25"/>
@@ -153,7 +143,7 @@
                                             <constraint firstAttribute="height" constant="25" id="ciE-cs-uMJ"/>
                                             <constraint firstAttribute="width" constant="59" id="nEi-ph-Yl3"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -179,7 +169,7 @@
                                             <constraint firstAttribute="width" constant="40" id="1Du-3P-4ho"/>
                                             <constraint firstAttribute="height" constant="25" id="25F-RN-4g6"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -187,35 +177,29 @@
                             </stackView>
                         </subviews>
                     </stackView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7d0-8N-MQx">
-                        <rect key="frame" x="279" y="189" width="25" height="25"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="25" id="V5I-iT-2BQ"/>
-                            <constraint firstAttribute="height" constant="25" id="xMz-CQ-ceL"/>
-                        </constraints>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <state key="normal" image="icons8-edit-50"/>
-                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPf-Au-ns0">
+                        <rect key="frame" x="17" y="244" width="287" height="18.5"/>
+                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" red="0.80844329699999995" green="0.97899898200000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstItem="7d0-8N-MQx" firstAttribute="top" secondItem="iPe-Xv-RRs" secondAttribute="bottom" constant="9" id="7Il-1Y-BJW"/>
                     <constraint firstItem="S5m-6y-6Fp" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="9Kb-Wp-6mG"/>
-                    <constraint firstItem="dSb-Ch-0CC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="D4p-6u-GA0"/>
-                    <constraint firstItem="7d0-8N-MQx" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="HJe-ss-Xhi"/>
                     <constraint firstItem="dSb-Ch-0CC" firstAttribute="top" secondItem="iPe-Xv-RRs" secondAttribute="bottom" constant="8" id="Hfv-8X-tWx"/>
-                    <constraint firstItem="UPf-Au-ns0" firstAttribute="top" secondItem="q4l-GM-yfX" secondAttribute="bottom" constant="1" id="NER-EK-vaL"/>
+                    <constraint firstItem="UPf-Au-ns0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="Lx2-uQ-3Yy"/>
                     <constraint firstAttribute="bottomMargin" secondItem="UdY-Tg-LcT" secondAttribute="bottom" constant="-9" id="ROe-kn-63F"/>
                     <constraint firstAttribute="trailing" secondItem="iPe-Xv-RRs" secondAttribute="trailing" id="ROg-JF-g7p"/>
-                    <constraint firstItem="UPf-Au-ns0" firstAttribute="top" secondItem="dSb-Ch-0CC" secondAttribute="bottom" constant="1" id="UWj-dO-fEL"/>
-                    <constraint firstItem="UPf-Au-ns0" firstAttribute="leading" secondItem="dSb-Ch-0CC" secondAttribute="leading" id="VU9-aD-ETN"/>
+                    <constraint firstAttribute="trailing" secondItem="UPf-Au-ns0" secondAttribute="trailing" constant="16" id="XR5-Ci-sf4"/>
+                    <constraint firstItem="dSb-Ch-0CC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Xm1-ot-jhP"/>
                     <constraint firstItem="UdY-Tg-LcT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="a6j-lG-d6g"/>
                     <constraint firstItem="UdY-Tg-LcT" firstAttribute="top" secondItem="S5m-6y-6Fp" secondAttribute="bottom" constant="8" symbolic="YES" id="bh4-CN-8Sw"/>
                     <constraint firstItem="iPe-Xv-RRs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fVF-IU-v4K"/>
                     <constraint firstItem="S5m-6y-6Fp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="3.5" id="nB2-ds-RfR"/>
-                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="top" secondItem="UPf-Au-ns0" secondAttribute="bottom" constant="8" id="nvM-8w-Fwg"/>
                     <constraint firstItem="iPe-Xv-RRs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oNz-kd-tuy"/>
-                    <constraint firstItem="UPf-Au-ns0" firstAttribute="top" secondItem="7d0-8N-MQx" secondAttribute="bottom" constant="8" id="rO5-Eg-jau"/>
+                    <constraint firstItem="UPf-Au-ns0" firstAttribute="top" secondItem="dSb-Ch-0CC" secondAttribute="bottom" constant="5" id="ycb-MN-buG"/>
+                    <constraint firstItem="S5m-6y-6Fp" firstAttribute="top" secondItem="UPf-Au-ns0" secondAttribute="bottom" constant="4.5" id="zNA-oI-jhC"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -224,7 +208,6 @@
                 <outlet property="commentButtonLabel" destination="lEE-Kj-qf9" id="dJ4-MJ-D1i"/>
                 <outlet property="count" destination="EJe-6Y-vpM" id="jVX-0s-3W3"/>
                 <outlet property="descriptionLabel" destination="UPf-Au-ns0" id="qJT-Gw-S35"/>
-                <outlet property="editButtonOutlet" destination="7d0-8N-MQx" id="iql-a5-AHH"/>
                 <outlet property="favoriteButtonLabel" destination="ULD-7C-7Wx" id="kwe-o6-qwG"/>
                 <outlet property="levelLabel" destination="bKv-iz-Sgr" id="9Jz-tc-OkN"/>
                 <outlet property="peopleLabel" destination="kpQ-gk-qWB" id="cVT-jc-Tah"/>
@@ -238,7 +221,6 @@
     <resources>
         <image name="fork-knife" width="30" height="30"/>
         <image name="grayHeart" width="48" height="48"/>
-        <image name="icons8-edit-50" width="50" height="50"/>
         <image name="man-figure" width="29" height="30"/>
         <image name="message" width="30" height="30"/>
         <image name="recipe" width="3000" height="2000"/>

@@ -85,7 +85,6 @@ class favoriteViewController: UIViewController,UITableViewDataSource,UITableView
             cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
         }
         cell.recipeImageView.pin_updateWithProgress = true
-        cell.editButtonOutlet.isHidden = true
         cell.recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(favoriteRecipeData.recipeImage)"))
            return cell
        }

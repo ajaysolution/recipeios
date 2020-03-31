@@ -89,17 +89,17 @@ class addRecipeViewController: UIViewController,UITableViewDataSource,UITableVie
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ingredient", for: indexPath) as! ingredientTableViewCell
-        
         if sections[indexPath.section] == "Ingredient"{
             cell.addRecipeTextCell.text = addIngredientArray[indexPath.row].ingredientName
             select = "Ingredient"
+            cell.addRecipeTextCell.font = UIFont(name: "Chalkboard SE", size: 15)
             cell.addRecipeTextCell.tag = indexPath.row
             cell.addRecipeTextCell.delegate = self
         }
         if sections[indexPath.section] == "Steps"{
              select = "Steps"
+            cell.addRecipeTextCell.font = UIFont(name: "Chalkboard SE", size: 15)
             cell.addRecipeTextCell.text = addStepArray[indexPath.row].stepName
-            cell.addRecipeTextCell.tag = indexPath.section
             cell.addRecipeTextCell.tag = indexPath.row
             cell.addRecipeTextCell.delegate = self
         }

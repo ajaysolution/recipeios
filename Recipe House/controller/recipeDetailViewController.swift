@@ -47,6 +47,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
       //MARK: - viewdidload method
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(UINib(nibName: "detailCellTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.estimatedRowHeight = 45
            tableView.rowHeight = UITableView.automaticDimension
     }
@@ -74,7 +75,7 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! detailCellTableViewCell
         recipeNameLabel.text = RecipeName
         typeLabel.text = Types
         levelLabel.text = Level
@@ -101,13 +102,15 @@ class recipeDetailViewController: UIViewController,UITableViewDelegate,UITableVi
         
         if sections[indexPath.section] == "Ingredient"{
             let bulletPoint: String = "\u{2022}"
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
-            cell.textLabel?.text = "\(bulletPoint) \(ingredientArray[indexPath.row].ingredientName)"
+            cell.detailCellLabel.text = "\(bulletPoint) \(ingredientArray[indexPath.row].ingredientName)"
+//            cell.textLabel?.numberOfLines = 0
+//            cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+//            cell.textLabel?.text = "\(bulletPoint) \(ingredientArray[indexPath.row].ingredientName)"
         }
         if sections[indexPath.section] == "Steps"{
             print(stepArray[indexPath.row].stepName.count)
-            cell.textLabel?.text = "\(stepArray[indexPath.row].stepName)"
+            cell.detailCellLabel.text = "\(stepArray[indexPath.row].stepName)"
+         //   cell.textLabel?.text = "\(stepArray[indexPath.row].stepName)"
         }
         return cell
         

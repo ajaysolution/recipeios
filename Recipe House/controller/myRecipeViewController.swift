@@ -84,7 +84,6 @@ class myRecipeViewController: UIViewController,UITableViewDelegate,UITableViewDa
             cell.favoriteButtonLabel.setImage(UIImage(named: "redHeart"), for: .normal)
         }
         cell.recipeImageView.pin_updateWithProgress = true
-        
         cell.recipeImageView.pin_setImage(from: URL(string: "http://127.0.0.1:3000/recipeimages/\(myRecipeData.recipeImage)"))
         return cell
     }

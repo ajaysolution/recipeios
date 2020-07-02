@@ -22,6 +22,7 @@ class homeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var num : Int = 0
     var fav : String = ""
     var isLoading = false
+    // var isLoading = false
     //MARK: - outlet
     @IBOutlet weak var filterButtonOutlet: UIButton!
     @IBOutlet weak var tableview: UITableView!
